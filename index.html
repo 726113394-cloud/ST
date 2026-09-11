@@ -10,6 +10,7 @@
         --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         --ease-elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
         --anim-ease: var(--ease-smooth);
     }
     body {
@@ -21,6 +22,9 @@
         padding: clamp(10px, 1.5vw, 24px);
         background: linear-gradient(145deg, #fce4d6 0%, #fde9d0 40%, #fef6e0 100%);
         transition: background 0.8s var(--ease-smooth);
+        perspective: 1800px;
+        perspective-origin: 50% 50%;
+        overflow-x: hidden;
     }
     .app {
         width: 100%;
@@ -34,147 +38,334 @@
         overflow: hidden;
         transition: all 0.6s var(--ease-spring);
         position: relative;
+        transform-style: preserve-3d;
+        transform-origin: 50% 50%;
+        will-change: transform;
     }
 
     /* ============================================================
-       高级渲染 · 液态玻璃
+       高级渲染 · iOS 26 液态玻璃（通透版）
        ============================================================ */
     .app.high-end {
         --anim-ease: var(--ease-spring);
-        background: rgba(255, 240, 225, 0.08);
-        backdrop-filter: blur(80px) saturate(240%) brightness(1.08);
-        -webkit-backdrop-filter: blur(80px) saturate(240%) brightness(1.08);
-        border: 1px solid rgba(255, 220, 180, 0.30);
+
+        background:
+            linear-gradient(160deg,
+                rgba(255, 255, 255, 0.07) 0%,
+                rgba(255, 250, 244, 0.03) 42%,
+                rgba(255, 246, 236, 0.02) 62%,
+                rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(72px) saturate(190%) brightness(1.07) contrast(1.01);
+        -webkit-backdrop-filter: blur(72px) saturate(190%) brightness(1.07) contrast(1.01);
+        border: 1px solid rgba(255, 255, 255, 0.32);
         box-shadow:
-            0 50px 120px rgba(180, 130, 80, 0.22),
-            0 20px 50px rgba(255, 180, 140, 0.18),
-            0 4px 12px rgba(255, 150, 120, 0.08),
-            inset 0 2px 0 rgba(255, 250, 245, 0.95),
-            inset 0 -3px 0 rgba(255, 200, 150, 0.35),
-            inset 0 0 100px rgba(255, 210, 170, 0.12);
+            0 48px 120px rgba(180, 130, 80, 0.16),
+            0 18px 44px rgba(255, 175, 135, 0.09),
+            0 4px 14px rgba(255, 150, 120, 0.05),
+            inset 0 1.5px 0 rgba(255, 255, 255, 1),
+            inset 0 -1.5px 0.5px rgba(255, 205, 175, 0.35),
+            inset 1px 0 0 rgba(255, 255, 255, 0.55),
+            inset -1px 0 0 rgba(255, 255, 255, 0.55),
+            inset 0 0 90px rgba(255, 225, 200, 0.06);
+        transition: all 0.6s var(--ease-spring);
     }
+
     .app.high-end::before {
         content: '';
         position: absolute;
         inset: 0;
         border-radius: inherit;
         background:
-            radial-gradient(ellipse 70% 50% at 20% 10%, rgba(255, 230, 200, 0.55), rgba(255, 200, 160, 0.15) 40%, transparent 70%),
-            radial-gradient(ellipse 60% 40% at 80% 90%, rgba(255, 180, 150, 0.35), transparent 65%),
-            radial-gradient(ellipse 50% 30% at 50% 0%, rgba(255, 255, 255, 0.5), transparent 60%);
+            radial-gradient(ellipse 70% 30% at 22% 0%, rgba(255, 255, 255, 0.28), transparent 62%),
+            radial-gradient(ellipse 50% 40% at 85% 100%, rgba(255, 190, 165, 0.12), transparent 68%),
+            radial-gradient(ellipse 40% 20% at 60% 5%, rgba(255, 250, 240, 0.20), transparent 65%),
+            radial-gradient(ellipse 30% 25% at 5% 85%, rgba(255, 210, 235, 0.08), transparent 70%);
         pointer-events: none;
         z-index: 0;
-        animation: liquidShift 14s ease-in-out infinite alternate;
+        filter: blur(18px);
+        opacity: 0.85;
+        animation: liquidShift 20s ease-in-out infinite alternate;
+        will-change: transform, opacity;
     }
+
     .app.high-end::after {
         content: '';
         position: absolute;
-        inset: -1px;
+        inset: 0;
         border-radius: inherit;
-        background: conic-gradient(from 0deg at 50% 50%,
-                rgba(255, 200, 160, 0.15), rgba(255, 150, 200, 0.10),
-                rgba(200, 220, 255, 0.12), rgba(255, 220, 160, 0.15),
-                rgba(255, 200, 160, 0.15));
+        padding: 1px;
+        background: conic-gradient(from 200deg at 50% 50%,
+                rgba(255, 224, 196, 0.40),
+                rgba(255, 190, 215, 0.22),
+                rgba(200, 222, 255, 0.26),
+                rgba(200, 255, 235, 0.18),
+                rgba(255, 244, 196, 0.36),
+                rgba(255, 224, 196, 0.40));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask-composite: exclude;
-        padding: 1px;
         pointer-events: none;
-        opacity: 0.7;
-        animation: iridescentShift 12s linear infinite;
+        opacity: 0.55;
+        z-index: 2;
+        mix-blend-mode: screen;
     }
+
     @keyframes liquidShift {
         0%   { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.85; }
-        50%  { transform: translate(2%, 1.5%) scale(1.04) rotate(1deg); opacity: 1; }
-        100% { transform: translate(-1.5%, 2%) scale(1.02) rotate(-1deg); opacity: 0.9; }
-    }
-    @keyframes iridescentShift {
-        0%   { background-position: 0% 0%; }
-        100% { background-position: 100% 100%; }
+        50%  { transform: translate(1.5%, 1%) scale(1.03) rotate(0.8deg); opacity: 1; }
+        100% { transform: translate(-1%, 1.5%) scale(1.015) rotate(-0.7deg); opacity: 0.9; }
     }
 
     .app.high-end .header {
-        background: rgba(255, 240, 220, 0.06);
-        border-bottom: 1px solid rgba(255, 220, 180, 0.15);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
+        background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.10) 0%,
+            rgba(255, 250, 244, 0.03) 100%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.75),
+            inset 0 -1px 0 rgba(255, 205, 175, 0.15);
     }
     .app.high-end .settings {
-        background: rgba(255, 240, 220, 0.04);
-        border-bottom: 1px solid rgba(255, 220, 180, 0.12);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
+        background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(255, 250, 244, 0.02) 100%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(24px) saturate(170%);
+        -webkit-backdrop-filter: blur(24px) saturate(170%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
     }
+
     .app.high-end .info-bar,
     .app.high-end .chinese-hint,
     .app.high-end .status-badge,
     .app.high-end .card-pool,
     .app.high-end .answer-zone,
     .app.high-end .history-section {
-        background: rgba(255, 245, 230, 0.08);
-        backdrop-filter: blur(24px) saturate(180%);
-        -webkit-backdrop-filter: blur(24px) saturate(180%);
-        border: 1px solid rgba(255, 220, 180, 0.22);
+        background:
+            linear-gradient(152deg,
+                rgba(255, 255, 255, 0.09) 0%,
+                rgba(255, 255, 255, 0.03) 48%,
+                rgba(255, 250, 242, 0.05) 100%);
+        backdrop-filter: blur(34px) saturate(200%) brightness(1.08);
+        -webkit-backdrop-filter: blur(34px) saturate(200%) brightness(1.08);
+        border: 1px solid rgba(255, 255, 255, 0.28);
         box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.55),
-            inset 0 -1px 0 rgba(255, 200, 160, 0.15),
-            0 6px 20px rgba(180, 130, 80, 0.06);
-    }
-    .app.high-end .card-pool {
-        border-style: solid;
-        border-color: rgba(255, 220, 180, 0.20);
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+            inset 0 -1px 0.5px rgba(255, 205, 175, 0.22),
+            inset 1px 0 0 rgba(255, 255, 255, 0.45),
+            inset -1px 0 0 rgba(255, 255, 255, 0.45),
+            0 6px 20px rgba(180, 130, 80, 0.06),
+            0 2px 6px rgba(180, 130, 80, 0.035);
     }
     .app.high-end .answer-zone {
-        border-color: rgba(255, 200, 160, 0.30);
+        border-color: rgba(255, 255, 255, 0.34);
         box-shadow:
-            inset 0 2px 12px rgba(255, 200, 160, 0.10),
-            inset 0 1px 0 rgba(255, 255, 255, 0.55),
+            inset 0 2px 16px rgba(255, 220, 190, 0.10),
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+            inset 0 -1px 0.5px rgba(255, 205, 175, 0.20),
             0 6px 20px rgba(180, 130, 80, 0.06);
+    }
+
+    .app.high-end .info-bar,
+    .app.high-end .chinese-hint,
+    .app.high-end .history-section,
+    .app.high-end .card-pool,
+    .app.high-end .answer-zone {
+        position: relative;
+    }
+    .app.high-end .info-bar::after,
+    .app.high-end .chinese-hint::after,
+    .app.high-end .history-section::after,
+    .app.high-end .card-pool::after,
+    .app.high-end .answer-zone::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(circle 240px at var(--cx, 50%) var(--cy, 50%),
+                rgba(255, 255, 255, 0.16) 0%,
+                rgba(255, 245, 232, 0.06) 42%,
+                transparent 72%);
+        opacity: var(--glow-op, 0);
+        transition: opacity 0.55s ease;
+        pointer-events: none;
+        mix-blend-mode: screen;
+        z-index: 3;
     }
 
     .app.high-end .card-pool .token,
     .app.high-end .answer-zone .token {
-        background: linear-gradient(135deg,
-            rgba(255, 250, 240, 0.45) 0%,
-            rgba(255, 235, 215, 0.30) 50%,
-            rgba(255, 220, 190, 0.22) 100%);
+        background:
+            linear-gradient(142deg,
+                rgba(255, 255, 255, 0.32) 0%,
+                rgba(255, 255, 255, 0.14) 40%,
+                rgba(255, 248, 238, 0.16) 68%,
+                rgba(255, 236, 218, 0.24) 100%);
+        backdrop-filter: blur(24px) saturate(210%) brightness(1.10);
+        -webkit-backdrop-filter: blur(24px) saturate(210%) brightness(1.10);
+        border: 1px solid rgba(255, 255, 255, 0.48);
+        box-shadow:
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
+            inset 0 -1px 0.5px rgba(255, 205, 175, 0.28),
+            inset 1px 0 0 rgba(255, 255, 255, 0.45),
+            inset -1px 0 0 rgba(255, 255, 255, 0.45),
+            inset 0 0 26px rgba(255, 245, 232, 0.10),
+            0 8px 22px rgba(180, 130, 80, 0.12),
+            0 2px 6px rgba(180, 130, 80, 0.06);
+        transition:
+            box-shadow 0.3s ease,
+            background 0.3s ease,
+            border-color 0.3s ease,
+            opacity 0.35s ease;
+        will-change: transform;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .app.high-end .card-pool .token.used {
+        opacity: 0;
+        transform: scale(0.6) translateY(-28px) rotate(-8deg) !important;
+    }
+
+    .app.high-end .btn-glass {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.18) 0%,
+            rgba(255, 255, 255, 0.06) 55%,
+            rgba(255, 248, 240, 0.10) 100%);
+        backdrop-filter: blur(22px) saturate(190%);
+        -webkit-backdrop-filter: blur(22px) saturate(190%);
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        color: #6a3f28;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.88),
+            inset 0 -1px 0 rgba(255, 205, 175, 0.18),
+            0 4px 14px rgba(180, 130, 80, 0.06);
+    }
+    .app.high-end .btn-glass:hover {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.30) 0%,
+            rgba(255, 250, 244, 0.14) 100%);
+        border-color: rgba(255, 240, 220, 0.70);
+        transform: scale(1.05);
+    }
+    .app.high-end .btn-glass.on {
+        background: linear-gradient(140deg,
+            rgba(255, 226, 200, 0.48) 0%,
+            rgba(255, 200, 165, 0.36) 50%,
+            rgba(228, 165, 130, 0.42) 100%);
+        backdrop-filter: blur(22px) saturate(200%);
+        -webkit-backdrop-filter: blur(22px) saturate(200%);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        color: #5a3020;
+        box-shadow:
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+            inset 0 -1px 0 rgba(190, 120, 80, 0.20),
+            0 4px 14px rgba(217, 140, 106, 0.18);
+    }
+
+    .app.high-end .action-row .btn-primary {
+        background: linear-gradient(148deg,
+            rgba(255, 226, 200, 0.56) 0%,
+            rgba(252, 200, 165, 0.42) 50%,
+            rgba(228, 158, 126, 0.50) 100%);
         backdrop-filter: blur(24px) saturate(200%);
         -webkit-backdrop-filter: blur(24px) saturate(200%);
-        border: 1px solid rgba(255, 240, 220, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(140, 70, 40, 0.20);
         box-shadow:
-            0 10px 28px rgba(180, 130, 80, 0.14),
-            0 3px 8px rgba(180, 130, 80, 0.08),
-            inset 0 1.5px 0 rgba(255, 255, 255, 0.85),
-            inset 0 -1.5px 0 rgba(200, 150, 100, 0.20),
-            inset 0 0 24px rgba(255, 220, 190, 0.10);
-        will-change: transform;
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+            inset 0 -1px 0 rgba(190, 120, 80, 0.24),
+            0 8px 24px rgba(217, 140, 106, 0.22),
+            0 2px 6px rgba(217, 140, 106, 0.14);
     }
-    .app.high-end .card-pool .token:hover:not(.used) {
-        background: linear-gradient(135deg,
-            rgba(255, 252, 245, 0.65) 0%,
-            rgba(255, 240, 220, 0.45) 50%,
-            rgba(255, 225, 200, 0.35) 100%);
-        border-color: rgba(255, 220, 180, 0.7);
+    .app.high-end .action-row .btn-primary:hover:not(:disabled) {
+        background: linear-gradient(148deg,
+            rgba(255, 236, 216, 0.68) 0%,
+            rgba(255, 208, 175, 0.52) 50%,
+            rgba(238, 172, 140, 0.60) 100%);
+        border-color: rgba(255, 255, 255, 0.72);
+        transform: translateY(-3px) scale(1.03);
         box-shadow:
-            0 20px 50px rgba(217, 140, 106, 0.28),
-            0 6px 16px rgba(217, 140, 106, 0.18),
-            0 0 40px rgba(255, 200, 160, 0.25),
-            inset 0 2px 0 rgba(255, 255, 255, 1),
-            inset 0 -2px 0 rgba(200, 150, 100, 0.25);
+            inset 0 1.5px 0 rgba(255, 255, 255, 1),
+            inset 0 -1px 0 rgba(190, 120, 80, 0.26),
+            0 14px 34px rgba(217, 140, 106, 0.30),
+            0 4px 10px rgba(217, 140, 106, 0.16);
     }
-    .app.high-end .card-pool .token::before,
-    .app.high-end .answer-zone .token::before {
-        content: '';
-        position: absolute;
-        inset: 1px;
-        border-radius: inherit;
-        background: linear-gradient(160deg,
-            rgba(255, 255, 255, 0.55) 0%,
-            rgba(255, 255, 255, 0) 40%,
-            rgba(255, 255, 255, 0) 60%,
-            rgba(255, 220, 190, 0.3) 100%);
-        pointer-events: none;
-        opacity: 0.7;
+    .app.high-end .action-row .btn-primary:disabled {
+        opacity: 0.42;
+        filter: grayscale(0.1);
+    }
+
+    .app.high-end .action-row .btn-secondary {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.20) 0%,
+            rgba(255, 255, 255, 0.07) 50%,
+            rgba(255, 246, 236, 0.12) 100%);
+        backdrop-filter: blur(24px) saturate(190%);
+        -webkit-backdrop-filter: blur(24px) saturate(190%);
+        border: 1px solid rgba(255, 255, 255, 0.44);
+        color: #5a3a2a;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.88),
+            inset 0 -1px 0 rgba(255, 205, 175, 0.16),
+            0 4px 14px rgba(180, 130, 80, 0.06);
+    }
+    .app.high-end .action-row .btn-secondary:hover {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.34) 0%,
+            rgba(255, 250, 244, 0.16) 100%);
+        border-color: rgba(255, 240, 220, 0.72);
+        transform: translateY(-3px);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.98),
+            0 10px 26px rgba(217, 140, 106, 0.14);
+    }
+
+    .app.high-end .info-bar .actions button {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.18) 0%,
+            rgba(255, 255, 255, 0.06) 100%);
+        backdrop-filter: blur(20px) saturate(185%);
+        -webkit-backdrop-filter: blur(20px) saturate(185%);
+        border: 1px solid rgba(255, 255, 255, 0.40);
+        color: #5a3a2a;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.80),
+            0 3px 10px rgba(180, 130, 80, 0.06);
+    }
+    .app.high-end .info-bar .actions button:hover {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.30) 0%,
+            rgba(255, 250, 244, 0.14) 100%);
+        border-color: rgba(255, 240, 220, 0.70);
+    }
+
+    .app.high-end .settings .unit-group .unit-check .unit-label {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(18px) saturate(180%);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.36);
+        color: #5a3a2a;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.70),
+            0 2px 6px rgba(180, 130, 80, 0.05);
+    }
+
+    .app.high-end .history-list .h-item {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.14) 0%,
+            rgba(255, 255, 255, 0.04) 100%);
+        backdrop-filter: blur(16px) saturate(175%);
+        -webkit-backdrop-filter: blur(16px) saturate(175%);
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
     }
 
     /* ============ 头部 ============ */
@@ -197,6 +388,7 @@
         color: #fff;
         font-size: clamp(0.5rem, 0.2vw + 0.45rem, 0.65rem);
         padding: 2px 12px; border-radius: 30px; font-weight: 700;
+        transition: all 0.4s var(--anim-ease);
     }
     .header-actions { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
     .btn-glass {
@@ -594,19 +786,10 @@
         align-items: center;
         justify-content: center;
     }
-    .tutorial-stage .stage-content {
-        display: none;
-    }
-    .tutorial-stage .stage-content.active {
-        display: block;
-    }
+    .tutorial-stage .stage-content { display: none; }
+    .tutorial-stage .stage-content.active { display: block; }
 
-    /* 演示 1：点击单词飞入 */
-    .demo-fly {
-        width: 260px;
-        height: 140px;
-        position: relative;
-    }
+    .demo-fly { width: 260px; height: 140px; position: relative; }
     .demo-fly .demo-token {
         position: absolute;
         padding: 6px 16px;
@@ -638,11 +821,7 @@
         100% { transform: translate(-20px, -70px) scale(1) rotate(0deg); opacity: 1; }
     }
 
-    /* 演示 2：拖动换位 */
-    .demo-swap {
-        width: 260px; height: 140px;
-        position: relative;
-    }
+    .demo-swap { width: 260px; height: 140px; position: relative; }
     .demo-swap .demo-token {
         position: absolute;
         padding: 6px 16px;
@@ -668,19 +847,12 @@
         70%, 100% { transform: translateX(-110px); }
     }
 
-    /* 演示 3：检查答案 */
     .demo-check {
         width: 260px; height: 140px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 12px;
+        display: flex; align-items: center; justify-content: center;
+        flex-direction: column; gap: 12px;
     }
-    .demo-check .demo-token-row {
-        display: flex;
-        gap: 6px;
-    }
+    .demo-check .demo-token-row { display: flex; gap: 6px; }
     .demo-check .demo-token {
         padding: 6px 14px;
         border-radius: 30px;
@@ -691,14 +863,8 @@
         font-size: 0.85rem;
         transition: all 0.4s;
     }
-    .demo-check .demo-token.highlight {
-        animation: demoCheck 3s infinite;
-    }
-    .demo-check .demo-check-mark {
-        font-size: 2rem;
-        opacity: 0;
-        animation: demoCheckMark 3s infinite;
-    }
+    .demo-check .demo-token.highlight { animation: demoCheck 3s infinite; }
+    .demo-check .demo-check-mark { font-size: 2rem; opacity: 0; animation: demoCheckMark 3s infinite; }
     @keyframes demoCheck {
         0%, 20% { background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); }
         50%, 100% { background: rgba(200, 240, 210, 0.9); border-color: #66bb6a; }
@@ -708,80 +874,112 @@
         50%, 100% { opacity: 1; transform: scale(1); }
     }
 
-    /* 演示 4：高级渲染倾斜 */
-    .demo-tilt {
-        width: 260px; height: 140px;
+    /* 演示 4：句型提醒 */
+    .demo-pattern {
+        width: 260px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    .demo-pattern-hint {
         display: flex;
         align-items: center;
-        justify-content: center;
-        perspective: 500px;
-    }
-    .demo-tilt .demo-card {
-        padding: 14px 28px;
-        border-radius: 30px;
-        background: linear-gradient(135deg, rgba(255, 250, 240, 0.9), rgba(255, 230, 210, 0.8));
-        border: 1px solid rgba(255, 220, 190, 0.8);
-        box-shadow: 0 20px 50px rgba(217, 140, 106, 0.3);
-        font-weight: 800;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 24px;
+        background: rgba(255, 245, 235, 0.92);
+        border: 1px solid rgba(255, 200, 160, 0.4);
+        font-weight: 700;
         color: #4a2a1a;
-        font-size: 1.1rem;
-        animation: demoTilt 4s ease-in-out infinite;
-        transform-style: preserve-3d;
+        font-size: 0.82rem;
     }
-    @keyframes demoTilt {
-        0%, 100% { transform: rotateX(0) rotateY(0) translateZ(0); }
-        20% { transform: rotateX(-14deg) rotateY(-18deg) translateZ(20px) scale(1.08); }
-        40% { transform: rotateX(14deg) rotateY(18deg) translateZ(20px) scale(1.08); }
-        60% { transform: rotateX(-10deg) rotateY(15deg) translateZ(20px) scale(1.08); }
-        80% { transform: rotateX(10deg) rotateY(-15deg) translateZ(20px) scale(1.08); }
+    .demo-pattern-label {
+        font-size: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #8a6a4a;
+        background: rgba(247, 184, 138, 0.18);
+        padding: 2px 8px;
+        border-radius: 20px;
+    }
+    .demo-pattern-badge {
+        padding: 6px 16px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(247, 184, 138, 0.42), rgba(217, 140, 106, 0.36));
+        border: 1px solid rgba(247, 184, 138, 0.55);
+        color: #6a3a20;
+        font-weight: 700;
+        font-size: 0.72rem;
+        animation: demoPatternPulse 2.4s infinite;
+    }
+    @keyframes demoPatternPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247, 184, 138, 0.5); }
+        50% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(247, 184, 138, 0); }
     }
 
-    .tutorial-text {
+    /* 演示 5：重新练习 */
+    .demo-history {
+        width: 260px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+    }
+    .demo-history-item {
+        padding: 6px 14px;
+        border-radius: 24px;
+        background: rgba(255, 245, 235, 0.82);
+        border: 1px solid rgba(255, 200, 160, 0.32);
+        font-weight: 600;
+        color: #4a2a1a;
+        font-size: 0.78rem;
         text-align: center;
-        min-height: 80px;
-        padding: 0 4px;
     }
+    .demo-history-item.highlight {
+        animation: demoHistoryClick 2.6s infinite;
+    }
+    @keyframes demoHistoryClick {
+        0%, 25% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
+        45%, 72% { transform: scale(1.06); background: rgba(247, 184, 138, 0.45); border-color: #d98c6a; box-shadow: 0 4px 14px rgba(217,140,106,0.2); }
+        90%, 100% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
+    }
+    .demo-history-cursor {
+        position: absolute;
+        font-size: 1.1rem;
+        right: 26px;
+        top: 50%;
+        animation: demoCursorMove 2.6s infinite;
+        pointer-events: none;
+    }
+    @keyframes demoCursorMove {
+        0%, 25% { opacity: 0; transform: translate(20px, -50%) scale(1); }
+        35% { opacity: 1; transform: translate(0, -50%) scale(1.15); }
+        50%, 72% { opacity: 1; transform: translate(0, -50%) scale(0.88); }
+        85%, 100% { opacity: 0; transform: translate(20px, -50%) scale(1); }
+    }
+
+    .tutorial-text { text-align: center; min-height: 80px; padding: 0 4px; }
     .tutorial-text h3 {
-        font-size: 1.15rem;
-        font-weight: 800;
-        color: #7a4a2a;
-        margin-bottom: 8px;
+        font-size: 1.15rem; font-weight: 800; color: #7a4a2a; margin-bottom: 8px;
     }
-    .tutorial-text p {
-        font-size: 0.9rem;
-        color: #6a4a3a;
-        line-height: 1.6;
-    }
+    .tutorial-text p { font-size: 0.9rem; color: #6a4a3a; line-height: 1.6; }
 
     .tutorial-nav {
-        display: flex;
-        gap: 8px;
-        justify-content: space-between;
-        align-items: center;
+        display: flex; gap: 8px; justify-content: space-between; align-items: center;
         margin-top: 20px;
     }
-    .tutorial-nav .dots {
-        display: flex;
-        gap: 6px;
-    }
+    .tutorial-nav .dots { display: flex; gap: 6px; }
     .tutorial-nav .dot {
-        width: 8px; height: 8px;
-        border-radius: 50%;
+        width: 8px; height: 8px; border-radius: 50%;
         background: rgba(217, 140, 106, 0.3);
         transition: all 0.3s var(--ease-spring);
     }
-    .tutorial-nav .dot.active {
-        background: #d98c6a;
-        transform: scale(1.3);
-    }
+    .tutorial-nav .dot.active { background: #d98c6a; transform: scale(1.3); }
     .tutorial-nav .btn {
-        padding: 8px 22px;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 0.85rem;
-        border: none;
-        cursor: pointer;
-        font-family: inherit;
+        padding: 8px 22px; border-radius: 30px;
+        font-weight: 700; font-size: 0.85rem;
+        border: none; cursor: pointer; font-family: inherit;
         transition: all 0.3s var(--ease-spring);
     }
     .tutorial-nav .btn-skip {
@@ -817,11 +1015,14 @@
         .tutorial-stage { height: 130px; }
     }
 
-    /* 大屏增强 */
     @media (min-width: 1100px) {
         .main { padding: 28px 40px 36px; }
         .header { padding: 20px 36px; }
         .settings { padding: 14px 30px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
 </style>
 </head>
@@ -867,7 +1068,7 @@
             <button class="btn btn-secondary" id="nextBtn">⏩ 下一题</button>
         </div>
         <div class="history-section">
-            <div class="hdr"><span>📝 最近练习</span><button class="clear-btn" id="clearHistory">清空</button></div>
+            <div class="hdr"><span>📝 最近练习（点击可重新练习）</span><button class="clear-btn" id="clearHistory">清空</button></div>
             <div class="history-list" id="historyList"></div>
         </div>
     </div>
@@ -882,7 +1083,6 @@
             <button class="tutorial-close" id="tutorialClose">✕</button>
         </div>
         <div class="tutorial-stage">
-            <!-- 步骤 1 -->
             <div class="stage-content active" data-step="0">
                 <div class="demo-fly">
                     <div class="demo-zone"></div>
@@ -890,14 +1090,12 @@
                     <div class="demo-token t2">is</div>
                 </div>
             </div>
-            <!-- 步骤 2 -->
             <div class="stage-content" data-step="1">
                 <div class="demo-swap">
                     <div class="demo-token a">He</div>
                     <div class="demo-token b">kind</div>
                 </div>
             </div>
-            <!-- 步骤 3 -->
             <div class="stage-content" data-step="2">
                 <div class="demo-check">
                     <div class="demo-token-row">
@@ -908,10 +1106,21 @@
                     <div class="demo-check-mark">✅</div>
                 </div>
             </div>
-            <!-- 步骤 4 -->
             <div class="stage-content" data-step="3">
-                <div class="demo-tilt">
-                    <div class="demo-card">3D 卡片</div>
+                <div class="demo-pattern">
+                    <div class="demo-pattern-hint">
+                        <span class="demo-pattern-label">中文</span>
+                        <span>我的妈妈是一位医生。</span>
+                    </div>
+                    <div class="demo-pattern-badge">📐 句型：{某人} {be} {职业}.</div>
+                </div>
+            </div>
+            <div class="stage-content" data-step="4">
+                <div class="demo-history">
+                    <div class="demo-history-item">✅ 我的妈妈是一位医生。</div>
+                    <div class="demo-history-item highlight">❌ 他们又高又壮。</div>
+                    <div class="demo-history-item">✅ 今天天气晴朗。</div>
+                    <div class="demo-history-cursor">👆</div>
                 </div>
             </div>
         </div>
@@ -923,6 +1132,7 @@
             <button class="btn btn-skip" id="tutorialSkip">跳过</button>
             <div class="dots" id="tutorialDots">
                 <span class="dot active"></span>
+                <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
@@ -1242,6 +1452,11 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIndex: 0,
         score: 0,
         history: [],
+        // 修复刷分：已得分句子集合 + 已失败句子集合
+        scoredSentences: new Set(),
+        failedSentences: new Set(),
+        // 是否处于"复习模式"（点击历史记录项进入）
+        retryMode: false,
     };
 
     let nextItemId = 0;
@@ -1280,6 +1495,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tutorialDesc = $('tutorialDesc');
     const tutorialDots = $('tutorialDots').querySelectorAll('.dot');
     const stageContents = document.querySelectorAll('.stage-content');
+    const appEl = $('app');
 
     // ================================================================
     //  5. 工具函数
@@ -1306,7 +1522,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return word;
     }
     function getBe(num) { return num === 'p' ? 'are' : 'is'; }
-    function ease() { return state.highEnd ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'cubic-bezier(0.4, 0, 0.2, 1)'; }
+
+    function ease() {
+        return state.highEnd
+            ? 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+            : 'cubic-bezier(0.25, 0.1, 0.25, 1)';
+    }
 
     // ================================================================
     //  6. 生成题目
@@ -1360,32 +1581,214 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  7. 3D 倾斜（高级渲染）
+    //  7. 卡片倾斜 · 跟随鼠标/点击
     // ================================================================
     function applyTilt(el) {
         if (!state.highEnd) return;
+        if (el.dataset.tiltBound === '1') return;
+        el.dataset.tiltBound = '1';
+
         let rafId = null;
+        let hovering = false;
+        let tRX = 0, tRY = 0, tLift = 0;
+        let cRX = 0, cRY = 0, cLift = 0;
+
+        const PERSPECTIVE = 720;
+        const ROT_RANGE = 28;
+        const LIFT = 30;
+
+        function tick() {
+            cRX += (tRX - cRX) * 0.17;
+            cRY += (tRY - cRY) * 0.17;
+            cLift += (tLift - cLift) * 0.17;
+
+            const settled = !hovering &&
+                Math.abs(tRX - cRX) < 0.04 &&
+                Math.abs(tRY - cRY) < 0.04 &&
+                Math.abs(tLift - cLift) < 0.12;
+
+            if (settled) {
+                el.style.transform = '';
+                el.style.zIndex = '';
+                rafId = null;
+                return;
+            }
+
+            const scale = 1 + cLift * 0.008;
+            el.style.transform =
+                `perspective(${PERSPECTIVE}px) ` +
+                `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg) ` +
+                `translateZ(${cLift.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+
+            rafId = requestAnimationFrame(tick);
+        }
+
+        function kick() {
+            if (rafId === null) rafId = requestAnimationFrame(tick);
+        }
+
         el.addEventListener('pointermove', (e) => {
             if (isDragging) return;
-            if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
-            const rect = el.getBoundingClientRect();
-            const cx = e.clientX - (rect.left + rect.width / 2);
-            const cy = e.clientY - (rect.top + rect.height / 2);
-            const rotY = (cx / (rect.width / 2)) * 14;
-            const rotX = -(cy / (rect.height / 2)) * 14;
-            if (rafId) cancelAnimationFrame(rafId);
-            rafId = requestAnimationFrame(() => {
-                el.style.transition = 'transform 0.08s linear, box-shadow 0.25s ease';
-                el.style.transform = `perspective(500px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(14px) scale(1.06)`;
-                el.style.zIndex = '5';
-            });
+            if (e.pointerType === 'mouse' && e.buttons !== 0) return;
+            const r = el.getBoundingClientRect();
+            if (!r.width || !r.height) return;
+            const px = (e.clientX - r.left) / r.width;
+            const py = (e.clientY - r.top) / r.height;
+            tRY = (px - 0.5) * ROT_RANGE;
+            tRX = -(py - 0.5) * ROT_RANGE;
+            tLift = LIFT;
+            hovering = true;
+            el.style.zIndex = '6';
+            kick();
         });
+
         el.addEventListener('pointerleave', () => {
             if (isDragging) return;
-            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-            el.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease';
-            el.style.transform = '';
-            el.style.zIndex = '';
+            hovering = false;
+            tRX = 0; tRY = 0; tLift = 0;
+            kick();
+        });
+
+        el.addEventListener('pointerdown', (e) => {
+            if (isDragging) return;
+            const r = el.getBoundingClientRect();
+            if (!r.width || !r.height) return;
+            const px = (e.clientX - r.left) / r.width;
+            const py = (e.clientY - r.top) / r.height;
+
+            cRX = -(py - 0.5) * 18;
+            cRY = (px - 0.5) * 18;
+            cLift = 26;
+
+            if (!hovering) {
+                tRX = 0; tRY = 0; tLift = 0;
+            }
+            el.style.transform =
+                `perspective(${PERSPECTIVE}px) ` +
+                `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg) ` +
+                `translateZ(${cLift.toFixed(2)}px) scale(1.03)`;
+            kick();
+        });
+    }
+
+    // ================================================================
+    //  7b. 整个面板 3D 倾斜 · 跟随鼠标
+    // ================================================================
+    let panelTiltSetup = false;
+    function setupPanelTilt() {
+        if (panelTiltSetup) return;
+        panelTiltSetup = true;
+
+        let rafId = null;
+        let hovering = false;
+        let tRX = 0, tRY = 0;
+        let cRX = 0, cRY = 0;
+
+        const ROT_X_RANGE = 6;
+        const ROT_Y_RANGE = 8;
+
+        function tick() {
+            cRX += (tRX - cRX) * 0.12;
+            cRY += (tRY - cRY) * 0.12;
+
+            const settled = !hovering &&
+                Math.abs(tRX - cRX) < 0.02 &&
+                Math.abs(tRY - cRY) < 0.02;
+
+            if (settled) {
+                appEl.style.transform = '';
+                rafId = null;
+                return;
+            }
+
+            appEl.style.transform =
+                `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
+
+            rafId = requestAnimationFrame(tick);
+        }
+
+        function kick() {
+            if (rafId === null) rafId = requestAnimationFrame(tick);
+        }
+
+        document.addEventListener('pointermove', (e) => {
+            if (!state.highEnd) return;
+            if (e.pointerType === 'touch') return;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const px = e.clientX / vw;
+            const py = e.clientY / vh;
+            tRY = (px - 0.5) * ROT_Y_RANGE;
+            tRX = -(py - 0.5) * ROT_X_RANGE;
+            hovering = true;
+            kick();
+        }, { passive: true });
+
+        document.addEventListener('pointerleave', () => {
+            if (!state.highEnd) return;
+            hovering = false;
+            tRX = 0; tRY = 0;
+            kick();
+        });
+    }
+
+    function resetPanelTilt() {
+        appEl.style.transform = '';
+    }
+
+    // ================================================================
+    //  7c. 大卡片柔光跟随
+    // ================================================================
+    const GLOW_SELECTOR = '.info-bar, .chinese-hint, .history-section, .card-pool, .answer-zone';
+    let glowTargets = null;
+    let glowRaf = null;
+    let glowPointer = null;
+
+    function getGlowTargets() {
+        if (!glowTargets || !glowTargets[0] || !glowTargets[0].isConnected) {
+            glowTargets = [...document.querySelectorAll(GLOW_SELECTOR)];
+        }
+        return glowTargets;
+    }
+
+    function setupBigCardGlow() {
+        document.addEventListener('pointermove', (e) => {
+            if (!state.highEnd) return;
+            glowPointer = { x: e.clientX, y: e.clientY };
+            if (glowRaf !== null) return;
+            glowRaf = requestAnimationFrame(() => {
+                glowRaf = null;
+                if (!state.highEnd || !glowPointer) return;
+                const { x, y } = glowPointer;
+                getGlowTargets().forEach(el => {
+                    const r = el.getBoundingClientRect();
+                    if (!r.width || !r.height) return;
+                    const px = (x - r.left) / r.width;
+                    const py = (y - r.top) / r.height;
+
+                    if (px < -0.12 || px > 1.12 || py < -0.12 || py > 1.12) {
+                        if (el.dataset.glowOp !== '0') {
+                            el.dataset.glowOp = '0';
+                            el.style.setProperty('--glow-op', '0');
+                        }
+                        return;
+                    }
+                    el.style.setProperty('--cx', (px * 100).toFixed(1) + '%');
+                    el.style.setProperty('--cy', (py * 100).toFixed(1) + '%');
+                    if (el.dataset.glowOp !== '1') {
+                        el.dataset.glowOp = '1';
+                        el.style.setProperty('--glow-op', '1');
+                    }
+                });
+            });
+        }, { passive: true });
+
+        document.addEventListener('pointerleave', () => {
+            if (!state.highEnd) return;
+            getGlowTargets().forEach(el => {
+                el.dataset.glowOp = '0';
+                el.style.setProperty('--glow-op', '0');
+            });
         });
     }
 
@@ -1412,6 +1815,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             cardPool.appendChild(div);
         });
+
         requestAnimationFrame(() => {
             cardPool.querySelectorAll('.token').forEach(el => {
                 const key = el.dataset.poolIdx;
@@ -1421,32 +1825,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dx = oldRect.left - newRect.left;
                 const dy = oldRect.top - newRect.top;
                 if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
-                    el.animate([
-                        { transform: `translate(${dx}px, ${dy}px)` },
-                        { transform: 'translate(0, 0)' }
-                    ], {
-                        duration: state.highEnd ? 380 : 280,
-                        easing: ease()
-                    });
+                    if (state.highEnd) {
+                        el.animate([
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.96)` },
+                            { transform: `translate(${dx*0.3}px, ${dy*0.3}px) scale(1.03)`, offset: 0.65 },
+                            { transform: 'translate(0, 0) scale(1)' }
+                        ], { duration: 420, easing: ease() });
+                    } else {
+                        el.animate([
+                            { transform: `translate(${dx}px, ${dy}px)` },
+                            { transform: 'translate(0, 0)' }
+                        ], { duration: 280, easing: ease() });
+                    }
                 }
             });
         });
     }
 
     // ================================================================
-    //  9. 渲染答案区（含飞入/回弹动画）
+    //  9. 渲染答案区（飞入 + 挤位 FLIP）
     // ================================================================
     function renderAnswerZone(opts = {}) {
         const { sourceRect = null, newItemId = null } = opts;
+
         const oldRects = new Map();
         answerZone.querySelectorAll('.token[data-id]').forEach(el => {
             oldRects.set(parseInt(el.dataset.id), el.getBoundingClientRect());
         });
+
         answerZone.innerHTML = '';
         if (state.answerItems.length === 0) {
             answerZone.innerHTML = `<span class="placeholder">👆 点击下方单词添加到此处</span>`;
             return;
         }
+
         state.answerItems.forEach((item, idx) => {
             const div = document.createElement('div');
             div.className = 'token';
@@ -1454,10 +1866,12 @@ document.addEventListener('DOMContentLoaded', function() {
             let display = item.word;
             if (idx === 0 && /[a-z]/.test(item.word[0])) display = capitalizeFirst(item.word);
             div.textContent = display;
+
             const orderSpan = document.createElement('span');
             orderSpan.className = 'order';
             orderSpan.textContent = idx + 1;
             div.appendChild(orderSpan);
+
             if (dragState && dragState.itemId === item.id) {
                 div.style.visibility = 'hidden';
             } else {
@@ -1468,48 +1882,82 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         requestAnimationFrame(() => {
-            answerZone.querySelectorAll('.token[data-id]').forEach(el => {
+            const tokens = [...answerZone.querySelectorAll('.token[data-id]')];
+
+            tokens.forEach((el) => {
                 const id = parseInt(el.dataset.id);
                 const newRect = el.getBoundingClientRect();
-                // 1) 飞入动画（速度加快 + 高级渲染下有弹性回弹）
+
                 if (id === newItemId && sourceRect) {
                     const dx = sourceRect.left - newRect.left;
                     const dy = sourceRect.top - newRect.top;
+
                     if (state.highEnd) {
                         el.animate([
-                            { transform: `translate(${dx}px, ${dy}px) scale(0.75) rotate(-8deg)`, opacity: 0.4, offset: 0 },
-                            { transform: `translate(${dx*0.55}px, ${dy*0.55}px) scale(1.12) rotate(3deg)`, opacity: 1, offset: 0.55 },
-                            { transform: `translate(0, 0) scale(0.94) rotate(-1.5deg)`, opacity: 1, offset: 0.78 },
-                            { transform: 'translate(0, 0) scale(1.03) rotate(0.5deg)', opacity: 1, offset: 0.9 },
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.55) rotate(-16deg)`,
+                              opacity: 0.25, offset: 0 },
+                            { transform: `translate(${dx*0.68}px, ${dy*0.68 - 22}px) scale(1.22) rotate(7deg)`,
+                              opacity: 1, offset: 0.48 },
+                            { transform: `translate(${dx*0.26}px, ${dy*0.26 + 6}px) scale(0.92) rotate(-4deg)`,
+                              opacity: 1, offset: 0.74 },
+                            { transform: `translate(${dx*0.06}px, ${dy*0.06 - 2}px) scale(1.07) rotate(2deg)`,
+                              opacity: 1, offset: 0.88 },
                             { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 1 }
                         ], {
-                            duration: 420,
-                            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                            duration: 620,
+                            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                            fill: 'backwards'
                         });
                     } else {
                         el.animate([
-                            { transform: `translate(${dx}px, ${dy}px) scale(0.9) rotate(-3deg)`, opacity: 0.6, offset: 0 },
-                            { transform: 'translate(0, 0) scale(1) rotate(0)', opacity: 1, offset: 1 }
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.86) rotate(-6deg)`,
+                              opacity: 0.35, offset: 0 },
+                            { transform: `translate(${dx*0.28}px, ${dy*0.28}px) scale(1.05) rotate(2deg)`,
+                              opacity: 1, offset: 0.72 },
+                            { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 1 }
                         ], {
-                            duration: 280,
-                            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                            duration: 380,
+                            easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+                            fill: 'backwards'
                         });
                     }
                     return;
                 }
-                // 2) FLIP 换位
+
                 const oldRect = oldRects.get(id);
+
                 if (oldRect) {
                     const dx = oldRect.left - newRect.left;
                     const dy = oldRect.top - newRect.top;
                     if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
-                        el.animate([
-                            { transform: `translate(${dx}px, ${dy}px)` },
-                            { transform: 'translate(0, 0)' }
-                        ], {
-                            duration: state.highEnd ? 380 : 260,
-                            easing: ease()
-                        });
+
+                        if (state.highEnd) {
+                            const horiz = Math.abs(dx) >= Math.abs(dy);
+                            const sx0 = horiz ? 0.84 : 1;
+                            const sy0 = horiz ? 1 : 0.84;
+                            const sx1 = horiz ? 1.07 : 1;
+                            const sy1 = horiz ? 1 : 1.07;
+
+                            el.animate([
+                                { transform: `translate(${dx}px, ${dy}px) scale(${sx0}, ${sy0})` },
+                                { transform: `translate(${dx*0.36}px, ${dy*0.36}px) scale(${sx1}, ${sy1})`, offset: 0.6 },
+                                { transform: `translate(${dx*0.09}px, ${dy*0.09}px) scale(0.985, 0.985)`, offset: 0.84 },
+                                { transform: 'translate(0, 0) scale(1, 1)' }
+                            ], {
+                                duration: 480,
+                                easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                fill: 'backwards'
+                            });
+                        } else {
+                            el.animate([
+                                { transform: `translate(${dx}px, ${dy}px)` },
+                                { transform: 'translate(0, 0)' }
+                            ], {
+                                duration: 260,
+                                easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+                                fill: 'backwards'
+                            });
+                        }
                     }
                 } else {
                     el.animate([
@@ -1517,8 +1965,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         { transform: 'scale(1.08) rotate(3deg)', opacity: 1, offset: 0.65 },
                         { transform: 'scale(1) rotate(0)', opacity: 1 }
                     ], {
-                        duration: state.highEnd ? 420 : 300,
-                        easing: ease()
+                        duration: state.highEnd ? 460 : 300,
+                        easing: ease(),
+                        fill: 'backwards'
                     });
                 }
             });
@@ -1526,7 +1975,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  10. 添加/移除/换位
+    //  10. 添加 / 移除 / 换位
     // ================================================================
     function addToAnswer(poolIndex, word, sourceEl) {
         if (state.isAnswered) return;
@@ -1595,19 +2044,25 @@ document.addEventListener('DOMContentLoaded', function() {
             pointer-events: none;
             z-index: 10000;
             margin: 0;
-            transform: rotate(-3deg) scale(1.10);
-            box-shadow: 0 22px 60px rgba(217, 140, 106, 0.45), 0 8px 20px rgba(217, 140, 106, 0.25);
+            transform: rotate(-3deg) scale(1.12);
+            box-shadow: 0 26px 66px rgba(217, 140, 106, 0.42), 0 8px 20px rgba(217, 140, 106, 0.22);
             transition: none;
-            opacity: 0.95;
+            opacity: 0.96;
         `;
         if (state.highEnd) {
-            ghost.style.background = 'linear-gradient(135deg, rgba(255,252,245,0.85) 0%, rgba(255,235,215,0.7) 100%)';
-            ghost.style.backdropFilter = 'blur(24px) saturate(200%)';
-            ghost.style.webkitBackdropFilter = 'blur(24px) saturate(200%)';
-            ghost.style.border = '1px solid rgba(255,240,220,0.7)';
+            ghost.style.background = 'linear-gradient(140deg, rgba(255,255,255,0.55) 0%, rgba(255,240,225,0.32) 100%)';
+            ghost.style.backdropFilter = 'blur(26px) saturate(210%)';
+            ghost.style.webkitBackdropFilter = 'blur(26px) saturate(210%)';
+            ghost.style.border = '1px solid rgba(255,255,255,0.75)';
+            ghost.style.boxShadow =
+                '0 30px 70px rgba(217,140,106,0.38), ' +
+                '0 10px 24px rgba(217,140,106,0.22), ' +
+                'inset 0 1.5px 0 rgba(255,255,255,1), ' +
+                'inset 0 -1px 0 rgba(255,205,175,0.3)';
         }
         document.body.appendChild(ghost);
         origEl.style.visibility = 'hidden';
+
         const curIdx = state.answerItems.findIndex(it => it.id === itemId);
         const nextItem = state.answerItems[curIdx + 1];
         dragState = {
@@ -1693,6 +2148,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     function loadQuestion() {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
+        state.retryMode = false;  // 退出复习模式
         if (state.selectedUnits.size === 0) {
             document.querySelectorAll('#unitCheckGroup input[type="checkbox"]:not(#unit-all)').forEach(cb => cb.checked = true);
             document.getElementById('unit-all').checked = true;
@@ -1734,6 +2190,41 @@ document.addEventListener('DOMContentLoaded', function() {
         updateScore();
     }
 
+    /**
+     * 复习模式：点击"最近练习"中的句子，加载到答题区重新练习。
+     * 复习模式下不会再得分（scoredSentences / failedSentences 双重保护）。
+     */
+    function loadHistoricalQuestion(item) {
+        if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
+
+        state.retryMode = true;
+        state.currentEn = item.en;
+        state.currentZh = item.zh;
+        state.correctWords = tokenize(item.en);
+        chineseHint.textContent = item.zh;
+        patternBadge.textContent = `📖 复习旧句子（不重复计分）`;
+
+        let allWords = state.correctWords.slice();
+        if (state.moreOldWords) {
+            const exclude = new Set(state.correctWords);
+            const distractors = getDistractors([...exclude], 4);
+            distractors.forEach(d => allWords.push(d));
+        }
+        state.shuffledWords = shuffleArray(allWords);
+        state.answerItems = [];
+        state.usedIndices = [];
+        state.isAnswered = false;
+
+        checkBtn.disabled = false;
+        nextBtn.disabled = true;
+        renderCardPool();
+        renderAnswerZone();
+        statusBadge.textContent = '📖 复习旧句子（已练习过的句子不重复计分）';
+        statusBadge.className = 'status-badge';
+        progress.textContent = `📖 复习`;
+        Sound.start();
+    }
+
     function checkAnswer() {
         if (state.isAnswered) return;
         const user = state.answerItems.map(it => it.word);
@@ -1750,27 +2241,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (allMatch) {
             state.isAnswered = true;
-            state.score += 2;
-            updateScore();
-            statusBadge.textContent = '✅ 完全正确！ +2分（即将进入下一题）';
+            const key = state.currentEn;
+            const alreadyScored = state.scoredSentences.has(key);
+            const previouslyFailed = state.failedSentences.has(key);
+
+            if (alreadyScored || previouslyFailed || state.retryMode) {
+                // 已得分 / 曾答错 / 复习模式 → 不再给分
+                statusBadge.textContent = '✅ 完全正确！（此句已练习过，不重复计分）';
+            } else {
+                state.score += 2;
+                state.scoredSentences.add(key);
+                statusBadge.textContent = '✅ 完全正确！ +2分（即将进入下一题）';
+            }
             statusBadge.className = 'status-badge correct';
             Sound.correct();
             state.history.push({ en: state.currentEn, zh: state.currentZh, correct: true });
             updateHistoryUI();
             checkBtn.disabled = true;
             nextBtn.disabled = false;
-            // 答对后自动进入下一题
             if (autoNextTimer) clearTimeout(autoNextTimer);
             autoNextTimer = setTimeout(() => {
                 autoNextTimer = null;
                 if (state.isAnswered) nextQuestion();
-            }, state.highEnd ? 1100 : 900);
+            }, state.highEnd ? 1200 : 950);
         } else {
+            // 检查错误 → 该句子永久标记为"失败"，之后无论何时重做都不给分
+            state.failedSentences.add(state.currentEn);
             let wrongIdx = -1;
             for (let i = 0; i < Math.min(user.length, correct.length); i++) {
                 if (user[i] !== correct[i]) { wrongIdx = i; break; }
             }
-            statusBadge.textContent = `❌ 第 ${wrongIdx+1} 个单词位置错误，再试试！`;
+            statusBadge.textContent = `❌ 第 ${wrongIdx+1} 个单词位置错误，再试试！（此句之后不计分）`;
             statusBadge.className = 'status-badge wrong';
             Sound.wrong();
             state.history.push({ en: state.currentEn, zh: state.currentZh, correct: false });
@@ -1780,6 +2281,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function nextQuestion() {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
+
+        // 复习模式：直接退出并进入下一道题
+        if (state.retryMode) {
+            state.retryMode = false;
+            state.currentIndex++;
+            if (state.currentIndex < state.totalQuestions) loadQuestion();
+            else finishRound();
+            return;
+        }
+
         if (!state.isAnswered) {
             if (state.answerItems.length === 0) {
                 statusBadge.textContent = '⏳ 请先排列句子再继续';
@@ -1787,6 +2298,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             if (confirm('当前答案未检查，确定跳过吗？')) {
+                // 跳过的句子也视为"失败"，永久不再得分
+                state.failedSentences.add(state.currentEn);
                 state.history.push({ en: state.currentEn, zh: state.currentZh, correct: false });
                 updateHistoryUI();
                 state.currentIndex++;
@@ -1815,6 +2328,9 @@ document.addEventListener('DOMContentLoaded', function() {
         state.currentIndex = 0;
         state.score = 0;
         state.history = [];
+        state.scoredSentences = new Set();
+        state.failedSentences = new Set();
+        state.retryMode = false;
         updateHistoryUI();
         if (state.selectedUnits.size === 0) {
             document.querySelectorAll('#unitCheckGroup input[type="checkbox"]:not(#unit-all)').forEach(cb => cb.checked = true);
@@ -1834,28 +2350,27 @@ document.addEventListener('DOMContentLoaded', function() {
         scoreEl.textContent = state.score;
         scoreEl.animate([
             { transform: 'scale(1)' },
-            { transform: 'scale(1.25)' },
+            { transform: 'scale(1.28)' },
             { transform: 'scale(1)' }
         ], {
-            duration: state.highEnd ? 500 : 350,
+            duration: state.highEnd ? 560 : 360,
             easing: ease()
         });
     }
 
+    /**
+     * 历史记录展示 —— 中文 + 点击重新练习（不再有朗读）
+     */
     function updateHistoryUI() {
         historyList.innerHTML = '';
         const items = state.history.slice(-12).reverse();
         items.forEach(item => {
             const div = document.createElement('div');
             div.className = 'h-item';
-            div.innerHTML = `${item.correct ? '✅' : '❌'} ${item.en}`;
-            div.title = item.zh;
+            div.innerHTML = `${item.correct ? '✅' : '❌'} ${item.zh}`;
+            div.title = `${item.en}（点击重新练习）`;
             div.addEventListener('click', () => {
-                if (window.speechSynthesis) {
-                    const utter = new SpeechSynthesisUtterance(item.en);
-                    utter.lang = 'en-US';
-                    window.speechSynthesis.speak(utter);
-                }
+                loadHistoricalQuestion(item);
             });
             historyList.appendChild(div);
         });
@@ -1947,7 +2462,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let msg = '📜 练习历史 (最近12条)\n\n';
         state.history.slice(-12).reverse().forEach((item, i) => {
             const icon = item.correct ? '✅' : '❌';
-            msg += `${i+1}. ${icon} ${item.en} (${item.zh})\n`;
+            msg += `${i+1}. ${icon} ${item.zh}\n   (${item.en})\n`;
         });
         alert(msg);
     });
@@ -1959,23 +2474,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 高级渲染开关（仅图标）
+    // 高级渲染开关
     glassToggle.addEventListener('click', function() {
         state.highEnd = !state.highEnd;
-        const app = document.getElementById('app');
-        app.classList.toggle('high-end', state.highEnd);
+        appEl.classList.toggle('high-end', state.highEnd);
         glassToggle.classList.toggle('on', state.highEnd);
         modeTag.textContent = state.highEnd ? '液态玻璃' : '流畅版';
         localStorage.setItem('highEnd', state.highEnd ? '1' : '0');
+        if (!state.highEnd) {
+            resetPanelTilt();
+        }
         if (state.shuffledWords.length > 0) {
             renderCardPool();
             renderAnswerZone();
         }
         Sound.shuffle();
     });
+
     if (localStorage.getItem('highEnd') === '1') {
         state.highEnd = true;
-        document.getElementById('app').classList.add('high-end');
+        appEl.classList.add('high-end');
         glassToggle.classList.add('on');
         modeTag.textContent = '液态玻璃';
     }
@@ -1986,23 +2504,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const tutorialSteps = [
         {
             title: '第一步：点击单词',
-            desc: '点击下方卡片池中的单词，它会自动飞入上方答题区，按顺序排列成句子。'
+            desc: '点击下方卡片池中的单词，它会沿着弧线飞入上方答题区，按顺序排列成句子。'
         },
         {
             title: '第二步：拖动换位',
-            desc: '在答题区内，按住任意单词左右拖动，可以调整顺序，其他单词会自动被"挤"到旁边。'
+            desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边，动画丝滑流畅。'
         },
         {
             title: '第三步：检查答案',
             desc: '排列完成后点击「检查答案」，系统会判断正误。答对会自动进入下一题，让练习更连贯。'
         },
         {
-            title: '第四步：高级渲染',
-            desc: '点击右上角 ✨ 开启液态玻璃效果，卡片会跟随鼠标倾斜，动画也更灵动。试试看！'
+            title: '第四步：句型提醒',
+            desc: '不确定句子结构？看看中文上方的「📐 句型」小标签，它会提示这个句子的模板结构。'
+        },
+        {
+            title: '第五步：重新练习',
+            desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。'
         }
     ];
     let tutorialIndex = 0;
-    let tutorialAutoTimer = null;
 
     function updateTutorialStep(idx) {
         tutorialIndex = idx;
@@ -2035,7 +2556,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === tutorialOverlay) closeTutorial();
     });
 
-    // 首次访问自动弹出教学（仅一次）
     if (!localStorage.getItem('tutorialShown')) {
         setTimeout(() => {
             openTutorial();
@@ -2058,6 +2578,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     //  17. 启动
     // ================================================================
+    setupBigCardGlow();
+    setupPanelTilt();
     renderUnitChecks();
     console.log('🧩 句型建筑师 · 液态玻璃版已启动');
 });
