@@ -9,993 +9,628 @@
     :root {
         --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-        --ease-elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
         --anim-ease: var(--ease-smooth);
     }
     body {
         font-family: 'Segoe UI', 'PingFang SC', Roboto, system-ui, sans-serif;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        min-height: 100vh; display: flex; justify-content: center; align-items: center;
         padding: clamp(10px, 1.5vw, 24px);
         background: linear-gradient(145deg, #fce4d6 0%, #fde9d0 40%, #fef6e0 100%);
         transition: background 0.8s var(--ease-smooth);
-        perspective: 1800px;
-        perspective-origin: 50% 50%;
-        overflow-x: hidden;
+        perspective: 1800px; perspective-origin: 50% 50%; overflow-x: hidden;
     }
     .app {
-        width: 100%;
-        max-width: min(1280px, calc(100vw - 32px));
+        width: 100%; max-width: min(1280px, calc(100vw - 32px));
         background: rgba(255, 245, 235, 0.70);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         border-radius: clamp(28px, 3vw, 48px);
         border: 1px solid rgba(255, 220, 180, 0.6);
         box-shadow: 0 20px 60px rgba(200, 150, 100, 0.12);
-        overflow: hidden;
-        transition: all 0.6s var(--ease-spring);
-        position: relative;
-        transform-style: preserve-3d;
-        transform-origin: 50% 50%;
+        overflow: hidden; transition: all 0.6s var(--ease-spring);
+        position: relative; transform-style: preserve-3d; transform-origin: 50% 50%;
         will-change: transform;
     }
 
-    /* ============================================================
-       高级渲染 · iOS 26 液态玻璃（通透版）
-       ============================================================ */
+    /* ============ 高级渲染 · iOS 26 液态玻璃 ============ */
     .app.high-end {
         --anim-ease: var(--ease-spring);
-
         background:
             linear-gradient(160deg,
-                rgba(255, 255, 255, 0.07) 0%,
-                rgba(255, 250, 244, 0.03) 42%,
-                rgba(255, 246, 236, 0.02) 62%,
-                rgba(255, 255, 255, 0.05) 100%);
+                rgba(255, 255, 255, 0.07) 0%, rgba(255, 250, 244, 0.03) 42%,
+                rgba(255, 246, 236, 0.02) 62%, rgba(255, 255, 255, 0.05) 100%);
         backdrop-filter: blur(72px) saturate(190%) brightness(1.07) contrast(1.01);
         -webkit-backdrop-filter: blur(72px) saturate(190%) brightness(1.07) contrast(1.01);
         border: 1px solid rgba(255, 255, 255, 0.32);
         box-shadow:
-            0 48px 120px rgba(180, 130, 80, 0.16),
-            0 18px 44px rgba(255, 175, 135, 0.09),
+            0 48px 120px rgba(180, 130, 80, 0.16), 0 18px 44px rgba(255, 175, 135, 0.09),
             0 4px 14px rgba(255, 150, 120, 0.05),
-            inset 0 1.5px 0 rgba(255, 255, 255, 1),
-            inset 0 -1.5px 0.5px rgba(255, 205, 175, 0.35),
-            inset 1px 0 0 rgba(255, 255, 255, 0.55),
-            inset -1px 0 0 rgba(255, 255, 255, 0.55),
+            inset 0 1.5px 0 rgba(255, 255, 255, 1), inset 0 -1.5px 0.5px rgba(255, 205, 175, 0.35),
+            inset 1px 0 0 rgba(255, 255, 255, 0.55), inset -1px 0 0 rgba(255, 255, 255, 0.55),
             inset 0 0 90px rgba(255, 225, 200, 0.06);
-        transition: all 0.6s var(--ease-spring);
     }
-
     .app.high-end::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
+        content: ''; position: absolute; inset: 0; border-radius: inherit;
         background:
             radial-gradient(ellipse 70% 30% at 22% 0%, rgba(255, 255, 255, 0.28), transparent 62%),
             radial-gradient(ellipse 50% 40% at 85% 100%, rgba(255, 190, 165, 0.12), transparent 68%),
             radial-gradient(ellipse 40% 20% at 60% 5%, rgba(255, 250, 240, 0.20), transparent 65%),
             radial-gradient(ellipse 30% 25% at 5% 85%, rgba(255, 210, 235, 0.08), transparent 70%);
-        pointer-events: none;
-        z-index: 0;
-        filter: blur(18px);
-        opacity: 0.85;
+        pointer-events: none; z-index: 0; filter: blur(18px); opacity: 0.85;
         animation: liquidShift 20s ease-in-out infinite alternate;
         will-change: transform, opacity;
     }
-
     .app.high-end::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        padding: 1px;
+        content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
         background: conic-gradient(from 200deg at 50% 50%,
-                rgba(255, 224, 196, 0.40),
-                rgba(255, 190, 215, 0.22),
-                rgba(200, 222, 255, 0.26),
-                rgba(200, 255, 235, 0.18),
-                rgba(255, 244, 196, 0.36),
-                rgba(255, 224, 196, 0.40));
+            rgba(255, 224, 196, 0.40), rgba(255, 190, 215, 0.22), rgba(200, 222, 255, 0.26),
+            rgba(200, 255, 235, 0.18), rgba(255, 244, 196, 0.36), rgba(255, 224, 196, 0.40));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        pointer-events: none;
-        opacity: 0.55;
-        z-index: 2;
+        mask-composite: exclude; pointer-events: none; opacity: 0.55; z-index: 2;
         mix-blend-mode: screen;
     }
-
     @keyframes liquidShift {
-        0%   { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.85; }
-        50%  { transform: translate(1.5%, 1%) scale(1.03) rotate(0.8deg); opacity: 1; }
-        100% { transform: translate(-1%, 1.5%) scale(1.015) rotate(-0.7deg); opacity: 0.9; }
+        0% { transform: translate(0,0) scale(1) rotate(0); opacity: .85; }
+        50% { transform: translate(1.5%,1%) scale(1.03) rotate(.8deg); opacity: 1; }
+        100% { transform: translate(-1%,1.5%) scale(1.015) rotate(-.7deg); opacity: .9; }
     }
-
     .app.high-end .header {
-        background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.10) 0%,
-            rgba(255, 250, 244, 0.03) 100%);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.20);
-        backdrop-filter: blur(28px) saturate(180%);
-        -webkit-backdrop-filter: blur(28px) saturate(180%);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.75),
-            inset 0 -1px 0 rgba(255, 205, 175, 0.15);
+        background: linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,250,244,.03) 100%);
+        border-bottom: 1px solid rgba(255,255,255,.20);
+        backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.75), inset 0 -1px 0 rgba(255,205,175,.15);
     }
     .app.high-end .settings {
-        background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.06) 0%,
-            rgba(255, 250, 244, 0.02) 100%);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-        backdrop-filter: blur(24px) saturate(170%);
-        -webkit-backdrop-filter: blur(24px) saturate(170%);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,250,244,.02) 100%);
+        border-bottom: 1px solid rgba(255,255,255,.16);
+        backdrop-filter: blur(24px) saturate(170%); -webkit-backdrop-filter: blur(24px) saturate(170%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
     }
-
     .app.high-end .info-bar,
     .app.high-end .chinese-hint,
     .app.high-end .status-badge,
     .app.high-end .card-pool,
     .app.high-end .answer-zone,
     .app.high-end .history-section {
-        background:
-            linear-gradient(152deg,
-                rgba(255, 255, 255, 0.09) 0%,
-                rgba(255, 255, 255, 0.03) 48%,
-                rgba(255, 250, 242, 0.05) 100%);
+        background: linear-gradient(152deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,.03) 48%, rgba(255,250,242,.05) 100%);
         backdrop-filter: blur(34px) saturate(200%) brightness(1.08);
         -webkit-backdrop-filter: blur(34px) saturate(200%) brightness(1.08);
-        border: 1px solid rgba(255, 255, 255, 0.28);
+        border: 1px solid rgba(255,255,255,.28);
         box-shadow:
-            inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
-            inset 0 -1px 0.5px rgba(255, 205, 175, 0.22),
-            inset 1px 0 0 rgba(255, 255, 255, 0.45),
-            inset -1px 0 0 rgba(255, 255, 255, 0.45),
-            0 6px 20px rgba(180, 130, 80, 0.06),
-            0 2px 6px rgba(180, 130, 80, 0.035);
+            inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -1px .5px rgba(255,205,175,.22),
+            inset 1px 0 0 rgba(255,255,255,.45), inset -1px 0 0 rgba(255,255,255,.45),
+            0 6px 20px rgba(180,130,80,.06), 0 2px 6px rgba(180,130,80,.035);
     }
     .app.high-end .answer-zone {
-        border-color: rgba(255, 255, 255, 0.34);
+        border-color: rgba(255,255,255,.34);
         box-shadow:
-            inset 0 2px 16px rgba(255, 220, 190, 0.10),
-            inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
-            inset 0 -1px 0.5px rgba(255, 205, 175, 0.20),
-            0 6px 20px rgba(180, 130, 80, 0.06);
+            inset 0 2px 16px rgba(255,220,190,.10), inset 0 1.5px 0 rgba(255,255,255,.95),
+            inset 0 -1px .5px rgba(255,205,175,.20), 0 6px 20px rgba(180,130,80,.06);
     }
-
-    .app.high-end .info-bar,
-    .app.high-end .chinese-hint,
-    .app.high-end .history-section,
-    .app.high-end .card-pool,
-    .app.high-end .answer-zone {
-        position: relative;
-    }
-    .app.high-end .info-bar::after,
-    .app.high-end .chinese-hint::after,
-    .app.high-end .history-section::after,
-    .app.high-end .card-pool::after,
+    .app.high-end .info-bar, .app.high-end .chinese-hint, .app.high-end .history-section,
+    .app.high-end .card-pool, .app.high-end .answer-zone { position: relative; }
+    .app.high-end .info-bar::after, .app.high-end .chinese-hint::after,
+    .app.high-end .history-section::after, .app.high-end .card-pool::after,
     .app.high-end .answer-zone::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: radial-gradient(circle 240px at var(--cx, 50%) var(--cy, 50%),
-                rgba(255, 255, 255, 0.16) 0%,
-                rgba(255, 245, 232, 0.06) 42%,
-                transparent 72%);
-        opacity: var(--glow-op, 0);
-        transition: opacity 0.55s ease;
-        pointer-events: none;
-        mix-blend-mode: screen;
-        z-index: 3;
+        content: ''; position: absolute; inset: 0; border-radius: inherit;
+        background: radial-gradient(circle 240px at var(--cx,50%) var(--cy,50%),
+            rgba(255,255,255,.16) 0%, rgba(255,245,232,.06) 42%, transparent 72%);
+        opacity: var(--glow-op,0); transition: opacity .55s ease;
+        pointer-events: none; mix-blend-mode: screen; z-index: 3;
     }
-
-    .app.high-end .card-pool .token,
-    .app.high-end .answer-zone .token {
-        background:
-            linear-gradient(142deg,
-                rgba(255, 255, 255, 0.32) 0%,
-                rgba(255, 255, 255, 0.14) 40%,
-                rgba(255, 248, 238, 0.16) 68%,
-                rgba(255, 236, 218, 0.24) 100%);
+    .app.high-end .card-pool .token, .app.high-end .answer-zone .token {
+        background: linear-gradient(142deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.14) 40%,
+            rgba(255,248,238,.16) 68%, rgba(255,236,218,.24) 100%);
         backdrop-filter: blur(24px) saturate(210%) brightness(1.10);
         -webkit-backdrop-filter: blur(24px) saturate(210%) brightness(1.10);
-        border: 1px solid rgba(255, 255, 255, 0.48);
+        border: 1px solid rgba(255,255,255,.48);
         box-shadow:
-            inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
-            inset 0 -1px 0.5px rgba(255, 205, 175, 0.28),
-            inset 1px 0 0 rgba(255, 255, 255, 0.45),
-            inset -1px 0 0 rgba(255, 255, 255, 0.45),
-            inset 0 0 26px rgba(255, 245, 232, 0.10),
-            0 8px 22px rgba(180, 130, 80, 0.12),
-            0 2px 6px rgba(180, 130, 80, 0.06);
-        transition:
-            box-shadow 0.3s ease,
-            background 0.3s ease,
-            border-color 0.3s ease,
-            opacity 0.35s ease;
-        will-change: transform;
-        transform-style: preserve-3d;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
+            inset 0 1.5px 0 rgba(255,255,255,.98), inset 0 -1px .5px rgba(255,205,175,.28),
+            inset 1px 0 0 rgba(255,255,255,.45), inset -1px 0 0 rgba(255,255,255,.45),
+            inset 0 0 26px rgba(255,245,232,.10),
+            0 8px 22px rgba(180,130,80,.12), 0 2px 6px rgba(180,130,80,.06);
+        transition: box-shadow .3s ease, background .3s ease, border-color .3s ease, opacity .35s ease;
+        will-change: transform; transform-style: preserve-3d;
+        backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
-
     .app.high-end .card-pool .token.used {
-        opacity: 0;
-        transform: scale(0.6) translateY(-28px) rotate(-8deg) !important;
+        opacity: 0; transform: scale(.6) translateY(-28px) rotate(-8deg) !important;
     }
-
     .app.high-end .btn-glass {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.18) 0%,
-            rgba(255, 255, 255, 0.06) 55%,
-            rgba(255, 248, 240, 0.10) 100%);
-        backdrop-filter: blur(22px) saturate(190%);
-        -webkit-backdrop-filter: blur(22px) saturate(190%);
-        border: 1px solid rgba(255, 255, 255, 0.42);
-        color: #6a3f28;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.88),
-            inset 0 -1px 0 rgba(255, 205, 175, 0.18),
-            0 4px 14px rgba(180, 130, 80, 0.06);
+        background: linear-gradient(150deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.06) 55%, rgba(255,248,240,.10) 100%);
+        backdrop-filter: blur(22px) saturate(190%); -webkit-backdrop-filter: blur(22px) saturate(190%);
+        border: 1px solid rgba(255,255,255,.42); color: #6a3f28;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.88), inset 0 -1px 0 rgba(255,205,175,.18),
+            0 4px 14px rgba(180,130,80,.06);
     }
     .app.high-end .btn-glass:hover {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.30) 0%,
-            rgba(255, 250, 244, 0.14) 100%);
-        border-color: rgba(255, 240, 220, 0.70);
-        transform: scale(1.05);
+        background: linear-gradient(150deg, rgba(255,255,255,.30) 0%, rgba(255,250,244,.14) 100%);
+        border-color: rgba(255,240,220,.70); transform: scale(1.05);
     }
     .app.high-end .btn-glass.on {
-        background: linear-gradient(140deg,
-            rgba(255, 226, 200, 0.48) 0%,
-            rgba(255, 200, 165, 0.36) 50%,
-            rgba(228, 165, 130, 0.42) 100%);
-        backdrop-filter: blur(22px) saturate(200%);
-        -webkit-backdrop-filter: blur(22px) saturate(200%);
-        border: 1px solid rgba(255, 255, 255, 0.55);
-        color: #5a3020;
-        box-shadow:
-            inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
-            inset 0 -1px 0 rgba(190, 120, 80, 0.20),
-            0 4px 14px rgba(217, 140, 106, 0.18);
+        background: linear-gradient(140deg, rgba(255,226,200,.48) 0%, rgba(255,200,165,.36) 50%, rgba(228,165,130,.42) 100%);
+        backdrop-filter: blur(22px) saturate(200%); -webkit-backdrop-filter: blur(22px) saturate(200%);
+        border: 1px solid rgba(255,255,255,.55); color: #5a3020;
+        box-shadow: inset 0 1.5px 0 rgba(255,255,255,.92), inset 0 -1px 0 rgba(190,120,80,.20),
+            0 4px 14px rgba(217,140,106,.18);
     }
-
     .app.high-end .action-row .btn-primary {
-        background: linear-gradient(148deg,
-            rgba(255, 226, 200, 0.56) 0%,
-            rgba(252, 200, 165, 0.42) 50%,
-            rgba(228, 158, 126, 0.50) 100%);
-        backdrop-filter: blur(24px) saturate(200%);
-        -webkit-backdrop-filter: blur(24px) saturate(200%);
-        border: 1px solid rgba(255, 255, 255, 0.55);
-        color: #fff;
-        text-shadow: 0 1px 2px rgba(140, 70, 40, 0.20);
-        box-shadow:
-            inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
-            inset 0 -1px 0 rgba(190, 120, 80, 0.24),
-            0 8px 24px rgba(217, 140, 106, 0.22),
-            0 2px 6px rgba(217, 140, 106, 0.14);
+        background: linear-gradient(148deg, rgba(255,226,200,.56) 0%, rgba(252,200,165,.42) 50%, rgba(228,158,126,.50) 100%);
+        backdrop-filter: blur(24px) saturate(200%); -webkit-backdrop-filter: blur(24px) saturate(200%);
+        border: 1px solid rgba(255,255,255,.55); color: #fff;
+        text-shadow: 0 1px 2px rgba(140,70,40,.20);
+        box-shadow: inset 0 1.5px 0 rgba(255,255,255,.92), inset 0 -1px 0 rgba(190,120,80,.24),
+            0 8px 24px rgba(217,140,106,.22), 0 2px 6px rgba(217,140,106,.14);
     }
     .app.high-end .action-row .btn-primary:hover:not(:disabled) {
-        background: linear-gradient(148deg,
-            rgba(255, 236, 216, 0.68) 0%,
-            rgba(255, 208, 175, 0.52) 50%,
-            rgba(238, 172, 140, 0.60) 100%);
-        border-color: rgba(255, 255, 255, 0.72);
-        transform: translateY(-3px) scale(1.03);
-        box-shadow:
-            inset 0 1.5px 0 rgba(255, 255, 255, 1),
-            inset 0 -1px 0 rgba(190, 120, 80, 0.26),
-            0 14px 34px rgba(217, 140, 106, 0.30),
-            0 4px 10px rgba(217, 140, 106, 0.16);
+        background: linear-gradient(148deg, rgba(255,236,216,.68) 0%, rgba(255,208,175,.52) 50%, rgba(238,172,140,.60) 100%);
+        border-color: rgba(255,255,255,.72); transform: translateY(-3px) scale(1.03);
+        box-shadow: inset 0 1.5px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(190,120,80,.26),
+            0 14px 34px rgba(217,140,106,.30), 0 4px 10px rgba(217,140,106,.16);
     }
-    .app.high-end .action-row .btn-primary:disabled {
-        opacity: 0.42;
-        filter: grayscale(0.1);
-    }
-
+    .app.high-end .action-row .btn-primary:disabled { opacity: .42; filter: grayscale(.1); }
     .app.high-end .action-row .btn-secondary {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.20) 0%,
-            rgba(255, 255, 255, 0.07) 50%,
-            rgba(255, 246, 236, 0.12) 100%);
-        backdrop-filter: blur(24px) saturate(190%);
-        -webkit-backdrop-filter: blur(24px) saturate(190%);
-        border: 1px solid rgba(255, 255, 255, 0.44);
-        color: #5a3a2a;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.88),
-            inset 0 -1px 0 rgba(255, 205, 175, 0.16),
-            0 4px 14px rgba(180, 130, 80, 0.06);
+        background: linear-gradient(150deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.07) 50%, rgba(255,246,236,.12) 100%);
+        backdrop-filter: blur(24px) saturate(190%); -webkit-backdrop-filter: blur(24px) saturate(190%);
+        border: 1px solid rgba(255,255,255,.44); color: #5a3a2a;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.88), inset 0 -1px 0 rgba(255,205,175,.16),
+            0 4px 14px rgba(180,130,80,.06);
     }
     .app.high-end .action-row .btn-secondary:hover {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.34) 0%,
-            rgba(255, 250, 244, 0.16) 100%);
-        border-color: rgba(255, 240, 220, 0.72);
-        transform: translateY(-3px);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.98),
-            0 10px 26px rgba(217, 140, 106, 0.14);
+        background: linear-gradient(150deg, rgba(255,255,255,.34) 0%, rgba(255,250,244,.16) 100%);
+        border-color: rgba(255,240,220,.72); transform: translateY(-3px);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.98), 0 10px 26px rgba(217,140,106,.14);
     }
-
     .app.high-end .info-bar .actions button {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.18) 0%,
-            rgba(255, 255, 255, 0.06) 100%);
-        backdrop-filter: blur(20px) saturate(185%);
-        -webkit-backdrop-filter: blur(20px) saturate(185%);
-        border: 1px solid rgba(255, 255, 255, 0.40);
-        color: #5a3a2a;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.80),
-            0 3px 10px rgba(180, 130, 80, 0.06);
+        background: linear-gradient(150deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.06) 100%);
+        backdrop-filter: blur(20px) saturate(185%); -webkit-backdrop-filter: blur(20px) saturate(185%);
+        border: 1px solid rgba(255,255,255,.40); color: #5a3a2a;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.80), 0 3px 10px rgba(180,130,80,.06);
     }
-    .app.high-end .info-bar .actions button:hover {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.30) 0%,
-            rgba(255, 250, 244, 0.14) 100%);
-        border-color: rgba(255, 240, 220, 0.70);
-    }
-
     .app.high-end .settings .unit-group .unit-check .unit-label {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.16) 0%,
-            rgba(255, 255, 255, 0.05) 100%);
-        backdrop-filter: blur(18px) saturate(180%);
-        -webkit-backdrop-filter: blur(18px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.36);
-        color: #5a3a2a;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.70),
-            0 2px 6px rgba(180, 130, 80, 0.05);
+        background: linear-gradient(150deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 100%);
+        backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%);
+        border: 1px solid rgba(255,255,255,.36); color: #5a3a2a;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.70), 0 2px 6px rgba(180,130,80,.05);
     }
-
     .app.high-end .history-list .h-item {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.14) 0%,
-            rgba(255, 255, 255, 0.04) 100%);
-        backdrop-filter: blur(16px) saturate(175%);
-        -webkit-backdrop-filter: blur(16px) saturate(175%);
-        border: 1px solid rgba(255, 255, 255, 0.32);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+        background: linear-gradient(150deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.04) 100%);
+        backdrop-filter: blur(16px) saturate(175%); -webkit-backdrop-filter: blur(16px) saturate(175%);
+        border: 1px solid rgba(255,255,255,.32);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.62);
     }
 
-    /* ============ 头部 ============ */
+    /* ============ 常规布局 ============ */
     .header {
         padding: clamp(12px, 1.6vh, 22px) clamp(18px, 2vw, 32px);
         display: flex; flex-wrap: wrap; gap: 8px 16px;
         align-items: center; justify-content: space-between;
-        background: rgba(255, 235, 215, 0.40);
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(255, 220, 180, 0.3);
+        background: rgba(255,235,215,.40); backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255,220,180,.3);
         position: relative; z-index: 1;
     }
     .logo {
-        font-size: clamp(1.05rem, 0.6vw + 0.85rem, 1.5rem);
+        font-size: clamp(1.05rem, .6vw + .85rem, 1.5rem);
         font-weight: 800; color: #7a4a2a;
         display: flex; align-items: center; gap: 6px;
     }
     .logo span {
         background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff;
-        font-size: clamp(0.5rem, 0.2vw + 0.45rem, 0.65rem);
+        color: #fff; font-size: clamp(.5rem, .2vw + .45rem, .65rem);
         padding: 2px 12px; border-radius: 30px; font-weight: 700;
-        transition: all 0.4s var(--anim-ease);
+        transition: all .4s var(--anim-ease);
     }
     .header-actions { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
     .btn-glass {
-        background: rgba(255, 235, 215, 0.4);
-        border: 1px solid rgba(255, 200, 160, 0.3);
-        border-radius: 30px;
-        padding: clamp(4px, 0.6vh, 7px) clamp(10px, 1vw, 16px);
-        font-size: clamp(0.8rem, 0.3vw + 0.7rem, 1rem);
-        cursor: pointer;
-        transition: all 0.3s var(--ease-spring);
-        font-family: inherit; color: #7a4a2a;
-        backdrop-filter: blur(4px);
-        position: relative; z-index: 1;
+        background: rgba(255,235,215,.4); border: 1px solid rgba(255,200,160,.3);
+        border-radius: 30px; padding: clamp(4px,.6vh,7px) clamp(10px,1vw,16px);
+        font-size: clamp(.8rem,.3vw + .7rem,1rem); cursor: pointer;
+        transition: all .3s var(--ease-spring); font-family: inherit; color: #7a4a2a;
+        backdrop-filter: blur(4px); position: relative; z-index: 1;
     }
-    .btn-glass:hover { background: rgba(255, 245, 235, 0.7); border-color: #f7b88a; transform: scale(1.05); }
+    .btn-glass:hover { background: rgba(255,245,235,.7); border-color: #f7b88a; transform: scale(1.05); }
     .btn-glass.on {
-        background: linear-gradient(135deg, rgba(255, 200, 160, 0.6), rgba(240, 160, 120, 0.5));
-        border-color: rgba(255, 200, 160, 0.9);
-        color: #5a3020;
-        box-shadow:
-            0 0 20px rgba(240, 160, 120, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        background: linear-gradient(135deg, rgba(255,200,160,.6), rgba(240,160,120,.5));
+        border-color: rgba(255,200,160,.9); color: #5a3020;
+        box-shadow: 0 0 20px rgba(240,160,120,.4), inset 0 1px 0 rgba(255,255,255,.8);
     }
     .btn-icon { min-width: 36px; text-align: center; padding: 6px 10px; }
-
-    /* ============ 设置栏 ============ */
     .settings {
-        padding: clamp(8px, 1.2vh, 14px) clamp(16px, 1.8vw, 26px);
-        display: flex; flex-wrap: wrap; gap: 6px 14px;
-        align-items: center;
-        background: rgba(255, 235, 215, 0.35);
-        border-bottom: 1px solid rgba(255, 220, 180, 0.25);
+        padding: clamp(8px,1.2vh,14px) clamp(16px,1.8vw,26px);
+        display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
+        background: rgba(255,235,215,.35); border-bottom: 1px solid rgba(255,220,180,.25);
         position: relative; z-index: 1;
     }
     .settings .group { display: flex; align-items: center; gap: 4px 8px; flex-wrap: wrap; }
     .settings .group label {
-        font-size: clamp(0.55rem, 0.15vw + 0.5rem, 0.7rem);
-        text-transform: uppercase; letter-spacing: 0.5px;
-        font-weight: 700; color: #8a6a4a;
+        font-size: clamp(.55rem,.15vw + .5rem,.7rem); text-transform: uppercase;
+        letter-spacing: .5px; font-weight: 700; color: #8a6a4a;
     }
     .settings .unit-group { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
     .settings .unit-group .unit-check {
         display: flex; align-items: center; gap: 3px;
-        font-size: clamp(0.65rem, 0.15vw + 0.6rem, 0.8rem);
-        font-weight: 600; color: #5a3a2a; cursor: pointer;
+        font-size: clamp(.65rem,.15vw + .6rem,.8rem); font-weight: 600;
+        color: #5a3a2a; cursor: pointer;
     }
     .settings .unit-group .unit-check input[type="checkbox"] {
         width: 14px; height: 14px; accent-color: #d98c6a; cursor: pointer;
     }
     .settings .unit-group .unit-check .unit-label {
-        background: rgba(255, 235, 215, 0.4);
-        padding: 0 8px; border-radius: 20px;
-        border: 1px solid rgba(255, 200, 160, 0.15);
-        transition: all 0.25s var(--ease-spring);
+        background: rgba(255,235,215,.4); padding: 0 8px; border-radius: 20px;
+        border: 1px solid rgba(255,200,160,.15); transition: all .25s var(--ease-spring);
     }
     .settings .switch {
         display: flex; align-items: center; gap: 6px;
-        font-size: clamp(0.65rem, 0.15vw + 0.6rem, 0.8rem);
-        font-weight: 600; color: #5a3a2a; cursor: pointer;
+        font-size: clamp(.65rem,.15vw + .6rem,.8rem); font-weight: 600;
+        color: #5a3a2a; cursor: pointer;
     }
     .settings .switch input { width: 36px; height: 18px; accent-color: #d98c6a; cursor: pointer; }
-
-    .main { padding: clamp(12px, 2vh, 24px) clamp(18px, 2vw, 32px) clamp(16px, 2.4vh, 28px); position: relative; z-index: 1; }
-
+    .main { padding: clamp(12px,2vh,24px) clamp(18px,2vw,32px) clamp(16px,2.4vh,28px); position: relative; z-index: 1; }
     .info-bar {
         display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-        gap: 8px 16px; padding: clamp(5px, 0.7vh, 9px) clamp(12px, 1.4vw, 20px);
-        background: rgba(255, 235, 215, 0.35);
-        border-radius: 40px; border: 1px solid rgba(255, 220, 180, 0.3);
-        margin-bottom: clamp(10px, 1.4vh, 16px);
-        transition: all 0.4s var(--anim-ease);
+        gap: 8px 16px; padding: clamp(5px,.7vh,9px) clamp(12px,1.4vw,20px);
+        background: rgba(255,235,215,.35); border-radius: 40px;
+        border: 1px solid rgba(255,220,180,.3);
+        margin-bottom: clamp(10px,1.4vh,16px); transition: all .4s var(--anim-ease);
     }
     .info-bar .item {
-        display: flex; align-items: center; gap: 6px;
-        font-weight: 600;
-        font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.9rem);
-        color: #5a3a2a;
+        display: flex; align-items: center; gap: 6px; font-weight: 600;
+        font-size: clamp(.75rem,.2vw + .7rem,.9rem); color: #5a3a2a;
     }
     .info-bar .item .num {
-        background: rgba(247, 184, 138, 0.2); padding: 2px 14px;
-        border-radius: 30px; font-weight: 700; color: #7a4a2a;
+        background: rgba(247,184,138,.2); padding: 2px 14px; border-radius: 30px;
+        font-weight: 700; color: #7a4a2a;
     }
     .info-bar .item .score-num {
         background: linear-gradient(135deg, #ffb88a, #e08a6a);
         color: #fff; padding: 2px 16px; border-radius: 30px; font-weight: 700;
     }
     .info-bar .actions button {
-        background: rgba(255, 235, 215, 0.4);
-        border: 1px solid rgba(255, 200, 160, 0.2);
+        background: rgba(255,235,215,.4); border: 1px solid rgba(255,200,160,.2);
         border-radius: 30px; padding: 4px 14px;
-        font-size: clamp(0.65rem, 0.15vw + 0.6rem, 0.8rem);
-        font-weight: 700; color: #5a3a2a;
-        cursor: pointer; transition: 0.25s var(--anim-ease); font-family: inherit;
+        font-size: clamp(.65rem,.15vw + .6rem,.8rem); font-weight: 700;
+        color: #5a3a2a; cursor: pointer; transition: .25s var(--anim-ease); font-family: inherit;
     }
     .info-bar .actions button:hover { background: #fff9f0; border-color: #f7b88a; transform: translateY(-2px); }
-
     .chinese-hint {
-        font-size: clamp(1.05rem, 0.4vw + 0.9rem, 1.4rem);
-        font-weight: 700; color: #4a2a1a;
-        text-align: center;
-        padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px);
-        background: rgba(255, 235, 215, 0.4);
-        border-radius: 30px; border: 1px solid rgba(255, 220, 180, 0.3);
-        margin-bottom: clamp(8px, 1.2vh, 14px);
-        min-height: clamp(44px, 5vh, 58px);
+        font-size: clamp(1.05rem,.4vw + .9rem,1.4rem); font-weight: 700; color: #4a2a1a;
+        text-align: center; padding: clamp(8px,1.2vh,14px) clamp(10px,1.2vw,16px);
+        background: rgba(255,235,215,.4); border-radius: 30px;
+        border: 1px solid rgba(255,220,180,.3);
+        margin-bottom: clamp(8px,1.2vh,14px); min-height: clamp(44px,5vh,58px);
         display: flex; align-items: center; justify-content: center;
-        gap: 8px; flex-wrap: wrap;
-        transition: all 0.4s var(--anim-ease);
+        gap: 8px; flex-wrap: wrap; transition: all .4s var(--anim-ease);
     }
     .chinese-hint .label {
-        font-size: clamp(0.55rem, 0.15vw + 0.5rem, 0.7rem);
-        text-transform: uppercase; letter-spacing: 0.5px;
-        color: #8a6a4a; background: rgba(247, 184, 138, 0.15);
-        padding: 0 12px; border-radius: 20px;
+        font-size: clamp(.55rem,.15vw + .5rem,.7rem); text-transform: uppercase;
+        letter-spacing: .5px; color: #8a6a4a;
+        background: rgba(247,184,138,.15); padding: 0 12px; border-radius: 20px;
     }
-    .chinese-hint .zh { font-size: clamp(1.15rem, 0.5vw + 0.95rem, 1.55rem); }
+    .chinese-hint .zh { font-size: clamp(1.15rem,.5vw + .95rem,1.55rem); }
     .pattern-badge {
-        font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
-        background: rgba(217, 140, 106, 0.15);
-        padding: 2px 16px; border-radius: 30px;
+        font-size: clamp(.6rem,.15vw + .55rem,.75rem);
+        background: rgba(217,140,106,.15); padding: 2px 16px; border-radius: 30px;
         color: #7a4a2a; font-weight: 600; display: inline-block; margin-top: 2px;
     }
-
     .status-badge {
-        display: block; padding: clamp(5px, 0.7vh, 9px) 18px; border-radius: 40px;
-        font-weight: 700;
-        font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.95rem);
-        background: rgba(255, 235, 215, 0.3);
-        color: #5a3a2a; border: 1px solid rgba(255, 220, 180, 0.25);
-        margin-bottom: clamp(10px, 1.4vh, 16px);
-        text-align: center; min-height: 38px;
-        line-height: 1.6; transition: all 0.4s var(--anim-ease);
+        display: block; padding: clamp(5px,.7vh,9px) 18px; border-radius: 40px;
+        font-weight: 700; font-size: clamp(.75rem,.2vw + .7rem,.95rem);
+        background: rgba(255,235,215,.3); color: #5a3a2a;
+        border: 1px solid rgba(255,220,180,.25);
+        margin-bottom: clamp(10px,1.4vh,16px); text-align: center;
+        min-height: 38px; line-height: 1.6; transition: all .4s var(--anim-ease);
     }
-    .status-badge.correct { background: #fce4d6; color: #7a4a2a; border-color: #e08a6a; animation: pop 0.6s var(--ease-spring); }
-    .status-badge.wrong { background: #fce4d6; color: #b05a4a; border-color: #d98c6a; animation: shake 0.55s var(--ease-spring); }
+    .status-badge.correct { background: #fce4d6; color: #7a4a2a; border-color: #e08a6a; animation: pop .6s var(--ease-spring); }
+    .status-badge.wrong { background: #fce4d6; color: #b05a4a; border-color: #d98c6a; animation: shake .55s var(--ease-spring); }
     .status-badge.done { background: #fde9d0; border-color: #f7b88a; }
-    @keyframes pop { 0% { transform: scale(0.85); opacity: 0.5; } 50% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes pop { 0% { transform: scale(.85); opacity: .5; } 50% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
     @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
-
     .card-pool {
-        display: flex; flex-wrap: wrap;
-        gap: clamp(6px, 0.8vw, 10px);
-        justify-content: center;
-        padding: clamp(10px, 1.4vh, 16px) clamp(6px, 0.8vw, 12px);
-        min-height: clamp(60px, 8vh, 86px);
-        background: rgba(255, 235, 215, 0.25);
-        border-radius: clamp(24px, 2.4vw, 32px);
-        border: 2px dashed rgba(255, 200, 160, 0.3);
-        margin-bottom: clamp(10px, 1.4vh, 16px);
-        transition: all 0.4s var(--anim-ease);
-        position: relative;
+        display: flex; flex-wrap: wrap; gap: clamp(6px,.8vw,10px); justify-content: center;
+        padding: clamp(10px,1.4vh,16px) clamp(6px,.8vw,12px);
+        min-height: clamp(60px,8vh,86px); background: rgba(255,235,215,.25);
+        border-radius: clamp(24px,2.4vw,32px); border: 2px dashed rgba(255,200,160,.3);
+        margin-bottom: clamp(10px,1.4vh,16px); transition: all .4s var(--anim-ease); position: relative;
     }
     .card-pool .token {
-        padding: clamp(5px, 0.8vh, 9px) clamp(14px, 1.5vw, 22px);
-        border-radius: 40px;
-        font-weight: 700;
-        font-size: clamp(0.9rem, 0.3vw + 0.8rem, 1.15rem);
-        color: #4a2a1a;
-        background: rgba(255, 245, 235, 0.8);
-        border: 2px solid rgba(255, 200, 160, 0.3);
+        padding: clamp(5px,.8vh,9px) clamp(14px,1.5vw,22px); border-radius: 40px;
+        font-weight: 700; font-size: clamp(.9rem,.3vw + .8rem,1.15rem); color: #4a2a1a;
+        background: rgba(255,245,235,.8); border: 2px solid rgba(255,200,160,.3);
         cursor: pointer;
-        transition: transform 0.4s var(--anim-ease),
-                    box-shadow 0.3s var(--anim-ease),
-                    background 0.3s var(--anim-ease),
-                    border-color 0.3s var(--anim-ease),
-                    opacity 0.35s var(--anim-ease);
+        transition: transform .4s var(--anim-ease), box-shadow .3s var(--anim-ease),
+            background .3s var(--anim-ease), border-color .3s var(--anim-ease), opacity .35s var(--anim-ease);
         user-select: none; -webkit-user-select: none;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        position: relative;
-        touch-action: manipulation;
-        transform-style: preserve-3d;
+        box-shadow: 0 2px 8px rgba(0,0,0,.02); position: relative;
+        touch-action: manipulation; transform-style: preserve-3d;
     }
     .card-pool .token:hover:not(.used) {
         transform: translateY(-5px) scale(1.06);
         border-color: #d98c6a; background: #fff9f0;
-        box-shadow: 0 12px 32px rgba(217,140,106,0.18);
+        box-shadow: 0 12px 32px rgba(217,140,106,.18);
     }
-    .card-pool .token:active:not(.used) { transform: scale(0.94); }
+    .card-pool .token:active:not(.used) { transform: scale(.94); }
     .card-pool .token.used {
-        opacity: 0; transform: scale(0.7) translateY(-20px);
-        pointer-events: none;
-        transition: all 0.5s var(--ease-spring);
+        opacity: 0; transform: scale(.7) translateY(-20px); pointer-events: none;
+        transition: all .5s var(--ease-spring);
     }
-
     .answer-zone {
-        display: flex; flex-wrap: wrap;
-        gap: clamp(6px, 0.8vw, 10px);
-        justify-content: center;
-        align-items: center;
-        min-height: clamp(56px, 7.5vh, 78px);
-        padding: clamp(9px, 1.3vh, 15px) clamp(10px, 1.2vw, 16px);
-        background: rgba(255, 235, 215, 0.3);
-        border-radius: clamp(24px, 2.4vw, 32px);
-        border: 2px solid rgba(255, 200, 160, 0.25);
-        margin-bottom: clamp(10px, 1.4vh, 16px);
-        transition: all 0.4s var(--anim-ease);
-        position: relative;
-        touch-action: none;
+        display: flex; flex-wrap: wrap; gap: clamp(6px,.8vw,10px);
+        justify-content: center; align-items: center;
+        min-height: clamp(56px,7.5vh,78px);
+        padding: clamp(9px,1.3vh,15px) clamp(10px,1.2vw,16px);
+        background: rgba(255,235,215,.3); border-radius: clamp(24px,2.4vw,32px);
+        border: 2px solid rgba(255,200,160,.25);
+        margin-bottom: clamp(10px,1.4vh,16px); transition: all .4s var(--anim-ease);
+        position: relative; touch-action: none;
     }
     .answer-zone .placeholder {
         color: #b08a7a; font-weight: 600;
-        font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.95rem);
-        opacity: 0.6;
+        font-size: clamp(.75rem,.2vw + .7rem,.95rem); opacity: .6;
     }
     .answer-zone .token {
-        padding: clamp(5px, 0.8vh, 9px) clamp(14px, 1.5vw, 22px);
-        border-radius: 40px;
-        font-weight: 700;
-        font-size: clamp(0.9rem, 0.3vw + 0.8rem, 1.15rem);
-        color: #4a2a1a;
-        background: rgba(255, 245, 235, 0.7);
-        border: 2px solid rgba(255, 200, 160, 0.3);
+        padding: clamp(5px,.8vh,9px) clamp(14px,1.5vw,22px); border-radius: 40px;
+        font-weight: 700; font-size: clamp(.9rem,.3vw + .8rem,1.15rem); color: #4a2a1a;
+        background: rgba(255,245,235,.7); border: 2px solid rgba(255,200,160,.3);
         cursor: pointer;
-        transition: transform 0.4s var(--anim-ease),
-                    box-shadow 0.3s var(--anim-ease),
-                    background 0.3s var(--anim-ease),
-                    border-color 0.3s var(--anim-ease);
+        transition: transform .4s var(--anim-ease), box-shadow .3s var(--anim-ease),
+            background .3s var(--anim-ease), border-color .3s var(--anim-ease);
         user-select: none; -webkit-user-select: none;
-        position: relative;
-        touch-action: none;
-        transform-style: preserve-3d;
-        will-change: transform;
+        position: relative; touch-action: none;
+        transform-style: preserve-3d; will-change: transform;
     }
     .answer-zone .token:hover {
-        border-color: #d98c6a;
-        background: rgba(255,200,160,0.18);
-        box-shadow: 0 10px 26px rgba(217,140,106,0.12);
+        border-color: #d98c6a; background: rgba(255,200,160,.18);
+        box-shadow: 0 10px 26px rgba(217,140,106,.12);
     }
     .answer-zone .token:active { cursor: grabbing; }
     .answer-zone .token .order {
         position: absolute; top: -8px; left: -8px;
         background: #f7b88a; color: #fff;
-        font-size: 0.5rem; width: 20px; height: 20px;
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font-size: .5rem; width: 20px; height: 20px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
         font-weight: 800; pointer-events: none;
-        box-shadow: 0 2px 6px rgba(217, 140, 106, 0.3);
+        box-shadow: 0 2px 6px rgba(217,140,106,.3);
     }
     .app.high-end .answer-zone .token .order {
         background: linear-gradient(135deg, #f7b88a, #e08a6a);
-        box-shadow:
-            0 2px 8px rgba(217, 140, 106, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        box-shadow: 0 2px 8px rgba(217,140,106,.4), inset 0 1px 0 rgba(255,255,255,.6);
     }
-
     .action-row {
-        display: flex; flex-wrap: wrap;
-        gap: clamp(8px, 1vw, 12px);
-        justify-content: center;
-        margin-top: 4px; margin-bottom: clamp(6px, 1vh, 12px);
+        display: flex; flex-wrap: wrap; gap: clamp(8px,1vw,12px); justify-content: center;
+        margin-top: 4px; margin-bottom: clamp(6px,1vh,12px);
     }
     .action-row .btn {
-        padding: clamp(7px, 1vh, 11px) clamp(20px, 2vw, 32px);
-        border-radius: 40px;
-        font-weight: 700;
-        font-size: clamp(0.8rem, 0.25vw + 0.72rem, 1rem);
+        padding: clamp(7px,1vh,11px) clamp(20px,2vw,32px); border-radius: 40px;
+        font-weight: 700; font-size: clamp(.8rem,.25vw + .72rem,1rem);
         border: none; cursor: pointer;
-        transition: all 0.4s var(--anim-ease);
-        font-family: inherit; display: inline-flex; align-items: center; gap: 6px;
+        transition: all .4s var(--anim-ease); font-family: inherit;
+        display: inline-flex; align-items: center; gap: 6px;
     }
-    .action-row .btn:active { transform: scale(0.94); }
+    .action-row .btn:active { transform: scale(.94); }
     .action-row .btn-primary {
-        background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff; box-shadow: 0 4px 20px rgba(217, 140, 106, 0.25);
+        background: linear-gradient(135deg, #f7b88a, #d98c6a); color: #fff;
+        box-shadow: 0 4px 20px rgba(217,140,106,.25);
     }
-    .action-row .btn-primary:hover:not(:disabled) { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 34px rgba(217,140,106,0.32); }
-    .action-row .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+    .action-row .btn-primary:hover:not(:disabled) { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 34px rgba(217,140,106,.32); }
+    .action-row .btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
     .action-row .btn-secondary {
-        background: rgba(255, 235, 215, 0.5); color: #5a3a2a;
-        border: 1px solid rgba(255, 200, 160, 0.2);
+        background: rgba(255,235,215,.5); color: #5a3a2a;
+        border: 1px solid rgba(255,200,160,.2);
     }
-    .action-row .btn-secondary:hover { background: #fff9f0; border-color: #f7b88a; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(217,140,106,0.10); }
-
+    .action-row .btn-secondary:hover { background: #fff9f0; border-color: #f7b88a; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(217,140,106,.10); }
     .history-section {
-        margin-top: clamp(10px, 1.4vh, 16px);
-        padding: clamp(6px, 0.9vh, 10px) clamp(12px, 1.4vw, 18px);
-        background: rgba(255, 235, 215, 0.2);
-        border-radius: 28px;
-        border: 1px solid rgba(255, 220, 180, 0.2);
-        transition: all 0.4s var(--anim-ease);
+        margin-top: clamp(10px,1.4vh,16px);
+        padding: clamp(6px,.9vh,10px) clamp(12px,1.4vw,18px);
+        background: rgba(255,235,215,.2); border-radius: 28px;
+        border: 1px solid rgba(255,220,180,.2); transition: all .4s var(--anim-ease);
     }
     .history-section .hdr {
         display: flex; justify-content: space-between; align-items: center;
-        font-size: clamp(0.65rem, 0.15vw + 0.6rem, 0.8rem);
-        font-weight: 700; color: #6a4a3a; margin-bottom: 4px;
+        font-size: clamp(.65rem,.15vw + .6rem,.8rem); font-weight: 700;
+        color: #6a4a3a; margin-bottom: 4px;
     }
     .history-section .hdr .clear-btn {
         background: none; border: none; color: #b08a7a; cursor: pointer;
-        font-size: 0.6rem; transition: 0.2s; font-family: inherit; text-decoration: underline;
+        font-size: .6rem; transition: .2s; font-family: inherit; text-decoration: underline;
     }
     .history-section .hdr .clear-btn:hover { color: #b05a4a; }
     .history-list { display: flex; flex-wrap: wrap; gap: 4px; max-height: 60px; overflow-y: auto; }
     .history-list .h-item {
         padding: 2px 12px; border-radius: 30px;
-        font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
-        font-weight: 600;
-        background: rgba(255, 245, 235, 0.4);
-        border: 1px solid rgba(255, 200, 160, 0.15);
-        color: #4a2a1a; cursor: pointer; transition: all 0.25s var(--anim-ease); white-space: nowrap;
+        font-size: clamp(.6rem,.15vw + .55rem,.75rem); font-weight: 600;
+        background: rgba(255,245,235,.4); border: 1px solid rgba(255,200,160,.15);
+        color: #4a2a1a; cursor: pointer; transition: all .25s var(--anim-ease);
+        white-space: nowrap;
     }
     .history-list .h-item:hover { background: #fff9f0; transform: translateY(-2px); border-color: #f7b88a; }
 
-    /* ============================================================
-       教学弹窗
-       ============================================================ */
+    /* ============ 教学弹窗 ============ */
     .tutorial-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(60, 30, 20, 0.35);
-        backdrop-filter: blur(14px) saturate(150%);
-        -webkit-backdrop-filter: blur(14px) saturate(150%);
-        z-index: 20000;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        animation: overlayFadeIn 0.4s var(--ease-spring);
+        position: fixed; inset: 0; background: rgba(60,30,20,.35);
+        backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%);
+        z-index: 20000; display: none; align-items: center; justify-content: center;
+        padding: 20px; animation: overlayFadeIn .4s var(--ease-spring);
     }
     .tutorial-overlay.show { display: flex; }
-    @keyframes overlayFadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+    @keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
     .tutorial-card {
-        position: relative;
-        background: rgba(255, 250, 240, 0.95);
-        border-radius: 36px;
-        padding: 28px 32px;
-        max-width: 520px;
-        width: 100%;
-        border: 1px solid rgba(255, 220, 180, 0.8);
-        box-shadow:
-            0 40px 100px rgba(180, 130, 80, 0.35),
-            0 20px 40px rgba(180, 130, 80, 0.18),
-            inset 0 2px 0 rgba(255, 255, 255, 0.9);
-        animation: cardPop 0.6s var(--ease-spring);
-        overflow: hidden;
+        position: relative; background: rgba(255,250,240,.95); border-radius: 36px;
+        padding: 28px 32px; max-width: 520px; width: 100%;
+        border: 1px solid rgba(255,220,180,.8);
+        box-shadow: 0 40px 100px rgba(180,130,80,.35), 0 20px 40px rgba(180,130,80,.18),
+            inset 0 2px 0 rgba(255,255,255,.9);
+        animation: cardPop .6s var(--ease-spring); overflow: hidden;
     }
     @keyframes cardPop {
-        0% { opacity: 0; transform: scale(0.85) translateY(20px); }
+        0% { opacity: 0; transform: scale(.85) translateY(20px); }
         60% { transform: scale(1.02) translateY(-4px); }
         100% { opacity: 1; transform: scale(1) translateY(0); }
     }
     .tutorial-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0; height: 60px;
-        background: linear-gradient(180deg, rgba(255, 220, 190, 0.4), transparent);
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60px;
+        background: linear-gradient(180deg, rgba(255,220,190,.4), transparent);
         pointer-events: none;
     }
-    .tutorial-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-        position: relative;
-    }
-    .tutorial-header h2 {
-        font-size: 1.25rem;
-        font-weight: 800;
-        color: #7a4a2a;
-    }
+    .tutorial-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; position: relative; }
+    .tutorial-header h2 { font-size: 1.25rem; font-weight: 800; color: #7a4a2a; }
     .tutorial-header .badge {
-        background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff;
-        padding: 2px 12px;
-        border-radius: 30px;
-        font-size: 0.6rem;
-        font-weight: 700;
+        background: linear-gradient(135deg, #f7b88a, #d98c6a); color: #fff;
+        padding: 2px 12px; border-radius: 30px; font-size: .6rem; font-weight: 700;
     }
     .tutorial-close {
-        margin-left: auto;
-        background: rgba(255, 235, 215, 0.7);
-        border: 1px solid rgba(255, 200, 160, 0.4);
-        border-radius: 50%;
-        width: 32px; height: 32px;
-        font-size: 1rem;
-        cursor: pointer;
-        color: #7a4a2a;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.25s var(--ease-spring);
+        margin-left: auto; background: rgba(255,235,215,.7);
+        border: 1px solid rgba(255,200,160,.4); border-radius: 50%;
+        width: 32px; height: 32px; font-size: 1rem; cursor: pointer; color: #7a4a2a;
+        display: flex; align-items: center; justify-content: center;
+        transition: all .25s var(--ease-spring);
     }
     .tutorial-close:hover { background: #f7b88a; color: #fff; transform: rotate(90deg); }
-
     .tutorial-stage {
         height: 180px;
-        background: linear-gradient(145deg, rgba(255, 240, 220, 0.6), rgba(255, 225, 200, 0.4));
-        border-radius: 24px;
-        margin-bottom: 20px;
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(255, 220, 180, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: linear-gradient(145deg, rgba(255,240,220,.6), rgba(255,225,200,.4));
+        border-radius: 24px; margin-bottom: 20px; position: relative;
+        overflow: hidden; border: 1px solid rgba(255,220,180,.4);
+        display: flex; align-items: center; justify-content: center;
     }
     .tutorial-stage .stage-content { display: none; }
     .tutorial-stage .stage-content.active { display: block; }
-
     .demo-fly { width: 260px; height: 140px; position: relative; }
     .demo-fly .demo-token {
-        position: absolute;
-        padding: 6px 16px;
-        border-radius: 30px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700;
-        color: #4a2a1a;
-        font-size: 0.9rem;
-        box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
+        position: absolute; padding: 6px 16px; border-radius: 30px;
+        background: rgba(255,245,235,.95); border: 2px solid rgba(255,200,160,.5);
+        font-weight: 700; color: #4a2a1a; font-size: .9rem;
+        box-shadow: 0 4px 12px rgba(217,140,106,.15);
     }
     .demo-fly .demo-token.t1 { left: 10px; top: 100px; animation: demoFly1 3s infinite; }
     .demo-fly .demo-token.t2 { left: 110px; top: 100px; animation: demoFly2 3s infinite; }
     .demo-fly .demo-zone {
-        position: absolute;
-        left: 10px; top: 10px;
-        width: 240px; height: 44px;
-        border: 2px dashed rgba(255, 200, 160, 0.5);
-        border-radius: 22px;
+        position: absolute; left: 10px; top: 10px; width: 240px; height: 44px;
+        border: 2px dashed rgba(255,200,160,.5); border-radius: 22px;
     }
     @keyframes demoFly1 {
-        0%, 25% { transform: translate(0, 0); opacity: 1; }
-        60% { transform: translate(40px, -70px) scale(1.1) rotate(-4deg); opacity: 1; }
-        100% { transform: translate(40px, -70px) scale(1) rotate(0deg); opacity: 1; }
+        0%,25% { transform: translate(0,0); opacity: 1; }
+        60% { transform: translate(40px,-70px) scale(1.1) rotate(-4deg); opacity: 1; }
+        100% { transform: translate(40px,-70px) scale(1) rotate(0); opacity: 1; }
     }
     @keyframes demoFly2 {
-        0%, 30% { transform: translate(0, 0); opacity: 1; }
-        70% { transform: translate(-20px, -70px) scale(1.1) rotate(3deg); opacity: 1; }
-        100% { transform: translate(-20px, -70px) scale(1) rotate(0deg); opacity: 1; }
+        0%,30% { transform: translate(0,0); opacity: 1; }
+        70% { transform: translate(-20px,-70px) scale(1.1) rotate(3deg); opacity: 1; }
+        100% { transform: translate(-20px,-70px) scale(1) rotate(0); opacity: 1; }
     }
-
     .demo-swap { width: 260px; height: 140px; position: relative; }
     .demo-swap .demo-token {
-        position: absolute;
-        padding: 6px 16px;
-        border-radius: 30px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700;
-        color: #4a2a1a;
-        font-size: 0.9rem;
-        top: 50px;
-        box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
+        position: absolute; padding: 6px 16px; border-radius: 30px;
+        background: rgba(255,245,235,.95); border: 2px solid rgba(255,200,160,.5);
+        font-weight: 700; color: #4a2a1a; font-size: .9rem; top: 50px;
+        box-shadow: 0 4px 12px rgba(217,140,106,.15);
     }
     .demo-swap .demo-token.a { left: 30px; animation: demoSwapA 3s infinite; }
     .demo-swap .demo-token.b { left: 140px; animation: demoSwapB 3s infinite; }
     @keyframes demoSwapA {
-        0%, 30% { transform: translateX(0) rotate(0); z-index: 2; }
+        0%,30% { transform: translateX(0) rotate(0); z-index: 2; }
         50% { transform: translateX(55px) translateY(-15px) rotate(-4deg) scale(1.08); z-index: 3; }
-        70%, 100% { transform: translateX(110px) rotate(0); z-index: 2; }
+        70%,100% { transform: translateX(110px) rotate(0); z-index: 2; }
     }
     @keyframes demoSwapB {
-        0%, 30% { transform: translateX(0); }
+        0%,30% { transform: translateX(0); }
         50% { transform: translateX(-30px); }
-        70%, 100% { transform: translateX(-110px); }
+        70%,100% { transform: translateX(-110px); }
     }
-
     .demo-check {
-        width: 260px; height: 140px;
-        display: flex; align-items: center; justify-content: center;
+        width: 260px; height: 140px; display: flex; align-items: center; justify-content: center;
         flex-direction: column; gap: 12px;
     }
     .demo-check .demo-token-row { display: flex; gap: 6px; }
     .demo-check .demo-token {
-        padding: 6px 14px;
-        border-radius: 30px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700;
-        color: #4a2a1a;
-        font-size: 0.85rem;
-        transition: all 0.4s;
+        padding: 6px 14px; border-radius: 30px;
+        background: rgba(255,245,235,.95); border: 2px solid rgba(255,200,160,.5);
+        font-weight: 700; color: #4a2a1a; font-size: .85rem; transition: all .4s;
     }
     .demo-check .demo-token.highlight { animation: demoCheck 3s infinite; }
     .demo-check .demo-check-mark { font-size: 2rem; opacity: 0; animation: demoCheckMark 3s infinite; }
     @keyframes demoCheck {
-        0%, 20% { background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); }
-        50%, 100% { background: rgba(200, 240, 210, 0.9); border-color: #66bb6a; }
+        0%,20% { background: rgba(255,245,235,.95); border-color: rgba(255,200,160,.5); }
+        50%,100% { background: rgba(200,240,210,.9); border-color: #66bb6a; }
     }
     @keyframes demoCheckMark {
-        0%, 20% { opacity: 0; transform: scale(0.5); }
-        50%, 100% { opacity: 1; transform: scale(1); }
+        0%,20% { opacity: 0; transform: scale(.5); }
+        50%,100% { opacity: 1; transform: scale(1); }
     }
-
-    /* 演示 4：句型提醒 */
     .demo-pattern {
-        width: 260px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
+        width: 260px; display: flex; flex-direction: column;
+        align-items: center; gap: 12px;
     }
     .demo-pattern-hint {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        border-radius: 24px;
-        background: rgba(255, 245, 235, 0.92);
-        border: 1px solid rgba(255, 200, 160, 0.4);
-        font-weight: 700;
-        color: #4a2a1a;
-        font-size: 0.82rem;
+        display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+        border-radius: 24px; background: rgba(255,245,235,.92);
+        border: 1px solid rgba(255,200,160,.4);
+        font-weight: 700; color: #4a2a1a; font-size: .82rem;
     }
     .demo-pattern-label {
-        font-size: 0.5rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #8a6a4a;
-        background: rgba(247, 184, 138, 0.18);
-        padding: 2px 8px;
-        border-radius: 20px;
+        font-size: .5rem; text-transform: uppercase; letter-spacing: .5px;
+        color: #8a6a4a; background: rgba(247,184,138,.18);
+        padding: 2px 8px; border-radius: 20px;
     }
     .demo-pattern-badge {
-        padding: 6px 16px;
-        border-radius: 24px;
-        background: linear-gradient(135deg, rgba(247, 184, 138, 0.42), rgba(217, 140, 106, 0.36));
-        border: 1px solid rgba(247, 184, 138, 0.55);
-        color: #6a3a20;
-        font-weight: 700;
-        font-size: 0.72rem;
+        padding: 6px 16px; border-radius: 24px;
+        background: linear-gradient(135deg, rgba(247,184,138,.42), rgba(217,140,106,.36));
+        border: 1px solid rgba(247,184,138,.55);
+        color: #6a3a20; font-weight: 700; font-size: .72rem;
         animation: demoPatternPulse 2.4s infinite;
     }
     @keyframes demoPatternPulse {
-        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247, 184, 138, 0.5); }
-        50% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(247, 184, 138, 0); }
+        0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247,184,138,.5); }
+        50% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(247,184,138,0); }
     }
-
-    /* 演示 5：重新练习 */
-    .demo-history {
-        width: 260px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        position: relative;
-    }
+    .demo-history { width: 260px; display: flex; flex-direction: column; gap: 6px; position: relative; }
     .demo-history-item {
-        padding: 6px 14px;
-        border-radius: 24px;
-        background: rgba(255, 245, 235, 0.82);
-        border: 1px solid rgba(255, 200, 160, 0.32);
-        font-weight: 600;
-        color: #4a2a1a;
-        font-size: 0.78rem;
-        text-align: center;
+        padding: 6px 14px; border-radius: 24px;
+        background: rgba(255,245,235,.82); border: 1px solid rgba(255,200,160,.32);
+        font-weight: 600; color: #4a2a1a; font-size: .78rem; text-align: center;
     }
-    .demo-history-item.highlight {
-        animation: demoHistoryClick 2.6s infinite;
-    }
+    .demo-history-item.highlight { animation: demoHistoryClick 2.6s infinite; }
     @keyframes demoHistoryClick {
-        0%, 25% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
-        45%, 72% { transform: scale(1.06); background: rgba(247, 184, 138, 0.45); border-color: #d98c6a; box-shadow: 0 4px 14px rgba(217,140,106,0.2); }
-        90%, 100% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
+        0%,25% { transform: scale(1); background: rgba(255,245,235,.82); border-color: rgba(255,200,160,.32); }
+        45%,72% { transform: scale(1.06); background: rgba(247,184,138,.45); border-color: #d98c6a;
+            box-shadow: 0 4px 14px rgba(217,140,106,.2); }
+        90%,100% { transform: scale(1); background: rgba(255,245,235,.82); border-color: rgba(255,200,160,.32); }
     }
     .demo-history-cursor {
-        position: absolute;
-        font-size: 1.1rem;
-        right: 26px;
-        top: 50%;
-        animation: demoCursorMove 2.6s infinite;
-        pointer-events: none;
+        position: absolute; font-size: 1.1rem; right: 26px; top: 50%;
+        animation: demoCursorMove 2.6s infinite; pointer-events: none;
     }
     @keyframes demoCursorMove {
-        0%, 25% { opacity: 0; transform: translate(20px, -50%) scale(1); }
-        35% { opacity: 1; transform: translate(0, -50%) scale(1.15); }
-        50%, 72% { opacity: 1; transform: translate(0, -50%) scale(0.88); }
-        85%, 100% { opacity: 0; transform: translate(20px, -50%) scale(1); }
+        0%,25% { opacity: 0; transform: translate(20px,-50%) scale(1); }
+        35% { opacity: 1; transform: translate(0,-50%) scale(1.15); }
+        50%,72% { opacity: 1; transform: translate(0,-50%) scale(.88); }
+        85%,100% { opacity: 0; transform: translate(20px,-50%) scale(1); }
     }
-
     .tutorial-text { text-align: center; min-height: 80px; padding: 0 4px; }
-    .tutorial-text h3 {
-        font-size: 1.15rem; font-weight: 800; color: #7a4a2a; margin-bottom: 8px;
-    }
-    .tutorial-text p { font-size: 0.9rem; color: #6a4a3a; line-height: 1.6; }
-
-    .tutorial-nav {
-        display: flex; gap: 8px; justify-content: space-between; align-items: center;
-        margin-top: 20px;
-    }
+    .tutorial-text h3 { font-size: 1.15rem; font-weight: 800; color: #7a4a2a; margin-bottom: 8px; }
+    .tutorial-text p { font-size: .9rem; color: #6a4a3a; line-height: 1.6; }
+    .tutorial-nav { display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 20px; }
     .tutorial-nav .dots { display: flex; gap: 6px; }
     .tutorial-nav .dot {
         width: 8px; height: 8px; border-radius: 50%;
-        background: rgba(217, 140, 106, 0.3);
-        transition: all 0.3s var(--ease-spring);
+        background: rgba(217,140,106,.3); transition: all .3s var(--ease-spring);
     }
     .tutorial-nav .dot.active { background: #d98c6a; transform: scale(1.3); }
     .tutorial-nav .btn {
-        padding: 8px 22px; border-radius: 30px;
-        font-weight: 700; font-size: 0.85rem;
-        border: none; cursor: pointer; font-family: inherit;
-        transition: all 0.3s var(--ease-spring);
+        padding: 8px 22px; border-radius: 30px; font-weight: 700; font-size: .85rem;
+        border: none; cursor: pointer; font-family: inherit; transition: all .3s var(--ease-spring);
     }
     .tutorial-nav .btn-skip {
-        background: rgba(255, 235, 215, 0.6);
-        color: #7a4a2a;
-        border: 1px solid rgba(255, 200, 160, 0.4);
+        background: rgba(255,235,215,.6); color: #7a4a2a;
+        border: 1px solid rgba(255,200,160,.4);
     }
     .tutorial-nav .btn-skip:hover { background: #fff9f0; transform: translateY(-2px); }
     .tutorial-nav .btn-next {
-        background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff;
-        box-shadow: 0 4px 16px rgba(217, 140, 106, 0.3);
+        background: linear-gradient(135deg, #f7b88a, #d98c6a); color: #fff;
+        box-shadow: 0 4px 16px rgba(217,140,106,.3);
     }
-    .tutorial-nav .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217, 140, 106, 0.4); }
+    .tutorial-nav .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,140,106,.4); }
 
-    /* ============ 媒体查询 ============ */
     @media (max-width: 720px) {
         .header { flex-direction: column; align-items: stretch; gap: 6px; }
         .settings { flex-direction: column; align-items: stretch; gap: 6px; }
@@ -1003,7 +638,7 @@
         .settings .unit-group { justify-content: center; }
         .info-bar { flex-direction: column; align-items: stretch; text-align: center; }
         .info-bar .item { justify-content: center; }
-        .action-row .btn { padding: 6px 18px; font-size: 0.8rem; }
+        .action-row .btn { padding: 6px 18px; font-size: .8rem; }
         .tutorial-card { padding: 20px; border-radius: 28px; }
         .tutorial-stage { height: 150px; }
         .tutorial-header h2 { font-size: 1.1rem; }
@@ -1014,15 +649,13 @@
         .tutorial-card { padding: 16px; border-radius: 24px; }
         .tutorial-stage { height: 130px; }
     }
-
     @media (min-width: 1100px) {
         .main { padding: 28px 40px 36px; }
         .header { padding: 20px 36px; }
         .settings { padding: 14px 30px; }
     }
-
     @media (prefers-reduced-motion: reduce) {
-        * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
 </style>
 </head>
@@ -1042,7 +675,7 @@
             <div class="unit-group" id="unitCheckGroup"></div>
         </div>
         <div class="group switch">
-            <label>🧠 更多旧词</label>
+            <label>🧠 更多干扰词</label>
             <input type="checkbox" id="moreOldWords" />
         </div>
         <div class="group">
@@ -1074,7 +707,6 @@
     </div>
 </div>
 
-<!-- 教学弹窗 -->
 <div class="tutorial-overlay" id="tutorialOverlay">
     <div class="tutorial-card">
         <div class="tutorial-header">
@@ -1146,6 +778,28 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
+    //  0. 共享职业列表（按 PEP 教材单元严格标注 src）
+    //     三年级至六年级教材里出现的职业单词：
+    //       - 四上 Unit 1（介绍职业）：doctor / nurse / farmer / cook / office worker / factory worker
+    //       - 四上 Unit 4（职业与帮助）：firefighter / driver / cleaner / delivery worker / police officer
+    //     只有对应 src 单元被选中时，该职业才会被抽到。
+    // ================================================================
+    const ALL_JOBS = [
+        { en: "doctor",         zh: "医生",       plural: "doctors",         src: ["Unit 1"] },
+        { en: "nurse",          zh: "护士",       plural: "nurses",          src: ["Unit 1"] },
+        { en: "farmer",         zh: "农民",       plural: "farmers",         src: ["Unit 1"] },
+        { en: "teacher",        zh: "老师",       plural: "teachers",        src: ["Unit 1"] },
+        { en: "cook",           zh: "厨师",       plural: "cooks",           src: ["Unit 1"] },
+        { en: "office worker",  zh: "办公室职员", plural: "office workers",  src: ["Unit 1"] },
+        { en: "factory worker", zh: "工厂工人",   plural: "factory workers", src: ["Unit 1"] },
+        { en: "firefighter",    zh: "消防员",     plural: "firefighters",    src: ["Unit 4"] },
+        { en: "driver",         zh: "司机",       plural: "drivers",         src: ["Unit 4"] },
+        { en: "cleaner",        zh: "清洁工",     plural: "cleaners",        src: ["Unit 4"] },
+        { en: "delivery worker",zh: "快递员",     plural: "delivery workers",src: ["Unit 4"] },
+        { en: "police officer", zh: "警察",       plural: "police officers", src: ["Unit 4"] }
+    ];
+
+    // ================================================================
     //  1. 模板数据
     // ================================================================
     const TEMPLATES_DATA = {
@@ -1169,19 +823,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             { en: "His cousins", zh: "他的表兄弟们", num: 'p' },
                             { en: "They", zh: "他们", num: 'p' },
                         ],
-                        "职业": [
-                            { en: "doctor", zh: "医生", plural: "doctors" },
-                            { en: "nurse", zh: "护士", plural: "nurses" },
-                            { en: "farmer", zh: "农民", plural: "farmers" },
-                            { en: "teacher", zh: "老师", plural: "teachers" },
-                            { en: "cook", zh: "厨师", plural: "cooks" },
-                            { en: "driver", zh: "司机", plural: "drivers" },
-                            { en: "firefighter", zh: "消防员", plural: "firefighters" },
-                            { en: "police officer", zh: "警察", plural: "police officers" },
-                            { en: "factory worker", zh: "工厂工人", plural: "factory workers" },
-                            { en: "office worker", zh: "办公室职员", plural: "office workers" },
-                            { en: "delivery worker", zh: "快递员", plural: "delivery workers" }
-                        ]
+                        "职业": ALL_JOBS
                     }
                 },
                 {
@@ -1289,6 +931,27 @@ document.addEventListener('DOMContentLoaded', function() {
             desc: "职业与帮助",
             templates: [
                 {
+                    en: "{某人} {be} a {职业}.",
+                    zh: "{某人}是一位{职业}。",
+                    slots: {
+                        "某人": [
+                            { en: "My mother", zh: "我的妈妈", num: 's' },
+                            { en: "My father", zh: "我的爸爸", num: 's' },
+                            { en: "His aunt", zh: "他的阿姨", num: 's' },
+                            { en: "Her uncle", zh: "她的叔叔", num: 's' },
+                            { en: "Our neighbour", zh: "我们的邻居", num: 's' },
+                            { en: "My sister", zh: "我的姐姐", num: 's' },
+                            { en: "My brother", zh: "我的哥哥", num: 's' },
+                            { en: "My uncle", zh: "我的叔叔", num: 's' },
+                            { en: "My aunt", zh: "我的阿姨", num: 's' },
+                            { en: "My parents", zh: "我的父母", num: 'p' },
+                            { en: "His cousins", zh: "他的表兄弟们", num: 'p' },
+                            { en: "They", zh: "他们", num: 'p' },
+                        ],
+                        "职业": ALL_JOBS
+                    }
+                },
+                {
                     en: "{某人} {动作} {对象}.",
                     zh: "{某人}{动作}{对象}。",
                     slots: {
@@ -1296,10 +959,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' },
                             { en: "My aunt", zh: "我的阿姨", num: 's' },
                             { en: "Our neighbour", zh: "我们的邻居", num: 's' },
-                            { en: "A doctor", zh: "医生", num: 's' },
-                            { en: "A firefighter", zh: "消防员", num: 's' },
                             { en: "They", zh: "他们", num: 'p' },
-                            { en: "My parents", zh: "我的父母", num: 'p' },
+                            { en: "My parents", zh: "我的父母", num: 'p' }
                         ],
                         "动作": [
                             { en: "helps", base: "help", zh: "帮助" },
@@ -1452,10 +1113,8 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIndex: 0,
         score: 0,
         history: [],
-        // 修复刷分：已得分句子集合 + 已失败句子集合
         scoredSentences: new Set(),
         failedSentences: new Set(),
-        // 是否处于"复习模式"（点击历史记录项进入）
         retryMode: false,
     };
 
@@ -1522,11 +1181,17 @@ document.addEventListener('DOMContentLoaded', function() {
         return word;
     }
     function getBe(num) { return num === 'p' ? 'are' : 'is'; }
-
     function ease() {
         return state.highEnd
             ? 'cubic-bezier(0.34, 1.56, 0.64, 1)'
             : 'cubic-bezier(0.25, 0.1, 0.25, 1)';
+    }
+
+    // 按选中单元过滤槽位条目（有 src 的条目必须匹配到选中单元）
+    function filterSlotByUnits(arr) {
+        return arr.filter(item =>
+            !item.src || item.src.some(u => state.selectedUnits.has(u))
+        );
     }
 
     // ================================================================
@@ -1540,92 +1205,98 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (pool.length === 0) return null;
 
-        const template = pool[Math.floor(Math.random() * pool.length)];
-        const slotKeys = Object.keys(template.slots);
-        const chosen = {};
-        for (const key of slotKeys) {
-            if (key === 'be') continue;
-            const arr = template.slots[key];
-            chosen[key] = arr[Math.floor(Math.random() * arr.length)];
-        }
-        let subjectNum = 's';
-        for (const key of slotKeys) {
-            if (key === 'be') continue;
-            const item = chosen[key];
-            if (item && item.num) { subjectNum = item.num; break; }
-        }
-        let en = template.en, zh = template.zh;
-        for (const key of slotKeys) {
-            if (key === 'be') continue;
-            const val = chosen[key];
-            let enVal = val.en, zhVal = val.zh;
-            if (key === '职业') {
-                if (subjectNum === 'p') { enVal = val.plural; zhVal = val.zh; }
-                else { enVal = `a ${val.en}`; zhVal = `一位${val.zh}`; }
+        // 最多重试 30 次，以确保能生成有效题目（比如选 Unit 4 时能选到职业）
+        for (let attempt = 0; attempt < 30; attempt++) {
+            const template = pool[Math.floor(Math.random() * pool.length)];
+            const slotKeys = Object.keys(template.slots);
+            const chosen = {};
+            let valid = true;
+
+            for (const key of slotKeys) {
+                if (key === 'be') continue;
+                const arr = template.slots[key];
+                const filtered = filterSlotByUnits(arr);
+                if (filtered.length === 0) { valid = false; break; }
+                chosen[key] = filtered[Math.floor(Math.random() * filtered.length)];
             }
-            if (key === '动作') {
-                enVal = (subjectNum === 'p') ? val.base : val.en;
+            if (!valid) continue;
+
+            let subjectNum = 's';
+            for (const key of slotKeys) {
+                if (key === 'be') continue;
+                const item = chosen[key];
+                if (item && item.num) { subjectNum = item.num; break; }
             }
-            en = en.replace(`{${key}}`, enVal);
-            zh = zh.replace(`{${key}}`, zhVal);
+
+            let en = template.en, zh = template.zh;
+            let bad = false;
+            for (const key of slotKeys) {
+                if (key === 'be') continue;
+                const val = chosen[key];
+                let enVal = val.en, zhVal = val.zh;
+                if (key === '职业') {
+                    if (subjectNum === 'p') { enVal = val.plural; zhVal = val.zh; }
+                    else {
+                        // 避免双 a：模板里已含 a 时，不再加 a
+                        if (template.en.includes('a {职业}')) { enVal = val.en; zhVal = val.zh; }
+                        else { enVal = `a ${val.en}`; zhVal = `一位${val.zh}`; }
+                    }
+                }
+                if (key === '动作') {
+                    enVal = (subjectNum === 'p') ? val.base : val.en;
+                }
+                en = en.replace(`{${key}}`, enVal);
+                zh = zh.replace(`{${key}}`, zhVal);
+            }
+            if (bad) continue;
+
+            if (en.includes('{be}')) en = en.replace(/{be}/g, getBe(subjectNum));
+            // 修正 a a 情况
+            en = en.replace(/\ba a \b/g, 'a ');
+            en = en.replace(/\ba an \b/g, 'an ');
+            if (!en.endsWith('.') && !en.endsWith('?') && !en.endsWith('!')) en += '.';
+            if (!zh.endsWith('。') && !zh.endsWith('？') && !zh.endsWith('！')) zh += '。';
+            return {
+                en, zh,
+                patternDesc: template.unitDesc,
+                templateEn: template.en,
+                correctWords: tokenize(en),
+            };
         }
-        if (en.includes('{be}')) en = en.replace(/{be}/g, getBe(subjectNum));
-        if (!en.endsWith('.') && !en.endsWith('?') && !en.endsWith('!')) en += '.';
-        if (!zh.endsWith('。') && !zh.endsWith('？') && !zh.endsWith('！')) zh += '。';
-        return {
-            en, zh,
-            patternDesc: template.unitDesc,
-            templateEn: template.en,
-            correctWords: tokenize(en),
-        };
+        return null;
     }
 
     // ================================================================
-    //  7. 卡片倾斜 · 跟随鼠标/点击
+    //  7. 卡片倾斜
     // ================================================================
     function applyTilt(el) {
         if (!state.highEnd) return;
         if (el.dataset.tiltBound === '1') return;
         el.dataset.tiltBound = '1';
 
-        let rafId = null;
-        let hovering = false;
+        let rafId = null, hovering = false;
         let tRX = 0, tRY = 0, tLift = 0;
         let cRX = 0, cRY = 0, cLift = 0;
-
-        const PERSPECTIVE = 720;
-        const ROT_RANGE = 28;
-        const LIFT = 30;
+        const PERSPECTIVE = 720, ROT_RANGE = 28, LIFT = 30;
 
         function tick() {
             cRX += (tRX - cRX) * 0.17;
             cRY += (tRY - cRY) * 0.17;
             cLift += (tLift - cLift) * 0.17;
-
             const settled = !hovering &&
                 Math.abs(tRX - cRX) < 0.04 &&
                 Math.abs(tRY - cRY) < 0.04 &&
                 Math.abs(tLift - cLift) < 0.12;
-
             if (settled) {
-                el.style.transform = '';
-                el.style.zIndex = '';
-                rafId = null;
-                return;
+                el.style.transform = ''; el.style.zIndex = ''; rafId = null; return;
             }
-
             const scale = 1 + cLift * 0.008;
             el.style.transform =
-                `perspective(${PERSPECTIVE}px) ` +
-                `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg) ` +
-                `translateZ(${cLift.toFixed(2)}px) scale(${scale.toFixed(3)})`;
-
+                `perspective(${PERSPECTIVE}px) rotateX(${cRX.toFixed(2)}deg) ` +
+                `rotateY(${cRY.toFixed(2)}deg) translateZ(${cLift.toFixed(2)}px) scale(${scale.toFixed(3)})`;
             rafId = requestAnimationFrame(tick);
         }
-
-        function kick() {
-            if (rafId === null) rafId = requestAnimationFrame(tick);
-        }
+        function kick() { if (rafId === null) rafId = requestAnimationFrame(tick); }
 
         el.addEventListener('pointermove', (e) => {
             if (isDragging) return;
@@ -1636,113 +1307,71 @@ document.addEventListener('DOMContentLoaded', function() {
             const py = (e.clientY - r.top) / r.height;
             tRY = (px - 0.5) * ROT_RANGE;
             tRX = -(py - 0.5) * ROT_RANGE;
-            tLift = LIFT;
-            hovering = true;
-            el.style.zIndex = '6';
-            kick();
+            tLift = LIFT; hovering = true; el.style.zIndex = '6'; kick();
         });
-
         el.addEventListener('pointerleave', () => {
             if (isDragging) return;
-            hovering = false;
-            tRX = 0; tRY = 0; tLift = 0;
-            kick();
+            hovering = false; tRX = 0; tRY = 0; tLift = 0; kick();
         });
-
         el.addEventListener('pointerdown', (e) => {
             if (isDragging) return;
             const r = el.getBoundingClientRect();
             if (!r.width || !r.height) return;
             const px = (e.clientX - r.left) / r.width;
             const py = (e.clientY - r.top) / r.height;
-
-            cRX = -(py - 0.5) * 18;
-            cRY = (px - 0.5) * 18;
-            cLift = 26;
-
-            if (!hovering) {
-                tRX = 0; tRY = 0; tLift = 0;
-            }
+            cRX = -(py - 0.5) * 18; cRY = (px - 0.5) * 18; cLift = 26;
+            if (!hovering) { tRX = 0; tRY = 0; tLift = 0; }
             el.style.transform =
-                `perspective(${PERSPECTIVE}px) ` +
-                `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg) ` +
-                `translateZ(${cLift.toFixed(2)}px) scale(1.03)`;
+                `perspective(${PERSPECTIVE}px) rotateX(${cRX.toFixed(2)}deg) ` +
+                `rotateY(${cRY.toFixed(2)}deg) translateZ(${cLift.toFixed(2)}px) scale(1.03)`;
             kick();
         });
     }
 
     // ================================================================
-    //  7b. 整个面板 3D 倾斜 · 跟随鼠标
+    //  7b. 整个面板 3D 倾斜
     // ================================================================
     let panelTiltSetup = false;
     function setupPanelTilt() {
         if (panelTiltSetup) return;
         panelTiltSetup = true;
-
-        let rafId = null;
-        let hovering = false;
-        let tRX = 0, tRY = 0;
-        let cRX = 0, cRY = 0;
-
-        const ROT_X_RANGE = 6;
-        const ROT_Y_RANGE = 8;
+        let rafId = null, hovering = false;
+        let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
+        const ROT_X_RANGE = 6, ROT_Y_RANGE = 8;
 
         function tick() {
             cRX += (tRX - cRX) * 0.12;
             cRY += (tRY - cRY) * 0.12;
-
             const settled = !hovering &&
-                Math.abs(tRX - cRX) < 0.02 &&
-                Math.abs(tRY - cRY) < 0.02;
-
-            if (settled) {
-                appEl.style.transform = '';
-                rafId = null;
-                return;
-            }
-
+                Math.abs(tRX - cRX) < 0.02 && Math.abs(tRY - cRY) < 0.02;
+            if (settled) { appEl.style.transform = ''; rafId = null; return; }
             appEl.style.transform =
                 `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
-
             rafId = requestAnimationFrame(tick);
         }
-
-        function kick() {
-            if (rafId === null) rafId = requestAnimationFrame(tick);
-        }
+        function kick() { if (rafId === null) rafId = requestAnimationFrame(tick); }
 
         document.addEventListener('pointermove', (e) => {
             if (!state.highEnd) return;
             if (e.pointerType === 'touch') return;
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
-            const px = e.clientX / vw;
-            const py = e.clientY / vh;
+            const vw = window.innerWidth, vh = window.innerHeight;
+            const px = e.clientX / vw, py = e.clientY / vh;
             tRY = (px - 0.5) * ROT_Y_RANGE;
             tRX = -(py - 0.5) * ROT_X_RANGE;
-            hovering = true;
-            kick();
+            hovering = true; kick();
         }, { passive: true });
-
         document.addEventListener('pointerleave', () => {
             if (!state.highEnd) return;
-            hovering = false;
-            tRX = 0; tRY = 0;
-            kick();
+            hovering = false; tRX = 0; tRY = 0; kick();
         });
     }
-
-    function resetPanelTilt() {
-        appEl.style.transform = '';
-    }
+    function resetPanelTilt() { appEl.style.transform = ''; }
 
     // ================================================================
     //  7c. 大卡片柔光跟随
     // ================================================================
     const GLOW_SELECTOR = '.info-bar, .chinese-hint, .history-section, .card-pool, .answer-zone';
-    let glowTargets = null;
-    let glowRaf = null;
-    let glowPointer = null;
+    let glowTargets = null, glowRaf = null, glowPointer = null;
 
     function getGlowTargets() {
         if (!glowTargets || !glowTargets[0] || !glowTargets[0].isConnected) {
@@ -1750,7 +1379,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return glowTargets;
     }
-
     function setupBigCardGlow() {
         document.addEventListener('pointermove', (e) => {
             if (!state.highEnd) return;
@@ -1765,7 +1393,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (!r.width || !r.height) return;
                     const px = (x - r.left) / r.width;
                     const py = (y - r.top) / r.height;
-
                     if (px < -0.12 || px > 1.12 || py < -0.12 || py > 1.12) {
                         if (el.dataset.glowOp !== '0') {
                             el.dataset.glowOp = '0';
@@ -1782,7 +1409,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
         }, { passive: true });
-
         document.addEventListener('pointerleave', () => {
             if (!state.highEnd) return;
             getGlowTargets().forEach(el => {
@@ -1815,7 +1441,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             cardPool.appendChild(div);
         });
-
         requestAnimationFrame(() => {
             cardPool.querySelectorAll('.token').forEach(el => {
                 const key = el.dataset.poolIdx;
@@ -1843,11 +1468,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  9. 渲染答案区（飞入 + 挤位 FLIP）
+    //  9. 渲染答案区
     // ================================================================
     function renderAnswerZone(opts = {}) {
         const { sourceRect = null, newItemId = null } = opts;
-
         const oldRects = new Map();
         answerZone.querySelectorAll('.token[data-id]').forEach(el => {
             oldRects.set(parseInt(el.dataset.id), el.getBoundingClientRect());
@@ -1866,12 +1490,10 @@ document.addEventListener('DOMContentLoaded', function() {
             let display = item.word;
             if (idx === 0 && /[a-z]/.test(item.word[0])) display = capitalizeFirst(item.word);
             div.textContent = display;
-
             const orderSpan = document.createElement('span');
             orderSpan.className = 'order';
             orderSpan.textContent = idx + 1;
             div.appendChild(orderSpan);
-
             if (dragState && dragState.itemId === item.id) {
                 div.style.visibility = 'hidden';
             } else {
@@ -1883,80 +1505,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
         requestAnimationFrame(() => {
             const tokens = [...answerZone.querySelectorAll('.token[data-id]')];
-
             tokens.forEach((el) => {
                 const id = parseInt(el.dataset.id);
                 const newRect = el.getBoundingClientRect();
-
                 if (id === newItemId && sourceRect) {
                     const dx = sourceRect.left - newRect.left;
                     const dy = sourceRect.top - newRect.top;
-
                     if (state.highEnd) {
                         el.animate([
-                            { transform: `translate(${dx}px, ${dy}px) scale(0.55) rotate(-16deg)`,
-                              opacity: 0.25, offset: 0 },
-                            { transform: `translate(${dx*0.68}px, ${dy*0.68 - 22}px) scale(1.22) rotate(7deg)`,
-                              opacity: 1, offset: 0.48 },
-                            { transform: `translate(${dx*0.26}px, ${dy*0.26 + 6}px) scale(0.92) rotate(-4deg)`,
-                              opacity: 1, offset: 0.74 },
-                            { transform: `translate(${dx*0.06}px, ${dy*0.06 - 2}px) scale(1.07) rotate(2deg)`,
-                              opacity: 1, offset: 0.88 },
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.55) rotate(-16deg)`, opacity: 0.25, offset: 0 },
+                            { transform: `translate(${dx*0.68}px, ${dy*0.68 - 22}px) scale(1.22) rotate(7deg)`, opacity: 1, offset: 0.48 },
+                            { transform: `translate(${dx*0.26}px, ${dy*0.26 + 6}px) scale(0.92) rotate(-4deg)`, opacity: 1, offset: 0.74 },
+                            { transform: `translate(${dx*0.06}px, ${dy*0.06 - 2}px) scale(1.07) rotate(2deg)`, opacity: 1, offset: 0.88 },
                             { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 1 }
-                        ], {
-                            duration: 620,
-                            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-                            fill: 'backwards'
-                        });
+                        ], { duration: 620, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'backwards' });
                     } else {
                         el.animate([
-                            { transform: `translate(${dx}px, ${dy}px) scale(0.86) rotate(-6deg)`,
-                              opacity: 0.35, offset: 0 },
-                            { transform: `translate(${dx*0.28}px, ${dy*0.28}px) scale(1.05) rotate(2deg)`,
-                              opacity: 1, offset: 0.72 },
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.86) rotate(-6deg)`, opacity: 0.35, offset: 0 },
+                            { transform: `translate(${dx*0.28}px, ${dy*0.28}px) scale(1.05) rotate(2deg)`, opacity: 1, offset: 0.72 },
                             { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 1 }
-                        ], {
-                            duration: 380,
-                            easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
-                            fill: 'backwards'
-                        });
+                        ], { duration: 380, easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)', fill: 'backwards' });
                     }
                     return;
                 }
-
                 const oldRect = oldRects.get(id);
-
                 if (oldRect) {
                     const dx = oldRect.left - newRect.left;
                     const dy = oldRect.top - newRect.top;
                     if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
-
                         if (state.highEnd) {
                             const horiz = Math.abs(dx) >= Math.abs(dy);
                             const sx0 = horiz ? 0.84 : 1;
                             const sy0 = horiz ? 1 : 0.84;
                             const sx1 = horiz ? 1.07 : 1;
                             const sy1 = horiz ? 1 : 1.07;
-
                             el.animate([
                                 { transform: `translate(${dx}px, ${dy}px) scale(${sx0}, ${sy0})` },
                                 { transform: `translate(${dx*0.36}px, ${dy*0.36}px) scale(${sx1}, ${sy1})`, offset: 0.6 },
                                 { transform: `translate(${dx*0.09}px, ${dy*0.09}px) scale(0.985, 0.985)`, offset: 0.84 },
                                 { transform: 'translate(0, 0) scale(1, 1)' }
-                            ], {
-                                duration: 480,
-                                easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                fill: 'backwards'
-                            });
+                            ], { duration: 480, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'backwards' });
                         } else {
                             el.animate([
                                 { transform: `translate(${dx}px, ${dy}px)` },
                                 { transform: 'translate(0, 0)' }
-                            ], {
-                                duration: 260,
-                                easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
-                                fill: 'backwards'
-                            });
+                            ], { duration: 260, easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)', fill: 'backwards' });
                         }
                     }
                 } else {
@@ -1964,11 +1557,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         { transform: 'scale(0.6) rotate(-6deg)', opacity: 0 },
                         { transform: 'scale(1.08) rotate(3deg)', opacity: 1, offset: 0.65 },
                         { transform: 'scale(1) rotate(0)', opacity: 1 }
-                    ], {
-                        duration: state.highEnd ? 460 : 300,
-                        easing: ease(),
-                        fill: 'backwards'
-                    });
+                    ], { duration: state.highEnd ? 460 : 300, easing: ease(), fill: 'backwards' });
                 }
             });
         });
@@ -1988,7 +1577,6 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCardPool();
         renderAnswerZone({ sourceRect, newItemId: newId });
     }
-
     function removeFromAnswer(itemId) {
         if (state.isAnswered) return;
         const idx = state.answerItems.findIndex(it => it.id === itemId);
@@ -2001,7 +1589,6 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCardPool();
         renderAnswerZone();
     }
-
     function reorderItems(draggingId, beforeId) {
         const curIdx = state.answerItems.findIndex(it => it.id === draggingId);
         if (curIdx === -1) return false;
@@ -2029,49 +1616,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return null;
     }
-
     function startRealDrag(itemId, offsetX, offsetY, pointerX, pointerY) {
         const origEl = answerZone.querySelector(`.token[data-id="${itemId}"]`);
         if (!origEl) return;
         const rect = origEl.getBoundingClientRect();
         const ghost = origEl.cloneNode(true);
         ghost.style.cssText = `
-            position: fixed;
-            left: ${rect.left}px;
-            top: ${rect.top}px;
-            width: ${rect.width}px;
-            height: ${rect.height}px;
-            pointer-events: none;
-            z-index: 10000;
-            margin: 0;
+            position: fixed; left: ${rect.left}px; top: ${rect.top}px;
+            width: ${rect.width}px; height: ${rect.height}px;
+            pointer-events: none; z-index: 10000; margin: 0;
             transform: rotate(-3deg) scale(1.12);
             box-shadow: 0 26px 66px rgba(217, 140, 106, 0.42), 0 8px 20px rgba(217, 140, 106, 0.22);
-            transition: none;
-            opacity: 0.96;
+            transition: none; opacity: 0.96;
         `;
         if (state.highEnd) {
             ghost.style.background = 'linear-gradient(140deg, rgba(255,255,255,0.55) 0%, rgba(255,240,225,0.32) 100%)';
             ghost.style.backdropFilter = 'blur(26px) saturate(210%)';
             ghost.style.webkitBackdropFilter = 'blur(26px) saturate(210%)';
             ghost.style.border = '1px solid rgba(255,255,255,0.75)';
-            ghost.style.boxShadow =
-                '0 30px 70px rgba(217,140,106,0.38), ' +
-                '0 10px 24px rgba(217,140,106,0.22), ' +
-                'inset 0 1.5px 0 rgba(255,255,255,1), ' +
-                'inset 0 -1px 0 rgba(255,205,175,0.3)';
+            ghost.style.boxShadow = '0 30px 70px rgba(217,140,106,0.38), 0 10px 24px rgba(217,140,106,0.22), inset 0 1.5px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,205,175,0.3)';
         }
         document.body.appendChild(ghost);
         origEl.style.visibility = 'hidden';
-
         const curIdx = state.answerItems.findIndex(it => it.id === itemId);
         const nextItem = state.answerItems[curIdx + 1];
-        dragState = {
-            itemId, ghost, offsetX, offsetY,
-            targetBeforeId: nextItem ? nextItem.id : null,
-        };
+        dragState = { itemId, ghost, offsetX, offsetY, targetBeforeId: nextItem ? nextItem.id : null };
         updateRealDrag(pointerX, pointerY);
     }
-
     function updateRealDrag(pointerX, pointerY) {
         if (!dragState) return;
         dragState.ghost.style.left = (pointerX - dragState.offsetX) + 'px';
@@ -2084,7 +1655,6 @@ document.addEventListener('DOMContentLoaded', function() {
             renderAnswerZone();
         }
     }
-
     function endRealDrag(clientX, clientY) {
         if (!dragState) return;
         const { itemId, ghost } = dragState;
@@ -2106,7 +1676,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         renderAnswerZone();
     }
-
     function attachAnswerToken(el, itemId) {
         el.addEventListener('pointerdown', (e) => {
             if (state.isAnswered || dragState || isDragging) return;
@@ -2122,8 +1691,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dx = ev.clientX - startX, dy = ev.clientY - startY;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (!didDrag && dist > 8) {
-                    didDrag = true;
-                    isDragging = true;
+                    didDrag = true; isDragging = true;
                     startRealDrag(itemId, offsetX, offsetY, ev.clientX, ev.clientY);
                 }
                 if (didDrag) updateRealDrag(ev.clientX, ev.clientY);
@@ -2148,7 +1716,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     function loadQuestion() {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
-        state.retryMode = false;  // 退出复习模式
+        state.retryMode = false;
         if (state.selectedUnits.size === 0) {
             document.querySelectorAll('#unitCheckGroup input[type="checkbox"]:not(#unit-all)').forEach(cb => cb.checked = true);
             document.getElementById('unit-all').checked = true;
@@ -2190,13 +1758,8 @@ document.addEventListener('DOMContentLoaded', function() {
         updateScore();
     }
 
-    /**
-     * 复习模式：点击"最近练习"中的句子，加载到答题区重新练习。
-     * 复习模式下不会再得分（scoredSentences / failedSentences 双重保护）。
-     */
     function loadHistoricalQuestion(item) {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
-
         state.retryMode = true;
         state.currentEn = item.en;
         state.currentZh = item.zh;
@@ -2246,7 +1809,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const previouslyFailed = state.failedSentences.has(key);
 
             if (alreadyScored || previouslyFailed || state.retryMode) {
-                // 已得分 / 曾答错 / 复习模式 → 不再给分
                 statusBadge.textContent = '✅ 完全正确！（此句已练习过，不重复计分）';
             } else {
                 state.score += 2;
@@ -2265,7 +1827,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (state.isAnswered) nextQuestion();
             }, state.highEnd ? 1200 : 950);
         } else {
-            // 检查错误 → 该句子永久标记为"失败"，之后无论何时重做都不给分
             state.failedSentences.add(state.currentEn);
             let wrongIdx = -1;
             for (let i = 0; i < Math.min(user.length, correct.length); i++) {
@@ -2281,8 +1842,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function nextQuestion() {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
-
-        // 复习模式：直接退出并进入下一道题
         if (state.retryMode) {
             state.retryMode = false;
             state.currentIndex++;
@@ -2290,7 +1849,6 @@ document.addEventListener('DOMContentLoaded', function() {
             else finishRound();
             return;
         }
-
         if (!state.isAnswered) {
             if (state.answerItems.length === 0) {
                 statusBadge.textContent = '⏳ 请先排列句子再继续';
@@ -2298,7 +1856,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             if (confirm('当前答案未检查，确定跳过吗？')) {
-                // 跳过的句子也视为"失败"，永久不再得分
                 state.failedSentences.add(state.currentEn);
                 state.history.push({ en: state.currentEn, zh: state.currentZh, correct: false });
                 updateHistoryUI();
@@ -2352,15 +1909,9 @@ document.addEventListener('DOMContentLoaded', function() {
             { transform: 'scale(1)' },
             { transform: 'scale(1.28)' },
             { transform: 'scale(1)' }
-        ], {
-            duration: state.highEnd ? 560 : 360,
-            easing: ease()
-        });
+        ], { duration: state.highEnd ? 560 : 360, easing: ease() });
     }
 
-    /**
-     * 历史记录展示 —— 中文 + 点击重新练习（不再有朗读）
-     */
     function updateHistoryUI() {
         historyList.innerHTML = '';
         const items = state.history.slice(-12).reverse();
@@ -2369,9 +1920,7 @@ document.addEventListener('DOMContentLoaded', function() {
             div.className = 'h-item';
             div.innerHTML = `${item.correct ? '✅' : '❌'} ${item.zh}`;
             div.title = `${item.en}（点击重新练习）`;
-            div.addEventListener('click', () => {
-                loadHistoricalQuestion(item);
-            });
+            div.addEventListener('click', () => { loadHistoricalQuestion(item); });
             historyList.appendChild(div);
         });
     }
@@ -2428,7 +1977,6 @@ document.addEventListener('DOMContentLoaded', function() {
         state.moreOldWords = this.checked;
         if (state.selectedUnits.size > 0) loadQuestion();
     });
-
     shuffleBtn.addEventListener('click', function() {
         if (state.isAnswered) {
             statusBadge.textContent = '⏳ 本题已答，请点击下一题';
@@ -2448,15 +1996,12 @@ document.addEventListener('DOMContentLoaded', function() {
         statusBadge.textContent = '🔀 已重排，请重新排列';
         statusBadge.className = 'status-badge';
     });
-
     checkBtn.addEventListener('click', checkAnswer);
     nextBtn.addEventListener('click', nextQuestion);
-
     clearHistoryBtn.addEventListener('click', function() {
         state.history = [];
         updateHistoryUI();
     });
-
     historyBtn.addEventListener('click', function() {
         if (state.history.length === 0) { alert('暂无练习记录'); return; }
         let msg = '📜 练习历史 (最近12条)\n\n';
@@ -2466,31 +2011,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         alert(msg);
     });
-
     resetProgressBtn.addEventListener('click', function() {
         if (confirm('重置所有进度和分数？')) {
             state.totalQuestions = 20;
             resetGame();
         }
     });
-
-    // 高级渲染开关
     glassToggle.addEventListener('click', function() {
         state.highEnd = !state.highEnd;
         appEl.classList.toggle('high-end', state.highEnd);
         glassToggle.classList.toggle('on', state.highEnd);
         modeTag.textContent = state.highEnd ? '液态玻璃' : '流畅版';
         localStorage.setItem('highEnd', state.highEnd ? '1' : '0');
-        if (!state.highEnd) {
-            resetPanelTilt();
-        }
+        if (!state.highEnd) resetPanelTilt();
         if (state.shuffledWords.length > 0) {
             renderCardPool();
             renderAnswerZone();
         }
         Sound.shuffle();
     });
-
     if (localStorage.getItem('highEnd') === '1') {
         state.highEnd = true;
         appEl.classList.add('high-end');
@@ -2502,26 +2041,11 @@ document.addEventListener('DOMContentLoaded', function() {
     //  15. 教学弹窗
     // ================================================================
     const tutorialSteps = [
-        {
-            title: '第一步：点击单词',
-            desc: '点击下方卡片池中的单词，它会沿着弧线飞入上方答题区，按顺序排列成句子。'
-        },
-        {
-            title: '第二步：拖动换位',
-            desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边，动画丝滑流畅。'
-        },
-        {
-            title: '第三步：检查答案',
-            desc: '排列完成后点击「检查答案」，系统会判断正误。答对会自动进入下一题，让练习更连贯。'
-        },
-        {
-            title: '第四步：句型提醒',
-            desc: '不确定句子结构？看看中文上方的「📐 句型」小标签，它会提示这个句子的模板结构。'
-        },
-        {
-            title: '第五步：重新练习',
-            desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。'
-        }
+        { title: '第一步：点击单词', desc: '点击下方卡片池中的单词，它会沿着弧线飞入上方答题区，按顺序排列成句子。' },
+        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边，动画丝滑流畅。' },
+        { title: '第三步：检查答案', desc: '排列完成后点击「检查答案」，系统会判断正误。答对会自动进入下一题，让练习更连贯。' },
+        { title: '第四步：句型提醒', desc: '不确定句子结构？看看中文上方的「📐 句型」小标签，它会提示这个句子的模板结构。' },
+        { title: '第五步：重新练习', desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。' }
     ];
     let tutorialIndex = 0;
 
@@ -2533,29 +2057,19 @@ document.addEventListener('DOMContentLoaded', function() {
         tutorialDots.forEach((d, i) => d.classList.toggle('active', i === idx));
         tutorialNext.textContent = idx === tutorialSteps.length - 1 ? '开始游戏 🚀' : '下一步 →';
     }
-
-    function openTutorial() {
-        tutorialOverlay.classList.add('show');
-        updateTutorialStep(0);
-    }
-    function closeTutorial() {
-        tutorialOverlay.classList.remove('show');
-    }
+    function openTutorial() { tutorialOverlay.classList.add('show'); updateTutorialStep(0); }
+    function closeTutorial() { tutorialOverlay.classList.remove('show'); }
 
     tutorialBtn.addEventListener('click', openTutorial);
     tutorialClose.addEventListener('click', closeTutorial);
     tutorialSkip.addEventListener('click', closeTutorial);
     tutorialNext.addEventListener('click', () => {
-        if (tutorialIndex >= tutorialSteps.length - 1) {
-            closeTutorial();
-        } else {
-            updateTutorialStep(tutorialIndex + 1);
-        }
+        if (tutorialIndex >= tutorialSteps.length - 1) closeTutorial();
+        else updateTutorialStep(tutorialIndex + 1);
     });
     tutorialOverlay.addEventListener('click', (e) => {
         if (e.target === tutorialOverlay) closeTutorial();
     });
-
     if (!localStorage.getItem('tutorialShown')) {
         setTimeout(() => {
             openTutorial();
@@ -2564,7 +2078,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  16. 清理
+    //  16. 清理 & 启动
     // ================================================================
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && dragState) {
@@ -2575,9 +2089,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ================================================================
-    //  17. 启动
-    // ================================================================
     setupBigCardGlow();
     setupPanelTilt();
     renderUnitChecks();
