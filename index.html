@@ -18,9 +18,6 @@
         background: linear-gradient(145deg, #fce4d6 0%, #fde9d0 40%, #fef6e0 100%);
     }
 
-    /* ============================================================
-       基础（扁平模式）—— 关闭高级渲染时使用，最大限度削减渲染负担
-       ============================================================ */
     .app {
         width: 100%; max-width: min(1280px, calc(100vw - 32px));
         background: #fffaf3;
@@ -78,7 +75,6 @@
         100% { transform: translate(-.8%,1.2%) scale(1.01); opacity: .75; }
     }
 
-    /* 高级渲染 · 面板玻璃 */
     .app.high-end .header {
         background: linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,250,244,.03) 100%);
         border-bottom: 1px solid rgba(255,255,255,.20);
@@ -112,7 +108,6 @@
         border-color: rgba(255,255,255,.32);
     }
 
-    /* 高级渲染 · 大卡片柔光跟随 */
     .app.high-end .info-bar,
     .app.high-end .chinese-hint,
     .app.high-end .history-section,
@@ -130,7 +125,6 @@
         pointer-events: none; mix-blend-mode: screen; z-index: 3;
     }
 
-    /* 高级渲染 · 卡片（减弱立体感，跃然纸上） */
     .app.high-end .card-pool .token,
     .app.high-end .answer-zone .token {
         background: linear-gradient(142deg,
@@ -149,7 +143,6 @@
         opacity: 0; transform: scale(.6) translateY(-24px) rotate(-6deg) !important;
     }
 
-    /* 高级渲染 · 按钮玻璃 */
     .app.high-end .btn-glass {
         background: linear-gradient(150deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.06) 55%, rgba(255,248,240,.10) 100%);
         backdrop-filter: blur(16px) saturate(170%);
@@ -248,7 +241,6 @@
     }
     .btn-icon { min-width: 36px; text-align: center; padding: 6px 10px; }
 
-    /* ============ 设置栏 ============ */
     .settings {
         padding: clamp(8px, 1.2vh, 14px) clamp(16px, 1.8vw, 26px);
         display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
@@ -662,7 +654,6 @@
     }
     .tutorial-nav .btn-next:hover { transform: translateY(-1px); }
 
-    /* 媒体查询 */
     @media (max-width: 720px) {
         .header { flex-direction: column; align-items: stretch; gap: 6px; }
         .settings { flex-direction: column; align-items: stretch; gap: 6px; }
@@ -777,13 +768,13 @@
                         <span class="demo-pattern-label">中文</span>
                         <span>我的妈妈是一位医生。</span>
                     </div>
-                    <div class="demo-pattern-badge">📐 句型：{某人} {be} {职业}.</div>
+                    <div class="demo-pattern-badge">📐 句型：{某人} {be} a {职业}.</div>
                 </div>
             </div>
             <div class="stage-content" data-step="4">
                 <div class="demo-history">
                     <div class="demo-history-item">✅ 我的妈妈是一位医生。</div>
-                    <div class="demo-history-item highlight">❌ 他们又高又壮。</div>
+                    <div class="demo-history-item highlight">❌ 他又高又壮。</div>
                     <div class="demo-history-item">✅ 今天天气晴朗。</div>
                     <div class="demo-history-cursor">👆</div>
                 </div>
@@ -811,16 +802,17 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
-    //  0. 共享职业列表（按 PEP 教材单元严格标注 src）
+    //  0. 共享职业列表（按 PEP 四上教材单元严格标注 src）
+    //     Unit 1（介绍职业与家务）：doctor, farmer, nurse, office worker, factory worker, cook
+    //     Unit 4（职业与帮助）：firefighter, driver, cleaner, delivery worker, police officer, cook
     // ================================================================
     const ALL_JOBS = [
         { en: "doctor",         zh: "医生",       plural: "doctors",         src: ["Unit 1"] },
-        { en: "nurse",          zh: "护士",       plural: "nurses",          src: ["Unit 1"] },
         { en: "farmer",         zh: "农民",       plural: "farmers",         src: ["Unit 1"] },
-        { en: "teacher",        zh: "老师",       plural: "teachers",        src: ["Unit 1"] },
-        { en: "cook",           zh: "厨师",       plural: "cooks",           src: ["Unit 1"] },
+        { en: "nurse",          zh: "护士",       plural: "nurses",          src: ["Unit 1"] },
         { en: "office worker",  zh: "办公室职员", plural: "office workers",  src: ["Unit 1"] },
         { en: "factory worker", zh: "工厂工人",   plural: "factory workers", src: ["Unit 1"] },
+        { en: "cook",           zh: "厨师",       plural: "cooks",           src: ["Unit 1", "Unit 4"] },
         { en: "firefighter",    zh: "消防员",     plural: "firefighters",    src: ["Unit 4"] },
         { en: "driver",         zh: "司机",       plural: "drivers",         src: ["Unit 4"] },
         { en: "cleaner",        zh: "清洁工",     plural: "cleaners",        src: ["Unit 4"] },
@@ -829,32 +821,13 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // ================================================================
-    //  1. 模板数据
+    //  1. 模板数据（Unit 1 / Unit 2 已按最新四上教材更新）
     // ================================================================
     const TEMPLATES_DATA = {
         "Unit 1": {
-            desc: "介绍职业",
+            desc: "介绍职业与家务",
             templates: [
-                {
-                    en: "{某人} {be} {职业}.",
-                    zh: "{某人}是{职业}。",
-                    slots: {
-                        "某人": [
-                            { en: "My mother", zh: "我的妈妈", num: 's' },
-                            { en: "My father", zh: "我的爸爸", num: 's' },
-                            { en: "His aunt", zh: "他的阿姨", num: 's' },
-                            { en: "Her uncle", zh: "她的叔叔", num: 's' },
-                            { en: "Our neighbour", zh: "我们的邻居", num: 's' },
-                            { en: "My sister", zh: "我的姐姐", num: 's' },
-                            { en: "Mr Wang", zh: "王先生", num: 's' },
-                            { en: "Mrs Li", zh: "李女士", num: 's' },
-                            { en: "My parents", zh: "我的父母", num: 'p' },
-                            { en: "His cousins", zh: "他的表兄弟们", num: 'p' },
-                            { en: "They", zh: "他们", num: 'p' },
-                        ],
-                        "职业": ALL_JOBS
-                    }
-                },
+                // —— 询问职业 ——
                 {
                     en: "What's {谁的} {亲属} {所有格} job?",
                     zh: "{谁的}{亲属}的工作是什么？",
@@ -871,54 +844,172 @@ document.addEventListener('DOMContentLoaded', function() {
                         ],
                         "所有格": [ { en: "'s", zh: "的" } ]
                     }
+                },
+                // —— 回答职业 ——
+                {
+                    en: "{某人} {be} a {职业}.",
+                    zh: "{某人}是一位{职业}。",
+                    slots: {
+                        "某人": [
+                            { en: "My mother", zh: "我的妈妈", num: 's' },
+                            { en: "My father", zh: "我的爸爸", num: 's' },
+                            { en: "His aunt", zh: "他的阿姨", num: 's' },
+                            { en: "Her uncle", zh: "她的叔叔", num: 's' },
+                            { en: "My sister", zh: "我的姐姐", num: 's' },
+                            { en: "My brother", zh: "我的哥哥", num: 's' },
+                            { en: "My uncle", zh: "我的叔叔", num: 's' },
+                            { en: "My aunt", zh: "我的阿姨", num: 's' }
+                        ],
+                        "职业": ALL_JOBS
+                    }
+                },
+                // —— 我会做家务 ——
+                {
+                    en: "I can {家务}.",
+                    zh: "我会{家务}。",
+                    slots: {
+                        "家务": [
+                            { en: "cook", zh: "做饭" },
+                            { en: "clean the room", zh: "打扫房间" },
+                            { en: "sweep the floor", zh: "扫地" }
+                        ]
+                    }
+                },
+                // —— 我照顾…… ——
+                {
+                    en: "I look after {对象}.",
+                    zh: "我照顾{对象}。",
+                    slots: {
+                        "对象": [
+                            { en: "my sister", zh: "我的妹妹" },
+                            { en: "my brother", zh: "我的弟弟" },
+                            { en: "my grandma", zh: "我的奶奶" },
+                            { en: "my grandpa", zh: "我的爷爷" }
+                        ]
+                    }
+                },
+                // —— 我们一起做家务 ——
+                {
+                    en: "We {家务} together.",
+                    zh: "我们一起{家务}。",
+                    slots: {
+                        "家务": [
+                            { en: "cook", zh: "做饭" },
+                            { en: "sweep the floor", zh: "扫地" },
+                            { en: "clean the room", zh: "打扫房间" }
+                        ]
+                    }
                 }
             ]
         },
         "Unit 2": {
-            desc: "描述外貌",
+            desc: "描述朋友",
             templates: [
+                // —— 又……又…… ——
                 {
                     en: "{某人} {be} {形容词1} and {形容词2}.",
                     zh: "{某人}又{形容词1}又{形容词2}。",
                     slots: {
                         "某人": [
-                            { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' },
-                            { en: "My brother", zh: "我的哥哥", num: 's' },
-                            { en: "My sister", zh: "我的姐姐", num: 's' },
+                            { en: "He", zh: "他", num: 's' },
+                            { en: "She", zh: "她", num: 's' },
                             { en: "My friend", zh: "我的朋友", num: 's' },
-                            { en: "Zhang Peng", zh: "张鹏", num: 's' },
-                            { en: "Chen Jie", zh: "陈杰", num: 's' },
-                            { en: "My parents", zh: "我的父母", num: 'p' },
-                            { en: "Our classmates", zh: "我们的同学们", num: 'p' },
-                            { en: "They", zh: "他们", num: 'p' },
+                            { en: "My best friend", zh: "我最好的朋友", num: 's' }
                         ],
                         "形容词1": [
                             { en: "tall", zh: "高" }, { en: "short", zh: "矮" },
-                            { en: "strong", zh: "壮" }, { en: "thin", zh: "瘦" },
-                            { en: "funny", zh: "有趣" }, { en: "quiet", zh: "安静" }
+                            { en: "strong", zh: "壮" }, { en: "thin", zh: "瘦" }
                         ],
                         "形容词2": [
-                            { en: "kind", zh: "和蔼" }, { en: "helpful", zh: "乐于助人" },
-                            { en: "hard-working", zh: "勤奋" }, { en: "clever", zh: "聪明" },
-                            { en: "young", zh: "年轻" }, { en: "lovely", zh: "可爱" }
+                            { en: "kind", zh: "和蔼" }, { en: "funny", zh: "有趣" },
+                            { en: "quiet", zh: "安静" }, { en: "clever", zh: "聪明" },
+                            { en: "hard-working", zh: "勤奋" }
                         ]
                     }
                 },
+                // —— 也很…… ——
                 {
-                    en: "{某人} {be} very {形容词}.",
-                    zh: "{某人}非常{形容词}。",
+                    en: "{某人} {be} also {形容词}.",
+                    zh: "{某人}也很{形容词}。",
                     slots: {
                         "某人": [
-                            { en: "My teacher", zh: "我的老师", num: 's' },
-                            { en: "His mother", zh: "他的妈妈", num: 's' },
-                            { en: "Her father", zh: "她的爸爸", num: 's' },
-                            { en: "Our classmate", zh: "我们的同学", num: 's' },
-                            { en: "Our classmates", zh: "我们的同学们", num: 'p' },
-                            { en: "They", zh: "他们", num: 'p' },
+                            { en: "He", zh: "他", num: 's' },
+                            { en: "She", zh: "她", num: 's' },
+                            { en: "My friend", zh: "我的朋友", num: 's' },
+                            { en: "My best friend", zh: "我最好的朋友", num: 's' }
                         ],
                         "形容词": [
-                            { en: "kind", zh: "和蔼" }, { en: "clever", zh: "聪明" },
-                            { en: "helpful", zh: "乐于助人" }, { en: "quiet", zh: "安静" }
+                            { en: "kind", zh: "和蔼" }, { en: "funny", zh: "有趣" },
+                            { en: "quiet", zh: "安静" }, { en: "clever", zh: "聪明" },
+                            { en: "hard-working", zh: "勤奋" }
+                        ]
+                    }
+                },
+                // —— 有……头发 ——
+                {
+                    en: "{某人} has {外貌}.",
+                    zh: "{某人}有{外貌}。",
+                    slots: {
+                        "某人": [
+                            { en: "He", zh: "他", num: 's' },
+                            { en: "She", zh: "她", num: 's' },
+                            { en: "My friend", zh: "我的朋友", num: 's' }
+                        ],
+                        "外貌": [
+                            { en: "nice short hair", zh: "好看的短发" },
+                            { en: "long hair", zh: "长发" },
+                            { en: "short hair", zh: "短发" },
+                            { en: "black hair", zh: "黑发" }
+                        ]
+                    }
+                },
+                // —— 帮我…… ——
+                {
+                    en: "{某人} often helps me with {科目}.",
+                    zh: "{某人}经常帮我{科目}。",
+                    slots: {
+                        "某人": [
+                            { en: "He", zh: "他", num: 's' },
+                            { en: "She", zh: "她", num: 's' },
+                            { en: "My friend", zh: "我的朋友", num: 's' }
+                        ],
+                        "科目": [
+                            { en: "English", zh: "英语" },
+                            { en: "Chinese", zh: "语文" },
+                            { en: "maths", zh: "数学" }
+                        ]
+                    }
+                },
+                // —— 我们一起…… ——
+                {
+                    en: "We {活动} together.",
+                    zh: "我们一起{活动}。",
+                    slots: {
+                        "活动": [
+                            { en: "play games", zh: "玩游戏" },
+                            { en: "play football", zh: "踢足球" },
+                            { en: "play basketball", zh: "打篮球" },
+                            { en: "read books", zh: "读书" }
+                        ]
+                    }
+                },
+                // —— 简单描述 ——
+                {
+                    en: "{某人} {be} {形容词}.",
+                    zh: "{某人}很{形容词}。",
+                    slots: {
+                        "某人": [
+                            { en: "He", zh: "他", num: 's' },
+                            { en: "She", zh: "她", num: 's' },
+                            { en: "My friend", zh: "我的朋友", num: 's' },
+                            { en: "My best friend", zh: "我最好的朋友", num: 's' }
+                        ],
+                        "形容词": [
+                            { en: "funny", zh: "有趣" }, { en: "kind", zh: "和蔼" },
+                            { en: "quiet", zh: "安静" }, { en: "clever", zh: "聪明" },
+                            { en: "tall", zh: "高" }, { en: "short", zh: "矮" },
+                            { en: "strong", zh: "壮" }, { en: "thin", zh: "瘦" },
+                            { en: "hard-working", zh: "勤奋" }
                         ]
                     }
                 }
@@ -975,7 +1066,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             { en: "My aunt", zh: "我的阿姨", num: 's' },
                             { en: "My parents", zh: "我的父母", num: 'p' },
                             { en: "His cousins", zh: "他的表兄弟们", num: 'p' },
-                            { en: "They", zh: "他们", num: 'p' },
+                            { en: "They", zh: "他们", num: 'p' }
                         ],
                         "职业": ALL_JOBS
                     }
@@ -1076,7 +1167,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "apple","banana","farm","air","orange","grape","school","garden","need","water","flower","grass","plant","new",
         "tree","sun","give","them","colour","green","red","blue","make","purple","brown","bear","yellow","duck","sea",
         "pink","draw","white","black","some","one","two","three","four","five","six","seven","eight","nine","ten","old",
-        "year","o'clock","cut","eat","cake","where","from","about","today","teacher","student","after","who","girl",
+        "year","o'clock","cut","eat","cake","where","from","about","today","student","after","who","girl",
         "neighbour","boy","woman","man","Mr","classmate","he","also","English","she","very","UK","China","Canada","USA",
         "has","long","body","short","leg","right","fat","thin","slow","love","tail","her","gift","picture","card","sing",
         "dance","talk","face","all","song","or","much","eraser","find","ruler","pen","pencil","book","bag","paper","these",
@@ -1289,7 +1380,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  7. 卡片倾斜（仅在高级渲染时启用，且减弱幅度）
+    //  7. 卡片倾斜（仅高级渲染时启用，立体感较弱）
     // ================================================================
     function applyTilt(el) {
         if (!state.highEnd) return;
@@ -1300,10 +1391,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let tRX = 0, tRY = 0, tLift = 0;
         let cRX = 0, cRY = 0, cLift = 0;
 
-        // 减弱后的参数
         const PERSPECTIVE = 1000;
-        const ROT_RANGE = 12;   // 原 28，减半以上
-        const LIFT = 14;        // 原 30
+        const ROT_RANGE = 12;
+        const LIFT = 14;
 
         function tick() {
             cRX += (tRX - cRX) * 0.18;
@@ -1352,7 +1442,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  7b. 整个面板 3D 倾斜（仅高级渲染，减弱幅度）
+    //  7b. 整个面板 3D 倾斜（仅高级渲染，幅度减弱）
     // ================================================================
     let panelTiltSetup = false;
     function setupPanelTilt() {
@@ -1480,7 +1570,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             { transform: 'translate(0, 0) scale(1)' }
                         ], { duration: 320, easing: ease() });
                     } else {
-                        // 扁平模式：直接过渡，无重绘
                         el.animate([
                             { transform: `translate(${dx}px, ${dy}px)` },
                             { transform: 'translate(0, 0)' }
@@ -1543,7 +1632,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 1 }
                         ], { duration: 420, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'backwards' });
                     } else {
-                        // 扁平模式：简单淡入
                         el.animate([
                             { transform: `translate(${dx}px, ${dy}px) scale(0.94)`, opacity: 0.4, offset: 0 },
                             { transform: 'translate(0, 0) scale(1)', opacity: 1, offset: 1 }
