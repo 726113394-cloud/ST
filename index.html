@@ -13,81 +13,98 @@
     }
     body {
         font-family: 'Segoe UI', 'PingFang SC', Roboto, system-ui, sans-serif;
-        min-height: 100vh; display: flex; justify-content: center; align-items: center;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding: clamp(10px, 1.5vw, 24px);
         background: linear-gradient(145deg, #fce4d6 0%, #fde9d0 40%, #fef6e0 100%);
+        transition: background 0.8s var(--ease-smooth);
+        perspective: 1800px;
+        perspective-origin: 50% 50%;
+        overflow-x: hidden;
     }
-
     .app {
-        width: 100%; max-width: min(1280px, calc(100vw - 32px));
-        background: #fffaf3;
-        border-radius: clamp(16px, 1.6vw, 24px);
-        border: 1px solid rgba(220, 180, 140, 0.35);
-        box-shadow: 0 2px 12px rgba(200, 150, 100, 0.08);
+        width: 100%;
+        max-width: min(1280px, calc(100vw - 32px));
+        background: rgba(255, 245, 235, 0.70);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: clamp(28px, 3vw, 48px);
+        border: 1px solid rgba(255, 220, 180, 0.6);
+        box-shadow: 0 20px 60px rgba(200, 150, 100, 0.12);
         overflow: hidden;
+        transition: all 0.6s var(--ease-spring);
         position: relative;
-        transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        transform-style: preserve-3d;
+        transform-origin: 50% 50%;
+        will-change: transform;
     }
-
-    /* ============================================================
-       高级渲染 · iOS 26 液态玻璃（减弱卡片立体感）
-       ============================================================ */
     .app.high-end {
         --anim-ease: var(--ease-spring);
         background:
             linear-gradient(160deg,
-                rgba(255, 255, 255, 0.07) 0%, rgba(255, 250, 244, 0.03) 42%,
-                rgba(255, 246, 236, 0.02) 62%, rgba(255, 255, 255, 0.05) 100%);
-        backdrop-filter: blur(60px) saturate(170%) brightness(1.06);
-        -webkit-backdrop-filter: blur(60px) saturate(170%) brightness(1.06);
-        border: 1px solid rgba(255, 255, 255, 0.30);
-        border-radius: clamp(24px, 2.4vw, 40px);
+                rgba(255, 255, 255, 0.07) 0%,
+                rgba(255, 250, 244, 0.03) 42%,
+                rgba(255, 246, 236, 0.02) 62%,
+                rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(72px) saturate(190%) brightness(1.07) contrast(1.01);
+        -webkit-backdrop-filter: blur(72px) saturate(190%) brightness(1.07) contrast(1.01);
+        border: 1px solid rgba(255, 255, 255, 0.32);
         box-shadow:
-            0 32px 80px rgba(180, 130, 80, 0.13),
-            0 12px 30px rgba(255, 175, 135, 0.07),
-            inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
-            inset 0 -1.5px 0.5px rgba(255, 205, 175, 0.28),
-            inset 0 0 70px rgba(255, 225, 200, 0.05);
+            0 48px 120px rgba(180, 130, 80, 0.16),
+            0 18px 44px rgba(255, 175, 135, 0.09),
+            0 4px 14px rgba(255, 150, 120, 0.05),
+            inset 0 1.5px 0 rgba(255, 255, 255, 1),
+            inset 0 -1.5px 0.5px rgba(255, 205, 175, 0.35),
+            inset 1px 0 0 rgba(255, 255, 255, 0.55),
+            inset -1px 0 0 rgba(255, 255, 255, 0.55),
+            inset 0 0 90px rgba(255, 225, 200, 0.06);
     }
     .app.high-end::before {
-        content: ''; position: absolute; inset: 0; border-radius: inherit;
+        content: '';
+        position: absolute; inset: 0; border-radius: inherit;
         background:
-            radial-gradient(ellipse 70% 30% at 22% 0%, rgba(255, 255, 255, 0.22), transparent 62%),
-            radial-gradient(ellipse 50% 40% at 85% 100%, rgba(255, 190, 165, 0.09), transparent 68%),
-            radial-gradient(ellipse 40% 20% at 60% 5%, rgba(255, 250, 240, 0.16), transparent 65%);
-        pointer-events: none; z-index: 0; filter: blur(18px); opacity: 0.7;
-        animation: liquidShift 24s ease-in-out infinite alternate;
+            radial-gradient(ellipse 70% 30% at 22% 0%, rgba(255, 255, 255, 0.28), transparent 62%),
+            radial-gradient(ellipse 50% 40% at 85% 100%, rgba(255, 190, 165, 0.12), transparent 68%),
+            radial-gradient(ellipse 40% 20% at 60% 5%, rgba(255, 250, 240, 0.20), transparent 65%),
+            radial-gradient(ellipse 30% 25% at 5% 85%, rgba(255, 210, 235, 0.08), transparent 70%);
+        pointer-events: none; z-index: 0;
+        filter: blur(18px); opacity: 0.85;
+        animation: liquidShift 20s ease-in-out infinite alternate;
     }
     .app.high-end::after {
-        content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+        content: '';
+        position: absolute; inset: 0; border-radius: inherit; padding: 1px;
         background: conic-gradient(from 200deg at 50% 50%,
-            rgba(255, 224, 196, 0.32), rgba(255, 190, 215, 0.18), rgba(200, 222, 255, 0.20),
-            rgba(200, 255, 235, 0.14), rgba(255, 244, 196, 0.28), rgba(255, 224, 196, 0.32));
+                rgba(255, 224, 196, 0.40), rgba(255, 190, 215, 0.22),
+                rgba(200, 222, 255, 0.26), rgba(200, 255, 235, 0.18),
+                rgba(255, 244, 196, 0.36), rgba(255, 224, 196, 0.40));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask-composite: exclude;
-        pointer-events: none; opacity: 0.45; z-index: 2; mix-blend-mode: screen;
+        pointer-events: none; opacity: 0.55; z-index: 2; mix-blend-mode: screen;
     }
     @keyframes liquidShift {
-        0% { transform: translate(0,0) scale(1); opacity: .7; }
-        50% { transform: translate(1.2%,.8%) scale(1.02); opacity: .85; }
-        100% { transform: translate(-.8%,1.2%) scale(1.01); opacity: .75; }
+        0%   { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.85; }
+        50%  { transform: translate(1.5%, 1%) scale(1.03) rotate(0.8deg); opacity: 1; }
+        100% { transform: translate(-1%, 1.5%) scale(1.015) rotate(-0.7deg); opacity: 0.9; }
     }
-
+    .app.high-end .header,
+    .app.high-end .settings {
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+    }
     .app.high-end .header {
         background: linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,250,244,.03) 100%);
         border-bottom: 1px solid rgba(255,255,255,.20);
-        backdrop-filter: blur(22px) saturate(160%);
-        -webkit-backdrop-filter: blur(22px) saturate(160%);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.70);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
     }
     .app.high-end .settings {
         background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,250,244,.02) 100%);
         border-bottom: 1px solid rgba(255,255,255,.16);
-        backdrop-filter: blur(18px) saturate(155%);
-        -webkit-backdrop-filter: blur(18px) saturate(155%);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.50);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
     }
     .app.high-end .info-bar,
     .app.high-end .chinese-hint,
@@ -95,19 +112,19 @@
     .app.high-end .card-pool,
     .app.high-end .answer-zone,
     .app.high-end .history-section {
-        background: linear-gradient(152deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,.03) 48%, rgba(255,250,242,.05) 100%);
-        backdrop-filter: blur(26px) saturate(170%) brightness(1.06);
-        -webkit-backdrop-filter: blur(26px) saturate(170%) brightness(1.06);
-        border: 1px solid rgba(255,255,255,.26);
+        background:
+            linear-gradient(152deg,
+                rgba(255, 255, 255, 0.09) 0%,
+                rgba(255, 255, 255, 0.03) 48%,
+                rgba(255, 250, 242, 0.05) 100%);
+        backdrop-filter: blur(34px) saturate(200%) brightness(1.08);
+        -webkit-backdrop-filter: blur(34px) saturate(200%) brightness(1.08);
+        border: 1px solid rgba(255, 255, 255, 0.28);
         box-shadow:
-            inset 0 1.5px 0 rgba(255,255,255,.85),
-            inset 0 -1px .5px rgba(255,205,175,.18),
-            0 4px 14px rgba(180,130,80,.05);
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+            inset 0 -1px 0.5px rgba(255, 205, 175, 0.22),
+            0 6px 20px rgba(180, 130, 80, 0.06);
     }
-    .app.high-end .answer-zone {
-        border-color: rgba(255,255,255,.32);
-    }
-
     .app.high-end .info-bar,
     .app.high-end .chinese-hint,
     .app.high-end .history-section,
@@ -118,101 +135,143 @@
     .app.high-end .history-section::after,
     .app.high-end .card-pool::after,
     .app.high-end .answer-zone::after {
-        content: ''; position: absolute; inset: 0; border-radius: inherit;
-        background: radial-gradient(circle 200px at var(--cx,50%) var(--cy,50%),
-            rgba(255,255,255,.13) 0%, rgba(255,245,232,.05) 42%, transparent 72%);
-        opacity: var(--glow-op,0); transition: opacity .5s ease;
-        pointer-events: none; mix-blend-mode: screen; z-index: 3;
+        content: '';
+        position: absolute; inset: 0; border-radius: inherit;
+        background: radial-gradient(circle 240px at var(--cx, 50%) var(--cy, 50%),
+                rgba(255, 255, 255, 0.16) 0%,
+                rgba(255, 245, 232, 0.06) 42%,
+                transparent 72%);
+        opacity: var(--glow-op, 0);
+        transition: opacity 0.55s ease;
+        pointer-events: none;
+        mix-blend-mode: screen;
+        z-index: 3;
     }
-
     .app.high-end .card-pool .token,
     .app.high-end .answer-zone .token {
-        background: linear-gradient(142deg,
-            rgba(255,255,255,.28) 0%, rgba(255,255,255,.12) 40%,
-            rgba(255,248,238,.14) 68%, rgba(255,236,218,.20) 100%);
-        backdrop-filter: blur(20px) saturate(185%) brightness(1.08);
-        -webkit-backdrop-filter: blur(20px) saturate(185%) brightness(1.08);
-        border: 1px solid rgba(255,255,255,.46);
+        background:
+            linear-gradient(142deg,
+                rgba(255, 255, 255, 0.32) 0%,
+                rgba(255, 255, 255, 0.14) 40%,
+                rgba(255, 248, 238, 0.16) 68%,
+                rgba(255, 236, 218, 0.24) 100%);
+        backdrop-filter: blur(24px) saturate(210%) brightness(1.10);
+        -webkit-backdrop-filter: blur(24px) saturate(210%) brightness(1.10);
+        border: 1px solid rgba(255, 255, 255, 0.48);
         box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.96),
-            inset 0 -1px 0.5px rgba(255,205,175,.18),
-            0 4px 12px rgba(180,130,80,.10),
-            0 1px 3px rgba(180,130,80,.06);
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
+            inset 0 -1px 0.5px rgba(255, 205, 175, 0.28),
+            inset 1px 0 0 rgba(255, 255, 255, 0.45),
+            inset -1px 0 0 rgba(255, 255, 255, 0.45),
+            inset 0 0 26px rgba(255, 245, 232, 0.10),
+            0 8px 22px rgba(180, 130, 80, 0.12),
+            0 2px 6px rgba(180, 130, 80, 0.06);
+        will-change: transform;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
     .app.high-end .card-pool .token.used {
-        opacity: 0; transform: scale(.6) translateY(-24px) rotate(-6deg) !important;
+        opacity: 0;
+        transform: scale(0.6) translateY(-28px) rotate(-8deg) !important;
     }
-
+    .app.high-end .btn-glass,
+    .app.high-end .action-row .btn,
+    .app.high-end .info-bar .actions button,
+    .app.high-end .tutorial-nav .btn,
+    .app.high-end .tutorial-close,
+    .app.high-end .history-list .h-item {
+        backdrop-filter: blur(20px) saturate(190%);
+        -webkit-backdrop-filter: blur(20px) saturate(190%);
+    }
     .app.high-end .btn-glass {
         background: linear-gradient(150deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.06) 55%, rgba(255,248,240,.10) 100%);
-        backdrop-filter: blur(16px) saturate(170%);
-        -webkit-backdrop-filter: blur(16px) saturate(170%);
-        border: 1px solid rgba(255,255,255,.42); color: #6a3f28;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.80), 0 2px 8px rgba(180,130,80,.05);
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        color: #6a3f28;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.88),
+            inset 0 -1px 0 rgba(255, 205, 175, 0.18),
+            0 4px 14px rgba(180, 130, 80, 0.06);
     }
     .app.high-end .btn-glass:hover {
-        background: linear-gradient(150deg, rgba(255,255,255,.28) 0%, rgba(255,250,244,.12) 100%);
-        border-color: rgba(255,240,220,.68); transform: scale(1.04);
+        background: linear-gradient(150deg, rgba(255,255,255,.30) 0%, rgba(255,250,244,.14) 100%);
+        border-color: rgba(255, 240, 220, 0.70);
+        transform: scale(1.05);
     }
     .app.high-end .btn-glass.on {
-        background: linear-gradient(140deg, rgba(255,226,200,.46) 0%, rgba(255,200,165,.34) 50%, rgba(228,165,130,.40) 100%);
-        border: 1px solid rgba(255,255,255,.55); color: #5a3020;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 3px 10px rgba(217,140,106,.14);
+        background: linear-gradient(140deg,
+            rgba(255, 226, 200, 0.48) 0%,
+            rgba(255, 200, 165, 0.36) 50%,
+            rgba(228, 165, 130, 0.42) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        color: #5a3020;
+        box-shadow:
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+            inset 0 -1px 0 rgba(190, 120, 80, 0.20),
+            0 4px 14px rgba(217, 140, 106, 0.18);
     }
     .app.high-end .action-row .btn-primary {
-        background: linear-gradient(148deg, rgba(255,226,200,.56) 0%, rgba(252,200,165,.42) 50%, rgba(228,158,126,.50) 100%);
-        backdrop-filter: blur(18px) saturate(180%);
-        -webkit-backdrop-filter: blur(18px) saturate(180%);
-        border: 1px solid rgba(255,255,255,.55); color: #fff;
-        text-shadow: 0 1px 2px rgba(140,70,40,.20);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 4px 14px rgba(217,140,106,.18);
+        background: linear-gradient(148deg,
+            rgba(255, 226, 200, 0.56) 0%,
+            rgba(252, 200, 165, 0.42) 50%,
+            rgba(228, 158, 126, 0.50) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(140, 70, 40, 0.20);
+        box-shadow:
+            inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+            inset 0 -1px 0 rgba(190, 120, 80, 0.24),
+            0 8px 24px rgba(217, 140, 106, 0.22);
     }
     .app.high-end .action-row .btn-primary:hover:not(:disabled) {
-        background: linear-gradient(148deg, rgba(255,236,216,.66) 0%, rgba(255,208,175,.50) 50%, rgba(238,172,140,.58) 100%);
-        border-color: rgba(255,255,255,.72); transform: translateY(-2px);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 8px 22px rgba(217,140,106,.24);
+        background: linear-gradient(148deg,
+            rgba(255, 236, 216, 0.68) 0%,
+            rgba(255, 208, 175, 0.52) 50%,
+            rgba(238, 172, 140, 0.60) 100%);
+        border-color: rgba(255, 255, 255, 0.72);
+        transform: translateY(-3px) scale(1.03);
     }
-    .app.high-end .action-row .btn-primary:disabled { opacity: .42; }
+    .app.high-end .action-row .btn-primary:disabled { opacity: 0.42; }
     .app.high-end .action-row .btn-secondary {
-        background: linear-gradient(150deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.07) 50%, rgba(255,246,236,.12) 100%);
-        backdrop-filter: blur(18px) saturate(170%);
-        -webkit-backdrop-filter: blur(18px) saturate(170%);
-        border: 1px solid rgba(255,255,255,.44); color: #5a3a2a;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.80), 0 3px 10px rgba(180,130,80,.05);
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.20) 0%,
+            rgba(255, 255, 255, 0.07) 50%,
+            rgba(255, 246, 236, 0.12) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.44);
+        color: #5a3a2a;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.88),
+            inset 0 -1px 0 rgba(255, 205, 175, 0.16),
+            0 4px 14px rgba(180, 130, 80, 0.06);
     }
     .app.high-end .action-row .btn-secondary:hover {
-        background: linear-gradient(150deg, rgba(255,255,255,.32) 0%, rgba(255,250,244,.14) 100%);
-        border-color: rgba(255,240,220,.70); transform: translateY(-2px);
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.34) 0%,
+            rgba(255, 250, 244, 0.16) 100%);
+        border-color: rgba(255, 240, 220, 0.72);
+        transform: translateY(-3px);
     }
     .app.high-end .info-bar .actions button {
         background: linear-gradient(150deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.06) 100%);
-        backdrop-filter: blur(14px) saturate(160%);
-        -webkit-backdrop-filter: blur(14px) saturate(160%);
-        border: 1px solid rgba(255,255,255,.40); color: #5a3a2a;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
-    }
-    .app.high-end .settings .unit-group .unit-check .unit-label {
-        background: linear-gradient(150deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 100%);
-        backdrop-filter: blur(12px) saturate(160%);
-        -webkit-backdrop-filter: blur(12px) saturate(160%);
-        border: 1px solid rgba(255,255,255,.36); color: #5a3a2a;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
+        border: 1px solid rgba(255, 255, 255, 0.40);
+        color: #5a3a2a;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.80),
+            0 3px 10px rgba(180, 130, 80, 0.06);
     }
     .app.high-end .history-list .h-item {
         background: linear-gradient(150deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.04) 100%);
-        backdrop-filter: blur(10px) saturate(160%);
-        -webkit-backdrop-filter: blur(10px) saturate(160%);
-        border: 1px solid rgba(255,255,255,.32);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
     }
-
-    /* ============ 头部 ============ */
+    /* ===== 基础 ===== */
     .header {
         padding: clamp(12px, 1.6vh, 22px) clamp(18px, 2vw, 32px);
         display: flex; flex-wrap: wrap; gap: 8px 16px;
         align-items: center; justify-content: space-between;
-        background: #fff5eb;
-        border-bottom: 1px solid rgba(220, 180, 140, 0.28);
+        background: rgba(255, 235, 215, 0.40);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255, 220, 180, 0.3);
         position: relative; z-index: 1;
     }
     .logo {
@@ -222,51 +281,46 @@
     }
     .logo span {
         background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff; font-size: clamp(0.5rem, 0.2vw + 0.45rem, 0.65rem);
+        color: #fff;
+        font-size: clamp(0.5rem, 0.2vw + 0.45rem, 0.65rem);
         padding: 2px 12px; border-radius: 30px; font-weight: 700;
     }
     .header-actions { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
     .btn-glass {
-        background: #fffaf3; border: 1px solid rgba(220, 180, 140, 0.40);
-        border-radius: 20px;
+        background: rgba(255, 235, 215, 0.4);
+        border: 1px solid rgba(255, 200, 160, 0.3);
+        border-radius: 30px;
         padding: clamp(4px, 0.6vh, 7px) clamp(10px, 1vw, 16px);
         font-size: clamp(0.8rem, 0.3vw + 0.7rem, 1rem);
-        cursor: pointer; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
-        font-family: inherit; color: #7a4a2a; position: relative; z-index: 1;
+        cursor: pointer;
+        transition: all 0.3s var(--ease-spring);
+        font-family: inherit; color: #7a4a2a;
+        backdrop-filter: blur(4px);
+        position: relative; z-index: 1;
     }
-    .btn-glass:hover { background: #fff5eb; border-color: #f7b88a; transform: scale(1.03); }
+    .btn-glass:hover { background: rgba(255, 245, 235, 0.7); border-color: #f7b88a; transform: scale(1.05); }
     .btn-glass.on {
-        background: linear-gradient(135deg, #ffc8a0, #f0a078);
-        border-color: rgba(255, 200, 160, 0.9); color: #5a3020;
+        background: linear-gradient(135deg, rgba(255, 200, 160, 0.6), rgba(240, 160, 120, 0.5));
+        border-color: rgba(255, 200, 160, 0.9);
+        color: #5a3020;
+        box-shadow:
+            0 0 20px rgba(240, 160, 120, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
     .btn-icon { min-width: 36px; text-align: center; padding: 6px 10px; }
-
     .settings {
         padding: clamp(8px, 1.2vh, 14px) clamp(16px, 1.8vw, 26px);
-        display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
-        background: #fff8f0;
-        border-bottom: 1px solid rgba(220, 180, 140, 0.22);
+        display: flex; flex-wrap: wrap; gap: 6px 14px;
+        align-items: center;
+        background: rgba(255, 235, 215, 0.35);
+        border-bottom: 1px solid rgba(255, 220, 180, 0.25);
         position: relative; z-index: 1;
     }
     .settings .group { display: flex; align-items: center; gap: 4px 8px; flex-wrap: wrap; }
-    .settings .group label {
+    .settings .group > label {
         font-size: clamp(0.55rem, 0.15vw + 0.5rem, 0.7rem);
         text-transform: uppercase; letter-spacing: 0.5px;
         font-weight: 700; color: #8a6a4a;
-    }
-    .settings .unit-group { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
-    .settings .unit-group .unit-check {
-        display: flex; align-items: center; gap: 3px;
-        font-size: clamp(0.65rem, 0.15vw + 0.6rem, 0.8rem);
-        font-weight: 600; color: #5a3a2a; cursor: pointer;
-    }
-    .settings .unit-group .unit-check input[type="checkbox"] {
-        width: 14px; height: 14px; accent-color: #d98c6a; cursor: pointer;
-    }
-    .settings .unit-group .unit-check .unit-label {
-        background: #fffaf3; padding: 0 8px; border-radius: 20px;
-        border: 1px solid rgba(220, 180, 140, 0.25);
-        transition: background 0.15s ease;
     }
     .settings .switch {
         display: flex; align-items: center; gap: 6px;
@@ -274,19 +328,51 @@
         font-weight: 600; color: #5a3a2a; cursor: pointer;
     }
     .settings .switch input { width: 36px; height: 18px; accent-color: #d98c6a; cursor: pointer; }
-
+    .settings .switch label { cursor: pointer; }
+    /* 单元触发按钮 */
+    .unit-trigger-btn {
+        background: #fffaf3;
+        border: 1px solid rgba(220, 180, 140, 0.4);
+        border-radius: 20px;
+        padding: 5px 14px;
+        font-size: clamp(0.7rem, 0.15vw + 0.62rem, 0.85rem);
+        font-weight: 700;
+        color: #5a3a2a;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .unit-trigger-btn:hover {
+        background: #fff5eb;
+        border-color: #f7b88a;
+        transform: translateY(-1px);
+    }
+    .unit-trigger-btn .count {
+        background: linear-gradient(135deg, #f7b88a, #d98c6a);
+        color: #fff;
+        border-radius: 12px;
+        padding: 1px 9px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        min-width: 22px;
+        text-align: center;
+    }
     .main { padding: clamp(12px, 2vh, 24px) clamp(18px, 2vw, 32px) clamp(16px, 2.4vh, 28px); position: relative; z-index: 1; }
-
     .info-bar {
         display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
         gap: 8px 16px; padding: clamp(5px, 0.7vh, 9px) clamp(12px, 1.4vw, 20px);
-        background: #fff5eb; border-radius: 16px;
-        border: 1px solid rgba(220, 180, 140, 0.28);
+        background: rgba(255, 235, 215, 0.35);
+        border-radius: 40px; border: 1px solid rgba(255, 220, 180, 0.3);
         margin-bottom: clamp(10px, 1.4vh, 16px);
     }
     .info-bar .item {
-        display: flex; align-items: center; gap: 6px; font-weight: 600;
-        font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.9rem); color: #5a3a2a;
+        display: flex; align-items: center; gap: 6px;
+        font-weight: 600;
+        font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.9rem);
+        color: #5a3a2a;
     }
     .info-bar .item .num {
         background: rgba(247, 184, 138, 0.2); padding: 2px 14px;
@@ -297,21 +383,22 @@
         color: #fff; padding: 2px 16px; border-radius: 30px; font-weight: 700;
     }
     .info-bar .actions button {
-        background: #fffaf3; border: 1px solid rgba(220, 180, 140, 0.30);
-        border-radius: 20px; padding: 4px 14px;
+        background: rgba(255, 235, 215, 0.4);
+        border: 1px solid rgba(255, 200, 160, 0.2);
+        border-radius: 30px; padding: 4px 14px;
         font-size: clamp(0.65rem, 0.15vw + 0.6rem, 0.8rem);
         font-weight: 700; color: #5a3a2a;
-        cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease; font-family: inherit;
+        cursor: pointer; transition: 0.25s var(--anim-ease); font-family: inherit;
     }
-    .info-bar .actions button:hover { background: #fff5eb; border-color: #f7b88a; }
-
+    .info-bar .actions button:hover { background: #fff9f0; border-color: #f7b88a; transform: translateY(-2px); }
     .chinese-hint {
         font-size: clamp(1.05rem, 0.4vw + 0.9rem, 1.4rem);
         font-weight: 700; color: #4a2a1a; text-align: center;
         padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px);
-        background: #fff5eb; border-radius: 16px;
-        border: 1px solid rgba(220, 180, 140, 0.28);
-        margin-bottom: clamp(8px, 1.2vh, 14px); min-height: clamp(44px, 5vh, 58px);
+        background: rgba(255, 235, 215, 0.4);
+        border-radius: 30px; border: 1px solid rgba(255, 220, 180, 0.3);
+        margin-bottom: clamp(8px, 1.2vh, 14px);
+        min-height: clamp(44px, 5vh, 58px);
         display: flex; align-items: center; justify-content: center;
         gap: 8px; flex-wrap: wrap;
     }
@@ -324,66 +411,81 @@
     .chinese-hint .zh { font-size: clamp(1.15rem, 0.5vw + 0.95rem, 1.55rem); }
     .pattern-badge {
         font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
-        background: rgba(217, 140, 106, 0.15); padding: 2px 16px;
-        border-radius: 30px; color: #7a4a2a; font-weight: 600;
-        display: inline-block; margin-top: 2px;
+        background: rgba(217, 140, 106, 0.15);
+        padding: 2px 16px; border-radius: 30px;
+        color: #7a4a2a; font-weight: 600; display: inline-block; margin-top: 2px;
     }
-
     .status-badge {
-        display: block; padding: clamp(5px, 0.7vh, 9px) 18px; border-radius: 16px;
-        font-weight: 700; font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.95rem);
-        background: #fff8f0; color: #5a3a2a;
-        border: 1px solid rgba(220, 180, 140, 0.22);
-        margin-bottom: clamp(10px, 1.4vh, 16px); text-align: center;
-        min-height: 38px; line-height: 1.6;
+        display: block; padding: clamp(5px, 0.7vh, 9px) 18px; border-radius: 40px;
+        font-weight: 700;
+        font-size: clamp(0.75rem, 0.2vw + 0.7rem, 0.95rem);
+        background: rgba(255, 235, 215, 0.3);
+        color: #5a3a2a; border: 1px solid rgba(255, 220, 180, 0.25);
+        margin-bottom: clamp(10px, 1.4vh, 16px);
+        text-align: center; min-height: 38px;
+        line-height: 1.6; transition: all 0.4s var(--anim-ease);
     }
-    .status-badge.correct { background: #fce4d6; color: #7a4a2a; border-color: #e08a6a; }
-    .status-badge.wrong { background: #fce4d6; color: #b05a4a; border-color: #d98c6a; }
+    .status-badge.correct { background: #fce4d6; color: #7a4a2a; border-color: #e08a6a; animation: pop 0.6s var(--ease-spring); }
+    .status-badge.wrong { background: #fce4d6; color: #b05a4a; border-color: #d98c6a; animation: shake 0.55s var(--ease-spring); }
     .status-badge.done { background: #fde9d0; border-color: #f7b88a; }
-
+    @keyframes pop { 0% { transform: scale(0.85); opacity: 0.5; } 50% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
     .card-pool {
-        display: flex; flex-wrap: wrap; gap: clamp(6px, 0.8vw, 10px);
+        display: flex; flex-wrap: wrap;
+        gap: clamp(6px, 0.8vw, 10px);
         justify-content: center;
         padding: clamp(10px, 1.4vh, 16px) clamp(6px, 0.8vw, 12px);
         min-height: clamp(60px, 8vh, 86px);
-        background: #fff8f0; border-radius: 16px;
-        border: 2px dashed rgba(220, 180, 140, 0.35);
+        background: rgba(255, 235, 215, 0.25);
+        border-radius: clamp(24px, 2.4vw, 32px);
+        border: 2px dashed rgba(255, 200, 160, 0.3);
         margin-bottom: clamp(10px, 1.4vh, 16px);
         position: relative;
     }
     .card-pool .token {
         padding: clamp(5px, 0.8vh, 9px) clamp(14px, 1.5vw, 22px);
-        border-radius: 24px; font-weight: 700;
+        border-radius: 40px;
+        font-weight: 700;
         font-size: clamp(0.9rem, 0.3vw + 0.8rem, 1.15rem);
-        color: #4a2a1a; background: #fffdf8;
-        border: 1.5px solid rgba(220, 180, 140, 0.40);
+        color: #4a2a1a;
+        background: rgba(255, 245, 235, 0.8);
+        border: 2px solid rgba(255, 200, 160, 0.3);
         cursor: pointer;
-        transition: transform 0.15s ease, box-shadow 0.15s ease,
-            background 0.15s ease, border-color 0.15s ease, opacity 0.18s ease;
+        transition: transform 0.4s var(--anim-ease),
+                    box-shadow 0.3s var(--anim-ease),
+                    background 0.3s var(--anim-ease),
+                    border-color 0.3s var(--anim-ease),
+                    opacity 0.35s var(--anim-ease);
         user-select: none; -webkit-user-select: none;
-        box-shadow: 0 1px 3px rgba(180, 130, 80, 0.06);
-        position: relative; touch-action: manipulation;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        position: relative;
+        touch-action: manipulation;
+        transform-style: preserve-3d;
     }
     .card-pool .token:hover:not(.used) {
-        transform: translateY(-2px);
+        transform: translateY(-5px) scale(1.06);
         border-color: #d98c6a; background: #fff9f0;
-        box-shadow: 0 4px 10px rgba(217, 140, 106, 0.12);
+        box-shadow: 0 12px 32px rgba(217,140,106,0.18);
     }
-    .card-pool .token:active:not(.used) { transform: scale(0.97); }
+    .card-pool .token:active:not(.used) { transform: scale(0.94); }
     .card-pool .token.used {
-        opacity: 0; transform: scale(0.95); pointer-events: none;
-        transition: opacity 0.18s ease, transform 0.18s ease;
+        opacity: 0; transform: scale(0.7) translateY(-20px);
+        pointer-events: none;
+        transition: all 0.5s var(--ease-spring);
     }
-
     .answer-zone {
-        display: flex; flex-wrap: wrap; gap: clamp(6px, 0.8vw, 10px);
-        justify-content: center; align-items: center;
+        display: flex; flex-wrap: wrap;
+        gap: clamp(6px, 0.8vw, 10px);
+        justify-content: center;
+        align-items: center;
         min-height: clamp(56px, 7.5vh, 78px);
         padding: clamp(9px, 1.3vh, 15px) clamp(10px, 1.2vw, 16px);
-        background: #fff5eb; border-radius: 16px;
-        border: 2px solid rgba(220, 180, 140, 0.25);
+        background: rgba(255, 235, 215, 0.3);
+        border-radius: clamp(24px, 2.4vw, 32px);
+        border: 2px solid rgba(255, 200, 160, 0.25);
         margin-bottom: clamp(10px, 1.4vh, 16px);
-        position: relative; touch-action: none;
+        position: relative;
+        touch-action: none;
     }
     .answer-zone .placeholder {
         color: #b08a7a; font-weight: 600;
@@ -392,20 +494,27 @@
     }
     .answer-zone .token {
         padding: clamp(5px, 0.8vh, 9px) clamp(14px, 1.5vw, 22px);
-        border-radius: 24px; font-weight: 700;
+        border-radius: 40px;
+        font-weight: 700;
         font-size: clamp(0.9rem, 0.3vw + 0.8rem, 1.15rem);
-        color: #4a2a1a; background: #fffdf8;
-        border: 1.5px solid rgba(220, 180, 140, 0.40);
+        color: #4a2a1a;
+        background: rgba(255, 245, 235, 0.7);
+        border: 2px solid rgba(255, 200, 160, 0.3);
         cursor: pointer;
-        transition: transform 0.15s ease, box-shadow 0.15s ease,
-            background 0.15s ease, border-color 0.15s ease;
+        transition: transform 0.4s var(--anim-ease),
+                    box-shadow 0.3s var(--anim-ease),
+                    background 0.3s var(--anim-ease),
+                    border-color 0.3s var(--anim-ease);
         user-select: none; -webkit-user-select: none;
-        position: relative; touch-action: none;
+        position: relative;
+        touch-action: none;
+        transform-style: preserve-3d;
         will-change: transform;
     }
     .answer-zone .token:hover {
-        border-color: #d98c6a; background: #fff9f0;
-        box-shadow: 0 4px 10px rgba(217, 140, 106, 0.10);
+        border-color: #d98c6a;
+        background: rgba(255,200,160,0.18);
+        box-shadow: 0 10px 26px rgba(217,140,106,0.12);
     }
     .answer-zone .token:active { cursor: grabbing; }
     .answer-zone .token .order {
@@ -414,42 +523,47 @@
         font-size: 0.5rem; width: 20px; height: 20px;
         border-radius: 50%; display: flex; align-items: center; justify-content: center;
         font-weight: 800; pointer-events: none;
+        box-shadow: 0 2px 6px rgba(217, 140, 106, 0.3);
     }
-
+    .app.high-end .answer-zone .token .order {
+        background: linear-gradient(135deg, #f7b88a, #e08a6a);
+        box-shadow:
+            0 2px 8px rgba(217, 140, 106, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
     .action-row {
-        display: flex; flex-wrap: wrap; gap: clamp(8px, 1vw, 12px);
+        display: flex; flex-wrap: wrap;
+        gap: clamp(8px, 1vw, 12px);
         justify-content: center;
         margin-top: 4px; margin-bottom: clamp(6px, 1vh, 12px);
     }
     .action-row .btn {
         padding: clamp(7px, 1vh, 11px) clamp(20px, 2vw, 32px);
-        border-radius: 24px; font-weight: 700;
+        border-radius: 40px;
+        font-weight: 700;
         font-size: clamp(0.8rem, 0.25vw + 0.72rem, 1rem);
         border: none; cursor: pointer;
-        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        transition: all 0.4s var(--anim-ease);
         font-family: inherit; display: inline-flex; align-items: center; gap: 6px;
     }
-    .action-row .btn:active { transform: scale(0.97); }
+    .action-row .btn:active { transform: scale(0.94); }
     .action-row .btn-primary {
         background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff; box-shadow: 0 2px 8px rgba(217, 140, 106, 0.20);
+        color: #fff; box-shadow: 0 4px 20px rgba(217, 140, 106, 0.25);
     }
-    .action-row .btn-primary:hover:not(:disabled) {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 14px rgba(217, 140, 106, 0.25);
-    }
+    .action-row .btn-primary:hover:not(:disabled) { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 34px rgba(217,140,106,0.32); }
     .action-row .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
     .action-row .btn-secondary {
-        background: #fffaf3; color: #5a3a2a;
-        border: 1px solid rgba(220, 180, 140, 0.30);
+        background: rgba(255, 235, 215, 0.5); color: #5a3a2a;
+        border: 1px solid rgba(255, 200, 160, 0.2);
     }
-    .action-row .btn-secondary:hover { background: #fff5eb; border-color: #f7b88a; }
-
+    .action-row .btn-secondary:hover { background: #fff9f0; border-color: #f7b88a; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(217,140,106,0.10); }
     .history-section {
         margin-top: clamp(10px, 1.4vh, 16px);
         padding: clamp(6px, 0.9vh, 10px) clamp(12px, 1.4vw, 18px);
-        background: #fff8f0; border-radius: 16px;
-        border: 1px solid rgba(220, 180, 140, 0.22);
+        background: rgba(255, 235, 215, 0.2);
+        border-radius: 28px;
+        border: 1px solid rgba(255, 220, 180, 0.2);
     }
     .history-section .hdr {
         display: flex; justify-content: space-between; align-items: center;
@@ -458,36 +572,52 @@
     }
     .history-section .hdr .clear-btn {
         background: none; border: none; color: #b08a7a; cursor: pointer;
-        font-size: 0.6rem; transition: 0.15s; font-family: inherit; text-decoration: underline;
+        font-size: 0.6rem; transition: 0.2s; font-family: inherit; text-decoration: underline;
     }
     .history-section .hdr .clear-btn:hover { color: #b05a4a; }
     .history-list { display: flex; flex-wrap: wrap; gap: 4px; max-height: 60px; overflow-y: auto; }
     .history-list .h-item {
-        padding: 2px 12px; border-radius: 20px;
+        padding: 2px 12px; border-radius: 30px;
         font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
         font-weight: 600;
-        background: #fffdf8; border: 1px solid rgba(220, 180, 140, 0.25);
-        color: #4a2a1a; cursor: pointer;
-        transition: background 0.15s ease, border-color 0.15s ease;
-        white-space: nowrap;
+        background: rgba(255, 245, 235, 0.4);
+        border: 1px solid rgba(255, 200, 160, 0.15);
+        color: #4a2a1a; cursor: pointer; transition: all 0.25s var(--anim-ease); white-space: nowrap;
     }
-    .history-list .h-item:hover { background: #fff5eb; border-color: #f7b88a; }
-
+    .history-list .h-item:hover { background: #fff9f0; transform: translateY(-2px); border-color: #f7b88a; }
     /* ============================================================
-       教学弹窗
+       二级卡片：单元选择（始终扁平化设计，不受高级渲染影响）
        ============================================================ */
-    .tutorial-overlay {
-        position: fixed; inset: 0; background: rgba(60, 30, 20, 0.35);
-        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-        z-index: 20000; display: none; align-items: center; justify-content: center;
+    .unit-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(60, 40, 20, 0.35);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 21000;
+        display: none;
+        align-items: center;
+        justify-content: center;
         padding: 20px;
+        animation: overlayFadeIn 0.3s ease;
     }
-    .tutorial-overlay.show { display: flex; }
-    .tutorial-card {
-        position: relative; background: #fffaf3; border-radius: 28px;
-        padding: 28px 32px; max-width: 520px; width: 100%;
-        border: 1px solid rgba(255, 220, 180, 0.8);
-        box-shadow: 0 20px 50px rgba(180, 130, 80, 0.22);
+    .unit-modal-overlay.show { display: flex; }
+    @keyframes overlayFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .unit-modal-card {
+        position: relative;
+        background: #fffaf3;
+        border-radius: 20px;
+        padding: 0;
+        max-width: 680px;
+        width: 100%;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(220, 180, 140, 0.4);
+        box-shadow: 0 20px 50px rgba(180, 130, 80, 0.25);
         animation: cardPop 0.3s ease;
         overflow: hidden;
     }
@@ -495,28 +625,271 @@
         from { opacity: 0; transform: scale(0.95) translateY(10px); }
         to { opacity: 1; transform: scale(1) translateY(0); }
     }
+    .unit-modal-header {
+        padding: 16px 22px;
+        border-bottom: 1px solid rgba(220, 180, 140, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff5eb;
+    }
+    .unit-modal-header h3 {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #7a4a2a;
+    }
+    .unit-modal-close {
+        background: rgba(255, 235, 215, 0.7);
+        border: 1px solid rgba(255, 200, 160, 0.4);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        color: #7a4a2a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+    .unit-modal-close:hover { background: #f7b88a; color: #fff; }
+    .unit-modal-body {
+        padding: 16px 22px;
+        overflow-y: auto;
+        flex: 1;
+    }
+    .unit-modal-body::-webkit-scrollbar { width: 6px; }
+    .unit-modal-body::-webkit-scrollbar-thumb {
+        background: rgba(217, 140, 106, 0.4);
+        border-radius: 3px;
+    }
+    .unit-grade-group { margin-bottom: 18px; }
+    .unit-grade-group:last-child { margin-bottom: 4px; }
+    .unit-grade-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #8a6a4a;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        padding-left: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .unit-grade-label::before {
+        content: '';
+        width: 4px;
+        height: 12px;
+        background: linear-gradient(135deg, #f7b88a, #d98c6a);
+        border-radius: 2px;
+    }
+    .unit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 8px;
+    }
+    .unit-item {
+        padding: 10px 12px;
+        background: #fffdf8;
+        border: 1.5px solid rgba(220, 180, 140, 0.4);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+        user-select: none;
+    }
+    .unit-item:hover {
+        border-color: #d98c6a;
+        background: #fff9f0;
+        transform: translateY(-1px);
+    }
+    .unit-item.selected {
+        background: linear-gradient(135deg, #ffe4cc, #ffd4b8);
+        border-color: #d98c6a;
+        box-shadow: 0 2px 8px rgba(217, 140, 106, 0.15);
+    }
+    .unit-item-name {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #7a4a2a;
+    }
+    .unit-item-desc {
+        font-size: 0.7rem;
+        color: #a08060;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .unit-modal-footer {
+        padding: 12px 22px;
+        border-top: 1px solid rgba(220, 180, 140, 0.25);
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        background: #fff5eb;
+    }
+    .unit-modal-btn {
+        padding: 7px 18px;
+        border-radius: 18px;
+        font-weight: 700;
+        font-size: 0.82rem;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s ease;
+    }
+    .unit-modal-btn.secondary {
+        background: #fffaf3;
+        color: #7a4a2a;
+        border: 1px solid rgba(220, 180, 140, 0.4);
+    }
+    .unit-modal-btn.secondary:hover { background: #fff5eb; border-color: #f7b88a; }
+    .unit-modal-btn.primary {
+        background: linear-gradient(135deg, #f7b88a, #d98c6a);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(217, 140, 106, 0.25);
+    }
+    .unit-modal-btn.primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(217, 140, 106, 0.3);
+    }
+    /* ============================================================
+       确认弹窗（拆分短语关闭提示）
+       ============================================================ */
+    .confirm-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(60, 40, 20, 0.4);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 22000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        animation: overlayFadeIn 0.3s ease;
+    }
+    .confirm-modal-overlay.show { display: flex; }
+    .confirm-modal-card {
+        background: #fffaf3;
+        border-radius: 20px;
+        padding: 22px 26px;
+        max-width: 420px;
+        width: 100%;
+        border: 1px solid rgba(220, 180, 140, 0.4);
+        box-shadow: 0 20px 50px rgba(180, 130, 80, 0.25);
+        animation: cardPop 0.3s ease;
+    }
+    .confirm-modal-card h3 {
+        font-size: 1.02rem;
+        font-weight: 800;
+        color: #7a4a2a;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .confirm-modal-card p {
+        font-size: 0.86rem;
+        color: #6a4a3a;
+        line-height: 1.65;
+        margin-bottom: 10px;
+    }
+    .confirm-modal-card .highlight {
+        background: rgba(255, 200, 160, 0.3);
+        padding: 1px 7px;
+        border-radius: 6px;
+        color: #b06030;
+        font-weight: 700;
+        font-family: 'SF Mono', Consolas, monospace;
+    }
+    .confirm-modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 18px;
+    }
+    .confirm-btn {
+        padding: 8px 20px;
+        border-radius: 18px;
+        font-weight: 700;
+        font-size: 0.84rem;
+        cursor: pointer;
+        font-family: inherit;
+        border: none;
+        transition: all 0.2s ease;
+    }
+    .confirm-btn.secondary {
+        background: #fffaf3;
+        color: #7a4a2a;
+        border: 1px solid rgba(220, 180, 140, 0.4);
+    }
+    .confirm-btn.secondary:hover { background: #fff5eb; border-color: #f7b88a; }
+    .confirm-btn.primary {
+        background: linear-gradient(135deg, #f7b88a, #d98c6a);
+        color: #fff;
+    }
+    .confirm-btn.primary:hover { transform: translateY(-1px); }
+    /* ============================================================
+       教学弹窗
+       ============================================================ */
+    .tutorial-overlay {
+        position: fixed; inset: 0;
+        background: rgba(60, 30, 20, 0.35);
+        backdrop-filter: blur(14px) saturate(150%);
+        -webkit-backdrop-filter: blur(14px) saturate(150%);
+        z-index: 20000;
+        display: none; align-items: center; justify-content: center;
+        padding: 20px;
+        animation: overlayFadeIn 0.4s var(--ease-spring);
+    }
+    .tutorial-overlay.show { display: flex; }
+    .tutorial-card {
+        position: relative;
+        background: rgba(255, 250, 240, 0.95);
+        border-radius: 36px;
+        padding: 28px 32px;
+        max-width: 520px; width: 100%;
+        border: 1px solid rgba(255, 220, 180, 0.8);
+        box-shadow:
+            0 40px 100px rgba(180, 130, 80, 0.35),
+            0 20px 40px rgba(180, 130, 80, 0.18),
+            inset 0 2px 0 rgba(255, 255, 255, 0.9);
+        animation: cardPop 0.6s var(--ease-spring);
+        overflow: hidden;
+    }
     .tutorial-card::before {
-        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60px;
-        background: linear-gradient(180deg, rgba(255, 220, 190, 0.35), transparent);
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 60px;
+        background: linear-gradient(180deg, rgba(255, 220, 190, 0.4), transparent);
         pointer-events: none;
     }
-    .tutorial-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; position: relative; }
+    .tutorial-header {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 20px; position: relative;
+    }
     .tutorial-header h2 { font-size: 1.25rem; font-weight: 800; color: #7a4a2a; }
     .tutorial-header .badge {
-        background: linear-gradient(135deg, #f7b88a, #d98c6a); color: #fff;
-        padding: 2px 12px; border-radius: 30px; font-size: 0.6rem; font-weight: 700;
+        background: linear-gradient(135deg, #f7b88a, #d98c6a);
+        color: #fff; padding: 2px 12px; border-radius: 30px;
+        font-size: 0.6rem; font-weight: 700;
     }
     .tutorial-close {
-        margin-left: auto; background: #fff5eb;
-        border: 1px solid rgba(255, 200, 160, 0.4); border-radius: 50%;
-        width: 32px; height: 32px; font-size: 1rem; cursor: pointer; color: #7a4a2a;
+        margin-left: auto;
+        background: rgba(255, 235, 215, 0.7);
+        border: 1px solid rgba(255, 200, 160, 0.4);
+        border-radius: 50%; width: 32px; height: 32px;
+        font-size: 1rem; cursor: pointer; color: #7a4a2a;
         display: flex; align-items: center; justify-content: center;
-        transition: background 0.15s ease;
+        transition: all 0.25s var(--ease-spring);
     }
-    .tutorial-close:hover { background: #f7b88a; color: #fff; }
+    .tutorial-close:hover { background: #f7b88a; color: #fff; transform: rotate(90deg); }
     .tutorial-stage {
         height: 180px;
-        background: #fff5eb; border-radius: 20px; margin-bottom: 20px;
+        background: linear-gradient(145deg, rgba(255, 240, 220, 0.6), rgba(255, 225, 200, 0.4));
+        border-radius: 24px; margin-bottom: 20px;
         position: relative; overflow: hidden;
         border: 1px solid rgba(255, 220, 180, 0.4);
         display: flex; align-items: center; justify-content: center;
@@ -526,67 +899,76 @@
     .demo-fly { width: 260px; height: 140px; position: relative; }
     .demo-fly .demo-token {
         position: absolute; padding: 6px 16px; border-radius: 30px;
-        background: #fffdf8; border: 2px solid rgba(255, 200, 160, 0.5);
+        background: rgba(255, 245, 235, 0.95);
+        border: 2px solid rgba(255, 200, 160, 0.5);
         font-weight: 700; color: #4a2a1a; font-size: 0.9rem;
+        box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
     }
     .demo-fly .demo-token.t1 { left: 10px; top: 100px; animation: demoFly1 3s infinite; }
     .demo-fly .demo-token.t2 { left: 110px; top: 100px; animation: demoFly2 3s infinite; }
     .demo-fly .demo-zone {
-        position: absolute; left: 10px; top: 10px; width: 240px; height: 44px;
-        border: 2px dashed rgba(255, 200, 160, 0.5); border-radius: 22px;
+        position: absolute; left: 10px; top: 10px;
+        width: 240px; height: 44px;
+        border: 2px dashed rgba(255, 200, 160, 0.5);
+        border-radius: 22px;
     }
     @keyframes demoFly1 {
-        0%,25% { transform: translate(0,0); opacity: 1; }
-        60% { transform: translate(40px,-70px) scale(1.06); opacity: 1; }
-        100% { transform: translate(40px,-70px) scale(1); opacity: 1; }
+        0%, 25% { transform: translate(0, 0); opacity: 1; }
+        60% { transform: translate(40px, -70px) scale(1.1) rotate(-4deg); opacity: 1; }
+        100% { transform: translate(40px, -70px) scale(1) rotate(0deg); opacity: 1; }
     }
     @keyframes demoFly2 {
-        0%,30% { transform: translate(0,0); opacity: 1; }
-        70% { transform: translate(-20px,-70px) scale(1.06); opacity: 1; }
-        100% { transform: translate(-20px,-70px) scale(1); opacity: 1; }
+        0%, 30% { transform: translate(0, 0); opacity: 1; }
+        70% { transform: translate(-20px, -70px) scale(1.1) rotate(3deg); opacity: 1; }
+        100% { transform: translate(-20px, -70px) scale(1) rotate(0deg); opacity: 1; }
     }
     .demo-swap { width: 260px; height: 140px; position: relative; }
     .demo-swap .demo-token {
         position: absolute; padding: 6px 16px; border-radius: 30px;
-        background: #fffdf8; border: 2px solid rgba(255, 200, 160, 0.5);
+        background: rgba(255, 245, 235, 0.95);
+        border: 2px solid rgba(255, 200, 160, 0.5);
         font-weight: 700; color: #4a2a1a; font-size: 0.9rem; top: 50px;
+        box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
     }
     .demo-swap .demo-token.a { left: 30px; animation: demoSwapA 3s infinite; }
     .demo-swap .demo-token.b { left: 140px; animation: demoSwapB 3s infinite; }
     @keyframes demoSwapA {
-        0%,30% { transform: translateX(0); z-index: 2; }
-        50% { transform: translateX(55px) translateY(-10px) scale(1.05); z-index: 3; }
-        70%,100% { transform: translateX(110px); z-index: 2; }
+        0%, 30% { transform: translateX(0) rotate(0); z-index: 2; }
+        50% { transform: translateX(55px) translateY(-15px) rotate(-4deg) scale(1.08); z-index: 3; }
+        70%, 100% { transform: translateX(110px) rotate(0); z-index: 2; }
     }
     @keyframes demoSwapB {
-        0%,30% { transform: translateX(0); }
+        0%, 30% { transform: translateX(0); }
         50% { transform: translateX(-30px); }
-        70%,100% { transform: translateX(-110px); }
+        70%, 100% { transform: translateX(-110px); }
     }
     .demo-check {
-        width: 260px; height: 140px; display: flex; align-items: center;
-        justify-content: center; flex-direction: column; gap: 12px;
+        width: 260px; height: 140px;
+        display: flex; align-items: center; justify-content: center;
+        flex-direction: column; gap: 12px;
     }
     .demo-check .demo-token-row { display: flex; gap: 6px; }
     .demo-check .demo-token {
         padding: 6px 14px; border-radius: 30px;
-        background: #fffdf8; border: 2px solid rgba(255, 200, 160, 0.5);
+        background: rgba(255, 245, 235, 0.95);
+        border: 2px solid rgba(255, 200, 160, 0.5);
         font-weight: 700; color: #4a2a1a; font-size: 0.85rem;
     }
     .demo-check .demo-token.highlight { animation: demoCheck 3s infinite; }
     .demo-check .demo-check-mark { font-size: 2rem; opacity: 0; animation: demoCheckMark 3s infinite; }
     @keyframes demoCheck {
-        0%,20% { background: #fffdf8; border-color: rgba(255, 200, 160, 0.5); }
-        50%,100% { background: rgba(200, 240, 210, 0.9); border-color: #66bb6a; }
+        0%, 20% { background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); }
+        50%, 100% { background: rgba(200, 240, 210, 0.9); border-color: #66bb6a; }
     }
     @keyframes demoCheckMark {
-        0%,20% { opacity: 0; transform: scale(0.5); }
-        50%,100% { opacity: 1; transform: scale(1); }
+        0%, 20% { opacity: 0; transform: scale(0.5); }
+        50%, 100% { opacity: 1; transform: scale(1); }
     }
     .demo-pattern { width: 260px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .demo-pattern-hint {
-        display: flex; align-items: center; gap: 8px; padding: 8px 16px;
-        border-radius: 24px; background: #fffdf8;
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 16px; border-radius: 24px;
+        background: rgba(255, 245, 235, 0.92);
         border: 1px solid rgba(255, 200, 160, 0.4);
         font-weight: 700; color: #4a2a1a; font-size: 0.82rem;
     }
@@ -603,75 +985,114 @@
         animation: demoPatternPulse 2.4s infinite;
     }
     @keyframes demoPatternPulse {
-        0%,100% { transform: scale(1); }
-        50% { transform: scale(1.04); }
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247, 184, 138, 0.5); }
+        50% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(247, 184, 138, 0); }
     }
     .demo-history { width: 260px; display: flex; flex-direction: column; gap: 6px; position: relative; }
     .demo-history-item {
         padding: 6px 14px; border-radius: 24px;
-        background: #fffdf8; border: 1px solid rgba(255, 200, 160, 0.32);
+        background: rgba(255, 245, 235, 0.82);
+        border: 1px solid rgba(255, 200, 160, 0.32);
         font-weight: 600; color: #4a2a1a; font-size: 0.78rem; text-align: center;
     }
     .demo-history-item.highlight { animation: demoHistoryClick 2.6s infinite; }
     @keyframes demoHistoryClick {
-        0%,25% { transform: scale(1); background: #fffdf8; }
-        45%,72% { transform: scale(1.05); background: rgba(247, 184, 138, 0.45); border-color: #d98c6a; }
-        90%,100% { transform: scale(1); background: #fffdf8; }
+        0%, 25% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
+        45%, 72% { transform: scale(1.06); background: rgba(247, 184, 138, 0.45); border-color: #d98c6a; box-shadow: 0 4px 14px rgba(217,140,106,0.2); }
+        90%, 100% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
     }
     .demo-history-cursor {
         position: absolute; font-size: 1.1rem; right: 26px; top: 50%;
         animation: demoCursorMove 2.6s infinite; pointer-events: none;
     }
     @keyframes demoCursorMove {
-        0%,25% { opacity: 0; transform: translate(20px,-50%); }
-        35% { opacity: 1; transform: translate(0,-50%) scale(1.12); }
-        50%,72% { opacity: 1; transform: translate(0,-50%) scale(0.9); }
-        85%,100% { opacity: 0; transform: translate(20px,-50%); }
+        0%, 25% { opacity: 0; transform: translate(20px, -50%) scale(1); }
+        35% { opacity: 1; transform: translate(0, -50%) scale(1.15); }
+        50%, 72% { opacity: 1; transform: translate(0, -50%) scale(0.88); }
+        85%, 100% { opacity: 0; transform: translate(20px, -50%) scale(1); }
+    }
+    /* 短语演示 */
+    .demo-phrase { width: 260px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .demo-phrase-row { display: flex; gap: 6px; align-items: center; }
+    .demo-phrase-tag {
+        padding: 5px 14px; border-radius: 20px;
+        background: rgba(255, 245, 235, 0.95);
+        border: 2px solid rgba(255, 200, 160, 0.5);
+        font-weight: 700; color: #4a2a1a; font-size: 0.8rem;
+    }
+    .demo-phrase-tag.split { animation: demoPhraseSplit 4s infinite; }
+    @keyframes demoPhraseSplit {
+        0%, 20% { background: rgba(255, 245, 235, 0.95); }
+        50%, 70% { background: rgba(255, 200, 160, 0.55); border-color: #d98c6a; transform: scale(1.04); }
+        100% { background: rgba(255, 245, 235, 0.95); }
+    }
+    .demo-phrase-arrow {
+        font-size: 1.1rem; color: #d98c6a;
+        animation: demoArrowPulse 2s infinite;
+    }
+    @keyframes demoArrowPulse {
+        0%, 100% { opacity: 0.4; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.15); }
+    }
+    .demo-phrase-split-row { display: flex; gap: 4px; }
+    .demo-phrase-split-row .demo-token {
+        padding: 4px 10px; border-radius: 16px;
+        background: rgba(255, 245, 235, 0.95);
+        border: 1.5px solid rgba(255, 200, 160, 0.5);
+        font-weight: 700; color: #4a2a1a; font-size: 0.72rem;
     }
     .tutorial-text { text-align: center; min-height: 80px; padding: 0 4px; }
     .tutorial-text h3 { font-size: 1.15rem; font-weight: 800; color: #7a4a2a; margin-bottom: 8px; }
     .tutorial-text p { font-size: 0.9rem; color: #6a4a3a; line-height: 1.6; }
-    .tutorial-nav { display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 20px; }
+    .tutorial-nav {
+        display: flex; gap: 8px; justify-content: space-between; align-items: center;
+        margin-top: 20px;
+    }
     .tutorial-nav .dots { display: flex; gap: 6px; }
     .tutorial-nav .dot {
         width: 8px; height: 8px; border-radius: 50%;
-        background: rgba(217, 140, 106, 0.3); transition: background 0.2s ease;
+        background: rgba(217, 140, 106, 0.3);
+        transition: all 0.3s var(--ease-spring);
     }
-    .tutorial-nav .dot.active { background: #d98c6a; }
+    .tutorial-nav .dot.active { background: #d98c6a; transform: scale(1.3); }
     .tutorial-nav .btn {
-        padding: 8px 22px; border-radius: 24px; font-weight: 700; font-size: 0.85rem;
+        padding: 8px 22px; border-radius: 30px;
+        font-weight: 700; font-size: 0.85rem;
         border: none; cursor: pointer; font-family: inherit;
-        transition: background 0.15s ease, transform 0.15s ease;
+        transition: all 0.3s var(--ease-spring);
     }
     .tutorial-nav .btn-skip {
-        background: #fff5eb; color: #7a4a2a;
+        background: rgba(255, 235, 215, 0.6);
+        color: #7a4a2a;
         border: 1px solid rgba(255, 200, 160, 0.4);
     }
-    .tutorial-nav .btn-skip:hover { background: #fff9f0; }
+    .tutorial-nav .btn-skip:hover:not(:disabled) { background: #fff9f0; transform: translateY(-2px); }
+    .tutorial-nav .btn-skip:disabled { opacity: 0.4; cursor: not-allowed; }
     .tutorial-nav .btn-next {
-        background: linear-gradient(135deg, #f7b88a, #d98c6a); color: #fff;
-        box-shadow: 0 2px 8px rgba(217, 140, 106, 0.25);
+        background: linear-gradient(135deg, #f7b88a, #d98c6a);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(217, 140, 106, 0.3);
     }
-    .tutorial-nav .btn-next:hover { transform: translateY(-1px); }
-
+    .tutorial-nav .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217, 140, 106, 0.4); }
     @media (max-width: 720px) {
         .header { flex-direction: column; align-items: stretch; gap: 6px; }
         .settings { flex-direction: column; align-items: stretch; gap: 6px; }
         .settings .group { flex-wrap: wrap; justify-content: center; }
-        .settings .unit-group { justify-content: center; }
         .info-bar { flex-direction: column; align-items: stretch; text-align: center; }
         .info-bar .item { justify-content: center; }
         .action-row .btn { padding: 6px 18px; font-size: 0.8rem; }
-        .tutorial-card { padding: 20px; border-radius: 24px; }
+        .tutorial-card { padding: 20px; border-radius: 28px; }
         .tutorial-stage { height: 150px; }
         .tutorial-header h2 { font-size: 1.1rem; }
+        .unit-modal-card { max-width: 96vw; }
+        .unit-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
     }
     @media (max-width: 480px) {
-        .app { border-radius: 16px; }
-        .app.high-end { border-radius: 20px; }
+        .app { border-radius: 28px; }
         .main { padding: 10px 12px; }
-        .tutorial-card { padding: 16px; border-radius: 20px; }
+        .tutorial-card { padding: 16px; border-radius: 24px; }
         .tutorial-stage { height: 130px; }
+        .unit-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (min-width: 1100px) {
         .main { padding: 28px 40px 36px; }
@@ -695,12 +1116,18 @@
     </div>
     <div class="settings">
         <div class="group">
-            <label>📚 选择单元</label>
-            <div class="unit-group" id="unitCheckGroup"></div>
+            <button class="unit-trigger-btn" id="unitTriggerBtn">
+                <span>📚 选择单元</span>
+                <span class="count" id="unitCount">24</span>
+            </button>
         </div>
         <div class="group switch">
-            <label>🧠 更多旧词</label>
+            <label for="moreOldWords">🧠 干扰词</label>
             <input type="checkbox" id="moreOldWords" />
+        </div>
+        <div class="group switch">
+            <label for="splitPhrasesCheck">🔤 拆分短语</label>
+            <input type="checkbox" id="splitPhrasesCheck" checked />
         </div>
         <div class="group">
             <button class="btn-glass" id="shuffleBtn">🔀 重排</button>
@@ -731,6 +1158,40 @@
     </div>
 </div>
 
+<!-- ============================
+     二级卡片：单元选择（始终扁平化）
+     ============================ -->
+<div class="unit-modal-overlay" id="unitModalOverlay">
+    <div class="unit-modal-card">
+        <div class="unit-modal-header">
+            <h3>📚 选择单元</h3>
+            <button class="unit-modal-close" id="unitModalClose">✕</button>
+        </div>
+        <div class="unit-modal-body" id="unitModalBody"></div>
+        <div class="unit-modal-footer">
+            <button class="unit-modal-btn secondary" id="unitSelectAll">全选</button>
+            <button class="unit-modal-btn secondary" id="unitDeselectAll">取消全选</button>
+            <button class="unit-modal-btn primary" id="unitModalConfirm">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================
+     确认弹窗：拆分短语关闭提示
+     ============================ -->
+<div class="confirm-modal-overlay" id="splitPhrasesConfirmOverlay">
+    <div class="confirm-modal-card">
+        <h3>🔤 关闭拆分短语？</h3>
+        <p>关闭后，像 <span class="highlight">sweep the floor</span>、<span class="highlight">play sports</span> 这样的短语会作为一个整体卡片出现，而不是拆成独立单词。</p>
+        <p>这样你可以练习<b>短语整体识别</b>，但单词颗粒度会变粗。</p>
+        <div class="confirm-modal-buttons">
+            <button class="confirm-btn secondary" id="splitPhrasesCancel">不关闭</button>
+            <button class="confirm-btn primary" id="splitPhrasesConfirm">继续关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 教学弹窗 -->
 <div class="tutorial-overlay" id="tutorialOverlay">
     <div class="tutorial-card">
         <div class="tutorial-header">
@@ -742,22 +1203,24 @@
             <div class="stage-content active" data-step="0">
                 <div class="demo-fly">
                     <div class="demo-zone"></div>
-                    <div class="demo-token t1">He</div>
+                    <div class="demo-token t1">This</div>
                     <div class="demo-token t2">is</div>
                 </div>
             </div>
             <div class="stage-content" data-step="1">
                 <div class="demo-swap">
-                    <div class="demo-token a">He</div>
-                    <div class="demo-token b">kind</div>
+                    <div class="demo-token a">sweep</div>
+                    <div class="demo-token b">floor</div>
                 </div>
             </div>
             <div class="stage-content" data-step="2">
                 <div class="demo-check">
                     <div class="demo-token-row">
-                        <div class="demo-token highlight">He</div>
-                        <div class="demo-token highlight">is</div>
-                        <div class="demo-token highlight">kind</div>
+                        <div class="demo-token highlight">I</div>
+                        <div class="demo-token highlight">can</div>
+                        <div class="demo-token highlight">sweep</div>
+                        <div class="demo-token highlight">the</div>
+                        <div class="demo-token highlight">floor</div>
                     </div>
                     <div class="demo-check-mark">✅</div>
                 </div>
@@ -766,16 +1229,28 @@
                 <div class="demo-pattern">
                     <div class="demo-pattern-hint">
                         <span class="demo-pattern-label">中文</span>
-                        <span>我的妈妈是一位医生。</span>
+                        <span>我会扫地。</span>
                     </div>
-                    <div class="demo-pattern-badge">📐 句型：{某人} {be} a {职业}.</div>
+                    <div class="demo-pattern-badge">📐 句型：I can {家务}.</div>
                 </div>
             </div>
             <div class="stage-content" data-step="4">
+                <div class="demo-phrase">
+                    <div class="demo-phrase-row">
+                        <div class="demo-phrase-tag">play sports</div>
+                    </div>
+                    <div class="demo-phrase-arrow">⇅</div>
+                    <div class="demo-phrase-split-row">
+                        <span class="demo-token">play</span>
+                        <span class="demo-token">sports</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stage-content" data-step="5">
                 <div class="demo-history">
-                    <div class="demo-history-item">✅ 我的妈妈是一位医生。</div>
-                    <div class="demo-history-item highlight">❌ 他又高又壮。</div>
-                    <div class="demo-history-item">✅ 今天天气晴朗。</div>
+                    <div class="demo-history-item">✅ 我会扫地。</div>
+                    <div class="demo-history-item highlight">❌ 这是我的姐姐。</div>
+                    <div class="demo-history-item">✅ 你好，我是吴斌斌。</div>
                     <div class="demo-history-cursor">👆</div>
                 </div>
             </div>
@@ -785,9 +1260,10 @@
             <p id="tutorialDesc">点击下方卡片池中的单词，它会自动飞入上方答题区，按顺序排列成句子。</p>
         </div>
         <div class="tutorial-nav">
-            <button class="btn btn-skip" id="tutorialSkip">跳过</button>
+            <button class="btn btn-skip" id="tutorialPrev">上一步</button>
             <div class="dots" id="tutorialDots">
                 <span class="dot active"></span>
+                <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
@@ -802,380 +1278,682 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
-    //  0. 共享职业列表（按 PEP 四上教材单元严格标注 src）
-    //     Unit 1（介绍职业与家务）：doctor, farmer, nurse, office worker, factory worker, cook
-    //     Unit 4（职业与帮助）：firefighter, driver, cleaner, delivery worker, police officer, cook
+    //  0. 通用词汇池
     // ================================================================
-    const ALL_JOBS = [
-        { en: "doctor",         zh: "医生",       plural: "doctors",         src: ["Unit 1"] },
-        { en: "farmer",         zh: "农民",       plural: "farmers",         src: ["Unit 1"] },
-        { en: "nurse",          zh: "护士",       plural: "nurses",          src: ["Unit 1"] },
-        { en: "office worker",  zh: "办公室职员", plural: "office workers",  src: ["Unit 1"] },
-        { en: "factory worker", zh: "工厂工人",   plural: "factory workers", src: ["Unit 1"] },
-        { en: "cook",           zh: "厨师",       plural: "cooks",           src: ["Unit 1", "Unit 4"] },
-        { en: "firefighter",    zh: "消防员",     plural: "firefighters",    src: ["Unit 4"] },
-        { en: "driver",         zh: "司机",       plural: "drivers",         src: ["Unit 4"] },
-        { en: "cleaner",        zh: "清洁工",     plural: "cleaners",        src: ["Unit 4"] },
-        { en: "delivery worker",zh: "快递员",     plural: "delivery workers",src: ["Unit 4"] },
-        { en: "police officer", zh: "警察",       plural: "police officers", src: ["Unit 4"] }
+    const NAMES = [
+        { en: "Mike Black", zh: "迈克·布莱克" },
+        { en: "Wu Binbin", zh: "吴斌斌" },
+        { en: "Sarah", zh: "萨拉" },
+        { en: "Chen Jie", zh: "陈杰" },
+        { en: "John", zh: "约翰" },
+        { en: "Amy", zh: "埃米" },
+        { en: "Zhang Peng", zh: "张鹏" },
+        { en: "Miss White", zh: "怀特小姐" }
+    ];
+
+    const RELATIVES = [
+        { en: "grandma", zh: "奶奶" }, { en: "grandpa", zh: "爷爷" },
+        { en: "mother", zh: "妈妈" }, { en: "father", zh: "爸爸" },
+        { en: "sister", zh: "姐姐" }, { en: "brother", zh: "哥哥" },
+        { en: "uncle", zh: "叔叔" }, { en: "aunt", zh: "阿姨" },
+        { en: "cousin", zh: "表兄妹" }, { en: "baby sister", zh: "妹妹", phrase: true }
+    ];
+
+    const PETS = [
+        { en: "dog", zh: "狗" }, { en: "cat", zh: "猫" },
+        { en: "fish", zh: "鱼" }, { en: "bird", zh: "鸟" },
+        { en: "rabbit", zh: "兔子" }, { en: "duck", zh: "鸭子" },
+        { en: "panda", zh: "熊猫" }, { en: "monkey", zh: "猴子" }
+    ];
+
+    const ANIMALS = [
+        { en: "fox", zh: "狐狸" }, { en: "panda", zh: "熊猫" },
+        { en: "tiger", zh: "老虎" }, { en: "elephant", zh: "大象" },
+        { en: "lion", zh: "狮子" }, { en: "monkey", zh: "猴子" },
+        { en: "giraffe", zh: "长颈鹿" }, { en: "red panda", zh: "小熊猫", phrase: true }
+    ];
+
+    const ANIMAL_PLURALS = [
+        { en: "rabbits", zh: "兔子" }, { en: "pandas", zh: "熊猫" },
+        { en: "monkeys", zh: "猴子" }, { en: "tigers", zh: "老虎" },
+        { en: "elephants", zh: "大象" }, { en: "lions", zh: "狮子" }
+    ];
+
+    const FRUITS_PLURAL = [
+        { en: "apples", zh: "苹果" }, { en: "bananas", zh: "香蕉" },
+        { en: "oranges", zh: "橙子" }, { en: "grapes", zh: "葡萄" }
+    ];
+
+    const COLORS = [
+        { en: "red", zh: "红色" }, { en: "blue", zh: "蓝色" },
+        { en: "green", zh: "绿色" }, { en: "yellow", zh: "黄色" },
+        { en: "orange", zh: "橙色" }, { en: "purple", zh: "紫色" },
+        { en: "brown", zh: "棕色" }, { en: "pink", zh: "粉色" },
+        { en: "white", zh: "白色" }, { en: "black", zh: "黑色" }
+    ];
+
+    const NUMBERS = [
+        { en: "three", zh: "三" }, { en: "four", zh: "四" },
+        { en: "five", zh: "五" }, { en: "six", zh: "六" },
+        { en: "seven", zh: "七" }, { en: "eight", zh: "八" },
+        { en: "nine", zh: "九" }, { en: "ten", zh: "十" }
+    ];
+
+    // 四上职业（分单元）
+    const JOBS_S4U1 = [
+        { en: "doctor", zh: "医生" },
+        { en: "farmer", zh: "农民" },
+        { en: "nurse", zh: "护士" },
+        { en: "office worker", zh: "办公室职员", phrase: true },
+        { en: "factory worker", zh: "工厂工人", phrase: true },
+        { en: "cook", zh: "厨师" }
+    ];
+    const JOBS_S4U4 = [
+        { en: "firefighter", zh: "消防员" },
+        { en: "driver", zh: "司机" },
+        { en: "cleaner", zh: "清洁工" },
+        { en: "delivery worker", zh: "快递员", phrase: true },
+        { en: "police officer", zh: "警察", phrase: true }
+    ];
+
+    const CHORES = [
+        { en: "cook", zh: "做饭" },
+        { en: "clean the room", zh: "打扫房间", phrase: true },
+        { en: "sweep the floor", zh: "扫地", phrase: true },
+        { en: "wash the clothes", zh: "洗衣服", phrase: true },
+        { en: "make the bed", zh: "整理床铺", phrase: true }
+    ];
+
+    const LOOK_AFTER_TARGETS = [
+        { en: "my sister", zh: "我的妹妹", phrase: true },
+        { en: "my brother", zh: "我的弟弟", phrase: true },
+        { en: "my grandma", zh: "我的奶奶", phrase: true },
+        { en: "my grandpa", zh: "我的爷爷", phrase: true }
+    ];
+
+    // 五上
+    const PERSONS = [
+        { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' },
+        { en: "My friend", zh: "我的朋友", num: 's', phrase: true },
+        { en: "My best friend", zh: "我最好的朋友", num: 's', phrase: true }
+    ];
+    const PERSON_ADJ_1 = [
+        { en: "tall", zh: "高" }, { en: "short", zh: "矮" },
+        { en: "young", zh: "年轻" }, { en: "old", zh: "老" }
+    ];
+    const PERSON_ADJ_2 = [
+        { en: "strong", zh: "壮" }, { en: "clever", zh: "聪明" },
+        { en: "hard-working", zh: "勤奋", phrase: true },
+        { en: "lovely", zh: "可爱" }, { en: "kind", zh: "和蔼" },
+        { en: "funny", zh: "有趣" }
+    ];
+    const SPORTS = [
+        { en: "football", zh: "足球" }, { en: "basketball", zh: "篮球" },
+        { en: "ping-pong", zh: "乒乓球" }, { en: "badminton", zh: "羽毛球" }
+    ];
+    const ABILITIES = [
+        { en: "make a robot", zh: "做机器人", phrase: true },
+        { en: "jump rope", zh: "跳绳", phrase: true },
+        { en: "play the piano", zh: "弹钢琴", phrase: true },
+        { en: "play chess", zh: "下棋", phrase: true },
+        { en: "speak English", zh: "说英语", phrase: true }
+    ];
+    const WEEKDAYS = [
+        { en: "Mondays", zh: "周一" }, { en: "Tuesdays", zh: "周二" },
+        { en: "Wednesdays", zh: "周三" }, { en: "Thursdays", zh: "周四" },
+        { en: "Fridays", zh: "周五" }, { en: "Saturdays", zh: "周六" },
+        { en: "Sundays", zh: "周日" }
+    ];
+    const SUBJECTS = [
+        { en: "Chinese", zh: "语文" }, { en: "maths", zh: "数学" },
+        { en: "English", zh: "英语" }, { en: "music", zh: "音乐" },
+        { en: "PE", zh: "体育" }, { en: "art", zh: "美术" }
+    ];
+    const SPORTS_ACTIVITIES = [
+        { en: "play football", zh: "踢足球", phrase: true },
+        { en: "play basketball", zh: "打篮球", phrase: true },
+        { en: "play ping-pong", zh: "打乒乓球", phrase: true },
+        { en: "play sports", zh: "做运动", phrase: true }
+    ];
+    const FOODS = [
+        { en: "beef and rice", zh: "牛肉和米饭", phrase: true },
+        { en: "some chicken soup", zh: "一些鸡汤", phrase: true },
+        { en: "a hamburger", zh: "一个汉堡", phrase: true },
+        { en: "some dumplings", zh: "一些饺子", phrase: true },
+        { en: "some ice cream", zh: "一些冰淇淋", phrase: true }
+    ];
+    const NATURE_THINGS = [
+        { en: "rivers", zh: "河流" }, { en: "mountains", zh: "山" },
+        { en: "trees", zh: "树" }, { en: "flowers", zh: "花" },
+        { en: "lakes", zh: "湖泊" }, { en: "waterfalls", zh: "瀑布" }
+    ];
+
+    // 六上
+    const CITIES = [
+        { en: "Sydney", zh: "悉尼" }, { en: "Beijing", zh: "北京" },
+        { en: "London", zh: "伦敦" }, { en: "New York", zh: "纽约", phrase: true },
+        { en: "Shanghai", zh: "上海" }, { en: "Tokyo", zh: "东京" }
+    ];
+    const WEATHERS = [
+        { en: "sunny", zh: "晴朗" }, { en: "rainy", zh: "下雨" },
+        { en: "windy", zh: "有风" }, { en: "cloudy", zh: "多云" },
+        { en: "hot", zh: "热" }, { en: "cold", zh: "冷" },
+        { en: "warm", zh: "温暖" }, { en: "snowy", zh: "下雪" }
+    ];
+    const CLOTHES = [
+        { en: "sweater", zh: "毛衣" }, { en: "shirt", zh: "衬衫" },
+        { en: "coat", zh: "外套" }, { en: "dress", zh: "连衣裙" },
+        { en: "hat", zh: "帽子" }, { en: "jacket", zh: "夹克" },
+        { en: "T-shirt", zh: "T恤", phrase: true }, { en: "socks", zh: "袜子" }
+    ];
+    const SEASONS = [
+        { en: "spring", zh: "春天" }, { en: "summer", zh: "夏天" },
+        { en: "autumn", zh: "秋天" }, { en: "winter", zh: "冬天" }
+    ];
+    const CELESTIALS = [
+        { en: "moon", zh: "月亮" }, { en: "sun", zh: "太阳" },
+        { en: "stars", zh: "星星" }, { en: "cloud", zh: "云" },
+        { en: "earth", zh: "地球" }, { en: "sky", zh: "天空" }
+    ];
+    const CELESTIAL_ADJ = [
+        { en: "bright", zh: "明亮的" }, { en: "round", zh: "圆的" },
+        { en: "blue", zh: "蓝色的" }, { en: "far", zh: "遥远的" }
+    ];
+    const RESOURCES = [
+        { en: "water", zh: "水" }, { en: "electricity", zh: "电" },
+        { en: "energy", zh: "能源" }, { en: "paper", zh: "纸" }
+    ];
+    const APPLIANCES = [
+        { en: "light", zh: "灯" }, { en: "TV", zh: "电视" },
+        { en: "air conditioner", zh: "空调", phrase: true }
+    ];
+    const ECO_ACTIONS = [
+        { en: "reuse bottles", zh: "重复使用瓶子", phrase: true },
+        { en: "plant trees", zh: "种树", phrase: true },
+        { en: "save water", zh: "节约用水", phrase: true }
     ];
 
     // ================================================================
-    //  1. 模板数据（Unit 1 / Unit 2 已按最新四上教材更新）
+    //  1. 模板数据（三上 + 四上 + 五上 + 六上）
     // ================================================================
     const TEMPLATES_DATA = {
-        "Unit 1": {
-            desc: "介绍职业与家务",
+        // ===== 三年级上册 =====
+        "三上U1": {
+            desc: "问候与介绍",
             templates: [
-                // —— 询问职业 ——
-                {
-                    en: "What's {谁的} {亲属} {所有格} job?",
-                    zh: "{谁的}{亲属}的工作是什么？",
-                    slots: {
-                        "谁的": [
-                            { en: "your", zh: "你的" }, { en: "his", zh: "他的" },
-                            { en: "her", zh: "她的" }, { en: "my", zh: "我的" }
-                        ],
-                        "亲属": [
-                            { en: "mother", zh: "妈妈" }, { en: "father", zh: "爸爸" },
-                            { en: "uncle", zh: "叔叔" }, { en: "aunt", zh: "阿姨" },
-                            { en: "sister", zh: "姐姐" }, { en: "brother", zh: "哥哥" },
-                            { en: "grandma", zh: "奶奶" }, { en: "grandpa", zh: "爷爷" }
-                        ],
-                        "所有格": [ { en: "'s", zh: "的" } ]
-                    }
-                },
-                // —— 回答职业 ——
-                {
-                    en: "{某人} {be} a {职业}.",
-                    zh: "{某人}是一位{职业}。",
-                    slots: {
-                        "某人": [
-                            { en: "My mother", zh: "我的妈妈", num: 's' },
-                            { en: "My father", zh: "我的爸爸", num: 's' },
-                            { en: "His aunt", zh: "他的阿姨", num: 's' },
-                            { en: "Her uncle", zh: "她的叔叔", num: 's' },
-                            { en: "My sister", zh: "我的姐姐", num: 's' },
-                            { en: "My brother", zh: "我的哥哥", num: 's' },
-                            { en: "My uncle", zh: "我的叔叔", num: 's' },
-                            { en: "My aunt", zh: "我的阿姨", num: 's' }
-                        ],
-                        "职业": ALL_JOBS
-                    }
-                },
-                // —— 我会做家务 ——
-                {
-                    en: "I can {家务}.",
-                    zh: "我会{家务}。",
-                    slots: {
-                        "家务": [
-                            { en: "cook", zh: "做饭" },
-                            { en: "clean the room", zh: "打扫房间" },
-                            { en: "sweep the floor", zh: "扫地" }
-                        ]
-                    }
-                },
-                // —— 我照顾…… ——
-                {
-                    en: "I look after {对象}.",
-                    zh: "我照顾{对象}。",
-                    slots: {
-                        "对象": [
-                            { en: "my sister", zh: "我的妹妹" },
-                            { en: "my brother", zh: "我的弟弟" },
-                            { en: "my grandma", zh: "我的奶奶" },
-                            { en: "my grandpa", zh: "我的爷爷" }
-                        ]
-                    }
-                },
-                // —— 我们一起做家务 ——
-                {
-                    en: "We {家务} together.",
-                    zh: "我们一起{家务}。",
-                    slots: {
-                        "家务": [
-                            { en: "cook", zh: "做饭" },
-                            { en: "sweep the floor", zh: "扫地" },
-                            { en: "clean the room", zh: "打扫房间" }
-                        ]
-                    }
-                }
+                { en: "Hello, I'm {名字}.", zh: "你好，我是{名字}。", slots: { "名字": NAMES } },
+                { en: "My name is {名字}.", zh: "我的名字是{名字}。", slots: { "名字": NAMES } },
+                { en: "Nice to meet you.", zh: "很高兴见到你。", slots: {} },
+                { en: "We can {动作}.", zh: "我们可以{动作}。",
+                  slots: { "动作": [
+                      { en: "share", zh: "分享" }, { en: "help", zh: "帮忙" },
+                      { en: "listen", zh: "倾听" }, { en: "smile", zh: "微笑" }] } },
+                { en: "I am {形容词} to my friends.", zh: "我对朋友们很{形容词}。",
+                  slots: { "形容词": [{ en: "nice", zh: "友好" }, { en: "good", zh: "好" }] } }
             ]
         },
-        "Unit 2": {
+        "三上U2": {
+            desc: "家庭与家人",
+            templates: [
+                { en: "This is my {亲属}.", zh: "这是我的{亲属}。", slots: { "亲属": RELATIVES } },
+                { en: "Is that your {亲属}?", zh: "那是你的{亲属}吗？", slots: { "亲属": RELATIVES } },
+                { en: "Is this your {亲属}?", zh: "这是你的{亲属}吗？", slots: { "亲属": RELATIVES } },
+                { en: "I have a {大小} family.", zh: "我有一个{大小}的家庭。",
+                  slots: { "大小": [{ en: "big", zh: "大" }, { en: "small", zh: "小" }] } }
+            ]
+        },
+        "三上U3": {
+            desc: "宠物与动物",
+            templates: [
+                { en: "Do you have a {宠物}?", zh: "你有一只{宠物}吗？", slots: { "宠物": PETS } },
+                { en: "I have a {宠物}.", zh: "我有一只{宠物}。", slots: { "宠物": PETS } },
+                { en: "Let's go to the {地点}!", zh: "让我们去{地点}吧！",
+                  slots: { "地点": [
+                      { en: "zoo", zh: "动物园" }, { en: "park", zh: "公园" },
+                      { en: "school", zh: "学校" }, { en: "garden", zh: "花园" }] } },
+                { en: "It's a {动物}.", zh: "它是一只{动物}。", slots: { "动物": ANIMALS } },
+                { en: "I like {动物复数}.", zh: "我喜欢{动物复数}。", slots: { "动物复数": ANIMAL_PLURALS } }
+            ]
+        },
+        "三上U4": {
+            desc: "水果与农场",
+            templates: [
+                { en: "Do you like {水果复数}?", zh: "你喜欢{水果复数}吗？", slots: { "水果复数": FRUITS_PLURAL } },
+                { en: "I don't like {水果复数}.", zh: "我不喜欢{水果复数}。", slots: { "水果复数": FRUITS_PLURAL } },
+                { en: "Do you like the {地点}?", zh: "你喜欢{地点}吗？",
+                  slots: { "地点": [
+                      { en: "farm", zh: "农场" }, { en: "garden", zh: "花园" },
+                      { en: "park", zh: "公园" }, { en: "zoo", zh: "动物园" }] } },
+                { en: "We can water the {对象}.", zh: "我们可以给{对象}浇水。",
+                  slots: { "对象": [
+                      { en: "flowers", zh: "花" }, { en: "grass", zh: "草" }, { en: "trees", zh: "树" }] } },
+                { en: "Plants can give us many things.", zh: "植物能给我们很多东西。", slots: {} }
+            ]
+        },
+        "三上U5": {
+            desc: "颜色",
+            templates: [
+                { en: "What colour is it?", zh: "它是什么颜色？", slots: {} },
+                { en: "It's {颜色}.", zh: "它是{颜色}的。", slots: { "颜色": COLORS } },
+                { en: "What colours do you like?", zh: "你喜欢什么颜色？", slots: {} },
+                { en: "I like {颜色}.", zh: "我喜欢{颜色}。", slots: { "颜色": COLORS } },
+                { en: "Let's draw some {颜色} birds.", zh: "让我们画一些{颜色}的小鸟。", slots: { "颜色": COLORS } }
+            ]
+        },
+        "三上U6": {
+            desc: "数字与年龄",
+            templates: [
+                { en: "How old are you?", zh: "你几岁了？", slots: {} },
+                { en: "I'm {数字} years old.", zh: "我{数字}岁了。", slots: { "数字": NUMBERS } },
+                { en: "How many {物品复数}?", zh: "有多少{物品复数}？",
+                  slots: { "物品复数": [
+                      { en: "apples", zh: "苹果" }, { en: "bananas", zh: "香蕉" },
+                      { en: "cakes", zh: "蛋糕" }, { en: "books", zh: "书" }] } },
+                { en: "It's {时间} o'clock.", zh: "现在{时间}点了。",
+                  slots: { "时间": [
+                      { en: "five", zh: "五" }, { en: "six", zh: "六" },
+                      { en: "seven", zh: "七" }, { en: "eight", zh: "八" },
+                      { en: "nine", zh: "九" }, { en: "ten", zh: "十" }] } }
+            ]
+        },
+
+        // ===== 四年级上册 =====
+        "四上U1": {
+            desc: "职业与家务",
+            templates: [
+                { en: "What's your mother's job?", zh: "你妈妈的工作是什么？", slots: {} },
+                { en: "She's a {职业}.", zh: "她是一位{职业}。", slots: { "职业": JOBS_S4U1 } },
+                { en: "He's a {职业}.", zh: "他是一位{职业}。", slots: { "职业": JOBS_S4U1 } },
+                { en: "I can {家务}.", zh: "我会{家务}。", slots: { "家务": CHORES } },
+                { en: "I look after {对象}.", zh: "我照顾{对象}。", slots: { "对象": LOOK_AFTER_TARGETS } },
+                { en: "We {家务} together.", zh: "我们一起{家务}。", slots: { "家务": CHORES } },
+                { en: "What can we do for them?", zh: "我们能为他们做点什么？", slots: {} },
+                { en: "We can do some chores.", zh: "我们可以做一些家务。", slots: {} }
+            ]
+        },
+        "四上U2": {
             desc: "描述朋友",
             templates: [
-                // —— 又……又…… ——
-                {
-                    en: "{某人} {be} {形容词1} and {形容词2}.",
-                    zh: "{某人}又{形容词1}又{形容词2}。",
-                    slots: {
-                        "某人": [
-                            { en: "He", zh: "他", num: 's' },
-                            { en: "She", zh: "她", num: 's' },
-                            { en: "My friend", zh: "我的朋友", num: 's' },
-                            { en: "My best friend", zh: "我最好的朋友", num: 's' }
-                        ],
-                        "形容词1": [
-                            { en: "tall", zh: "高" }, { en: "short", zh: "矮" },
-                            { en: "strong", zh: "壮" }, { en: "thin", zh: "瘦" }
-                        ],
-                        "形容词2": [
-                            { en: "kind", zh: "和蔼" }, { en: "funny", zh: "有趣" },
-                            { en: "quiet", zh: "安静" }, { en: "clever", zh: "聪明" },
-                            { en: "hard-working", zh: "勤奋" }
-                        ]
-                    }
-                },
-                // —— 也很…… ——
-                {
-                    en: "{某人} {be} also {形容词}.",
-                    zh: "{某人}也很{形容词}。",
-                    slots: {
-                        "某人": [
-                            { en: "He", zh: "他", num: 's' },
-                            { en: "She", zh: "她", num: 's' },
-                            { en: "My friend", zh: "我的朋友", num: 's' },
-                            { en: "My best friend", zh: "我最好的朋友", num: 's' }
-                        ],
-                        "形容词": [
-                            { en: "kind", zh: "和蔼" }, { en: "funny", zh: "有趣" },
-                            { en: "quiet", zh: "安静" }, { en: "clever", zh: "聪明" },
-                            { en: "hard-working", zh: "勤奋" }
-                        ]
-                    }
-                },
-                // —— 有……头发 ——
-                {
-                    en: "{某人} has {外貌}.",
-                    zh: "{某人}有{外貌}。",
-                    slots: {
-                        "某人": [
-                            { en: "He", zh: "他", num: 's' },
-                            { en: "She", zh: "她", num: 's' },
-                            { en: "My friend", zh: "我的朋友", num: 's' }
-                        ],
-                        "外貌": [
-                            { en: "nice short hair", zh: "好看的短发" },
-                            { en: "long hair", zh: "长发" },
-                            { en: "short hair", zh: "短发" },
-                            { en: "black hair", zh: "黑发" }
-                        ]
-                    }
-                },
-                // —— 帮我…… ——
-                {
-                    en: "{某人} often helps me with {科目}.",
-                    zh: "{某人}经常帮我{科目}。",
-                    slots: {
-                        "某人": [
-                            { en: "He", zh: "他", num: 's' },
-                            { en: "She", zh: "她", num: 's' },
-                            { en: "My friend", zh: "我的朋友", num: 's' }
-                        ],
-                        "科目": [
-                            { en: "English", zh: "英语" },
-                            { en: "Chinese", zh: "语文" },
-                            { en: "maths", zh: "数学" }
-                        ]
-                    }
-                },
-                // —— 我们一起…… ——
-                {
-                    en: "We {活动} together.",
-                    zh: "我们一起{活动}。",
-                    slots: {
-                        "活动": [
-                            { en: "play games", zh: "玩游戏" },
-                            { en: "play football", zh: "踢足球" },
-                            { en: "play basketball", zh: "打篮球" },
-                            { en: "read books", zh: "读书" }
-                        ]
-                    }
-                },
-                // —— 简单描述 ——
-                {
-                    en: "{某人} {be} {形容词}.",
-                    zh: "{某人}很{形容词}。",
-                    slots: {
-                        "某人": [
-                            { en: "He", zh: "他", num: 's' },
-                            { en: "She", zh: "她", num: 's' },
-                            { en: "My friend", zh: "我的朋友", num: 's' },
-                            { en: "My best friend", zh: "我最好的朋友", num: 's' }
-                        ],
-                        "形容词": [
-                            { en: "funny", zh: "有趣" }, { en: "kind", zh: "和蔼" },
-                            { en: "quiet", zh: "安静" }, { en: "clever", zh: "聪明" },
-                            { en: "tall", zh: "高" }, { en: "short", zh: "矮" },
-                            { en: "strong", zh: "壮" }, { en: "thin", zh: "瘦" },
-                            { en: "hard-working", zh: "勤奋" }
-                        ]
-                    }
-                }
+                { en: "What's your friend's name?", zh: "你朋友的名字是什么？", slots: {} },
+                { en: "His name is {名字}.", zh: "他的名字是{名字}。", slots: { "名字": NAMES } },
+                { en: "Her name is {名字}.", zh: "她的名字是{名字}。", slots: { "名字": NAMES } },
+                { en: "He's {形容词1} and {形容词2}.", zh: "他又{形容词1}又{形容词2}。",
+                  slots: { "形容词1": PERSON_ADJ_1, "形容词2": PERSON_ADJ_2 } },
+                { en: "He's also {形容词}.", zh: "他也很{形容词}。", slots: { "形容词": PERSON_ADJ_2 } },
+                { en: "He has nice short hair too.", zh: "他还有一头好看的短发。", slots: {} },
+                { en: "He often helps me with {科目}.", zh: "他经常帮我{科目}。", slots: { "科目": SUBJECTS } },
+                { en: "Who's your best friend?", zh: "谁是你最好的朋友？", slots: {} }
             ]
         },
-        "Unit 3": {
+        "四上U3": {
             desc: "地点与活动",
             templates: [
-                {
-                    en: "There is a {地点}.",
-                    zh: "有一个{地点}。",
-                    slots: {
-                        "地点": [
-                            { en: "playground", zh: "操场" }, { en: "park", zh: "公园" },
-                            { en: "library", zh: "图书馆" }, { en: "gym", zh: "体育馆" },
-                            { en: "garden", zh: "花园" }, { en: "zoo", zh: "动物园" }
-                        ]
-                    }
-                },
-                {
-                    en: "There are {数量} {地点}.",
-                    zh: "有{数量}个{地点}。",
-                    slots: {
-                        "数量": [
-                            { en: "two", zh: "两" }, { en: "three", zh: "三" },
-                            { en: "four", zh: "四" }, { en: "five", zh: "五" },
-                            { en: "many", zh: "许多" }
-                        ],
-                        "地点": [
-                            { en: "playgrounds", zh: "操场" }, { en: "parks", zh: "公园" },
-                            { en: "libraries", zh: "图书馆" }, { en: "gyms", zh: "体育馆" },
-                            { en: "gardens", zh: "花园" }, { en: "zoos", zh: "动物园" }
-                        ]
-                    }
-                }
+                { en: "There is a {地点}.", zh: "有一个{地点}。",
+                  slots: { "地点": [
+                      { en: "playground", zh: "操场" }, { en: "park", zh: "公园" },
+                      { en: "gym", zh: "体育馆" }, { en: "library", zh: "图书馆" },
+                      { en: "garden", zh: "花园" }] } },
+                { en: "There are many people.", zh: "有很多人。", slots: {} },
+                { en: "My favourite place is the {地点}.", zh: "我最喜欢的地方是{地点}。",
+                  slots: { "地点": [
+                      { en: "museum", zh: "博物馆" }, { en: "park", zh: "公园" },
+                      { en: "library", zh: "图书馆" }, { en: "gym", zh: "体育馆" }] } },
+                { en: "Let's do some sports.", zh: "让我们做运动吧。", slots: {} },
+                { en: "Great!", zh: "太好了！", slots: {} }
             ]
         },
-        "Unit 4": {
+        "四上U4": {
             desc: "职业与帮助",
             templates: [
-                {
-                    en: "{某人} {be} a {职业}.",
-                    zh: "{某人}是一位{职业}。",
-                    slots: {
-                        "某人": [
-                            { en: "My mother", zh: "我的妈妈", num: 's' },
-                            { en: "My father", zh: "我的爸爸", num: 's' },
-                            { en: "His aunt", zh: "他的阿姨", num: 's' },
-                            { en: "Her uncle", zh: "她的叔叔", num: 's' },
-                            { en: "Our neighbour", zh: "我们的邻居", num: 's' },
-                            { en: "My sister", zh: "我的姐姐", num: 's' },
-                            { en: "My brother", zh: "我的哥哥", num: 's' },
-                            { en: "My uncle", zh: "我的叔叔", num: 's' },
-                            { en: "My aunt", zh: "我的阿姨", num: 's' },
-                            { en: "My parents", zh: "我的父母", num: 'p' },
-                            { en: "His cousins", zh: "他的表兄弟们", num: 'p' },
-                            { en: "They", zh: "他们", num: 'p' }
-                        ],
-                        "职业": ALL_JOBS
-                    }
-                },
-                {
-                    en: "{某人} {动作} {对象}.",
-                    zh: "{某人}{动作}{对象}。",
-                    slots: {
-                        "某人": [
-                            { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' },
-                            { en: "My aunt", zh: "我的阿姨", num: 's' },
-                            { en: "Our neighbour", zh: "我们的邻居", num: 's' },
-                            { en: "They", zh: "他们", num: 'p' },
-                            { en: "My parents", zh: "我的父母", num: 'p' }
-                        ],
-                        "动作": [
-                            { en: "helps", base: "help", zh: "帮助" },
-                            { en: "saves", base: "save", zh: "拯救" },
-                            { en: "protects", base: "protect", zh: "保护" },
-                            { en: "teaches", base: "teach", zh: "教" },
-                            { en: "drives", base: "drive", zh: "驾驶" },
-                            { en: "cooks", base: "cook", zh: "烹饪" },
-                            { en: "cleans", base: "clean", zh: "清洁" }
-                        ],
-                        "对象": [
-                            { en: "people", zh: "人们" }, { en: "sick people", zh: "病人" },
-                            { en: "students", zh: "学生" }, { en: "children", zh: "孩子" },
-                            { en: "food", zh: "食物" }, { en: "the city", zh: "城市" },
-                            { en: "packages", zh: "包裹" }
-                        ]
-                    }
-                }
+                { en: "Our neighbour is a {职业}.", zh: "我们的邻居是一位{职业}。", slots: { "职业": JOBS_S4U4 } },
+                { en: "He often helps people.", zh: "他经常帮助人们。", slots: {} },
+                { en: "He's a school bus driver.", zh: "他是一位校车司机。", slots: {} },
+                { en: "He takes us to school every day.", zh: "他每天送我们去学校。", slots: {} },
+                { en: "That's an important job too!", zh: "那也是一份重要的工作！", slots: {} },
+                { en: "Chen Jie is making the bed.", zh: "陈杰正在整理床铺。", slots: {} }
             ]
         },
-        "Unit 5": {
+        "四上U5": {
             desc: "天气与对话",
             templates: [
-                {
-                    en: "What's the weather like in {城市}?",
-                    zh: "{城市}的天气怎么样？",
-                    slots: {
-                        "城市": [
-                            { en: "Sydney", zh: "悉尼" }, { en: "Beijing", zh: "北京" },
-                            { en: "London", zh: "伦敦" }, { en: "New York", zh: "纽约" },
-                            { en: "Shanghai", zh: "上海" }, { en: "Tokyo", zh: "东京" }
-                        ]
-                    }
-                },
-                {
-                    en: "It's {天气} today.",
-                    zh: "今天天气{天气}。",
-                    slots: {
-                        "天气": [
-                            { en: "sunny", zh: "晴朗" }, { en: "rainy", zh: "下雨" },
-                            { en: "windy", zh: "有风" }, { en: "cloudy", zh: "多云" },
-                            { en: "hot", zh: "热" }, { en: "cold", zh: "冷" },
-                            { en: "warm", zh: "温暖" }, { en: "cool", zh: "凉爽" },
-                            { en: "snowy", zh: "下雪" }
-                        ]
-                    }
-                }
+                { en: "What's the weather like in {城市}?", zh: "{城市}的天气怎么样？", slots: { "城市": CITIES } },
+                { en: "It's {天气} today.", zh: "今天天气{天气}。", slots: { "天气": WEATHERS } },
+                { en: "It's raining now.", zh: "现在正在下雨。", slots: {} },
+                { en: "It's OK. We can go to the library.", zh: "没关系。我们可以去图书馆。", slots: {} },
+                { en: "We can't play basketball in the park.", zh: "我们不能在公园打篮球。", slots: {} }
             ]
         },
-        "Unit 6": {
+        "四上U6": {
             desc: "服装与季节",
             templates: [
-                {
-                    en: "Whose {衣物} is this?",
-                    zh: "这是谁的{衣物}？",
-                    slots: {
-                        "衣物": [
-                            { en: "sweater", zh: "毛衣" }, { en: "shirt", zh: "衬衫" },
-                            { en: "coat", zh: "外套" }, { en: "dress", zh: "连衣裙" },
-                            { en: "hat", zh: "帽子" }, { en: "jacket", zh: "夹克" },
-                            { en: "T-shirt", zh: "T恤" }, { en: "socks", zh: "袜子" }
-                        ]
-                    }
-                },
-                {
-                    en: "I like {季节} best.",
-                    zh: "我最喜欢{季节}。",
-                    slots: {
-                        "季节": [
-                            { en: "spring", zh: "春天" }, { en: "summer", zh: "夏天" },
-                            { en: "autumn", zh: "秋天" }, { en: "winter", zh: "冬天" }
-                        ]
-                    }
-                }
+                { en: "Whose {衣物} is this?", zh: "这是谁的{衣物}？", slots: { "衣物": CLOTHES } },
+                { en: "It's your dad's.", zh: "这是你爸爸的。", slots: {} },
+                { en: "Can I wear this new shirt today?", zh: "今天我能穿这件新衬衫吗？", slots: {} },
+                { en: "Yes, but wear a coat too.", zh: "可以，但也要穿件外套。", slots: {} },
+                { en: "Which season do you like?", zh: "你喜欢哪个季节？", slots: {} },
+                { en: "I like {季节}.", zh: "我喜欢{季节}。", slots: { "季节": SEASONS } }
+            ]
+        },
+
+        // ===== 五年级上册 =====
+        "五上U1": {
+            desc: "描述人物",
+            templates: [
+                { en: "What's he like?", zh: "他是什么样的人？", slots: {} },
+                { en: "What's she like?", zh: "她是什么样的人？", slots: {} },
+                { en: "{某人} {be} {形容词1} and {形容词2}.", zh: "{某人}又{形容词1}又{形容词2}。",
+                  slots: { "某人": PERSONS, "形容词1": PERSON_ADJ_1, "形容词2": PERSON_ADJ_2 } },
+                { en: "Is {谁} good at {运动}?", zh: "{谁}擅长{运动}吗？",
+                  slots: { "谁": [{ en: "he", zh: "他" }, { en: "she", zh: "她" }], "运动": SPORTS } },
+                { en: "{某人} {be} also {形容词}.", zh: "{某人}也很{形容词}。",
+                  slots: { "某人": PERSONS, "形容词": PERSON_ADJ_2 } },
+                { en: "I can {动作}.", zh: "我会{动作}。", slots: { "动作": ABILITIES } }
+            ]
+        },
+        "五上U2": {
+            desc: "情绪与项目",
+            templates: [
+                { en: "What's the matter?", zh: "怎么了？", slots: {} },
+                { en: "I look {情绪}.", zh: "我看起来{情绪}。",
+                  slots: { "情绪": [
+                      { en: "sad", zh: "难过" }, { en: "worried", zh: "担心" },
+                      { en: "angry", zh: "生气" }, { en: "excited", zh: "兴奋" }] } },
+                { en: "It's about our {东西}.", zh: "它是关于我们的{东西}。",
+                  slots: { "东西": [
+                      { en: "school project", zh: "学校项目", phrase: true },
+                      { en: "homework", zh: "作业" },
+                      { en: "class", zh: "班级" }] } },
+                { en: "Why not do both?", zh: "为什么不两个都做呢？", slots: {} }
+            ]
+        },
+        "五上U3": {
+            desc: "星期与课程",
+            templates: [
+                { en: "What's your favourite day at school?", zh: "你最喜欢上学的哪一天？", slots: {} },
+                { en: "What do you have on {星期}?", zh: "你{星期}有什么课？", slots: { "星期": WEEKDAYS } },
+                { en: "I have {课程}.", zh: "我有{课程}课。",
+                  slots: { "课程": [
+                      { en: "Chinese and maths", zh: "语文和数学", phrase: true },
+                      { en: "maths and English", zh: "数学和英语", phrase: true },
+                      { en: "music and PE", zh: "音乐和体育", phrase: true },
+                      { en: "art and music", zh: "美术和音乐", phrase: true }] } },
+                { en: "I often {活动}.", zh: "我经常{活动}。", slots: { "活动": SPORTS_ACTIVITIES } }
+            ]
+        },
+        "五上U4": {
+            desc: "健康与习惯",
+            templates: [
+                { en: "How can we all stay healthy?", zh: "我们怎样才能保持健康？", slots: {} },
+                { en: "We should eat {食物}.", zh: "我们应该吃{食物}。",
+                  slots: { "食物": [
+                      { en: "healthy food", zh: "健康食品", phrase: true },
+                      { en: "vegetables", zh: "蔬菜" },
+                      { en: "fruit", zh: "水果" }] } },
+                { en: "You shouldn't {动作}.", zh: "你不应该{动作}。",
+                  slots: { "动作": [
+                      { en: "play on a phone", zh: "玩手机", phrase: true },
+                      { en: "stay up late", zh: "熬夜", phrase: true },
+                      { en: "eat too much", zh: "吃太多", phrase: true }] } }
+            ]
+        },
+        "五上U5": {
+            desc: "食物与饮料",
+            templates: [
+                { en: "What would you like to eat?", zh: "你想吃什么？", slots: {} },
+                { en: "I'd like {食物}.", zh: "我想要{食物}。", slots: { "食物": FOODS } },
+                { en: "Would you like some {食物} too?", zh: "你还想要一些{食物}吗？",
+                  slots: { "食物": [
+                      { en: "chicken soup", zh: "鸡汤", phrase: true },
+                      { en: "dumplings", zh: "饺子" },
+                      { en: "hamburgers", zh: "汉堡" },
+                      { en: "tea", zh: "茶" }] } }
+            ]
+        },
+        "五上U6": {
+            desc: "自然公园",
+            templates: [
+                { en: "There are many {自然景物} in the nature park.", zh: "自然公园里有很多{自然景物}。",
+                  slots: { "自然景物": NATURE_THINGS } },
+                { en: "Is there a {景物} in the forest?", zh: "森林里有一个{景物}吗？",
+                  slots: { "景物": [
+                      { en: "waterfall", zh: "瀑布" }, { en: "lake", zh: "湖" },
+                      { en: "river", zh: "河流" }, { en: "mountain", zh: "山" }] } },
+                { en: "Yes, there is.", zh: "是的，有。", slots: {} },
+                { en: "Are there any {景物复数} in the nature park?", zh: "自然公园里有{景物复数}吗？",
+                  slots: { "景物复数": [
+                      { en: "famous mountains", zh: "著名的山", phrase: true },
+                      { en: "clean rivers", zh: "清澈的河流", phrase: true },
+                      { en: "tall trees", zh: "高大的树", phrase: true }] } }
+            ]
+        },
+
+        // ===== 六年级上册 =====
+        "六上U1": {
+            desc: "谈论周末（过去时）",
+            templates: [
+                { en: "What did you do last weekend?", zh: "你上周末做了什么？", slots: {} },
+                { en: "Where did you go last weekend?", zh: "你上周末去了哪里？", slots: {} },
+                { en: "How was your weekend?", zh: "你的周末怎么样？", slots: {} },
+                { en: "It was {评价}.", zh: "它{评价}。",
+                  slots: { "评价": [
+                      { en: "great", zh: "很棒" }, { en: "good", zh: "很好" },
+                      { en: "OK", zh: "还行" }, { en: "not too bad", zh: "还不错", phrase: true }] } },
+                { en: "I {过去式} last weekend.", zh: "我上周末{过去式}。",
+                  slots: { "过去式": [
+                      { en: "went to the park", zh: "去了公园", phrase: true },
+                      { en: "watched TV", zh: "看了电视", phrase: true },
+                      { en: "cleaned my room", zh: "打扫了房间", phrase: true },
+                      { en: "visited my grandparents", zh: "看望了祖父母", phrase: true }] } }
+            ]
+        },
+        "六上U2": {
+            desc: "运动会与活动",
+            templates: [
+                { en: "There was a {活动} yesterday.", zh: "昨天有一场{活动}。",
+                  slots: { "活动": [
+                      { en: "race", zh: "比赛" },
+                      { en: "marathon", zh: "马拉松" },
+                      { en: "book fair", zh: "书展", phrase: true }] } },
+                { en: "We {动作} yesterday.", zh: "我们昨天{动作}。",
+                  slots: { "动作": [
+                      { en: "ran in the race", zh: "参加了跑步比赛", phrase: true },
+                      { en: "cheered for the runners", zh: "为选手加油", phrase: true },
+                      { en: "counted down", zh: "倒计时", phrase: true }] } }
+            ]
+        },
+        "六上U3": {
+            desc: "生病与身体",
+            templates: [
+                { en: "What's the matter?", zh: "怎么了？", slots: {} },
+                { en: "I have a {疾病}.", zh: "我{疾病}。",
+                  slots: { "疾病": [
+                      { en: "cold", zh: "感冒" }, { en: "fever", zh: "发烧" },
+                      { en: "cough", zh: "咳嗽" }, { en: "headache", zh: "头痛" }] } },
+                { en: "You should {建议}.", zh: "你应该{建议}。",
+                  slots: { "建议": [
+                      { en: "stay in bed", zh: "待在床上", phrase: true },
+                      { en: "drink more water", zh: "多喝水", phrase: true },
+                      { en: "see a doctor", zh: "看医生", phrase: true }] } }
+            ]
+        },
+        "六上U4": {
+            desc: "金钱与购物",
+            templates: [
+                { en: "How much is it?", zh: "它多少钱？", slots: {} },
+                { en: "It's {价格} yuan.", zh: "它是{价格}元。",
+                  slots: { "价格": [
+                      { en: "ten", zh: "十" }, { en: "twenty", zh: "二十" },
+                      { en: "thirty", zh: "三十" }, { en: "fifty", zh: "五十" }] } },
+                { en: "I want to buy a {物品}.", zh: "我想买一个{物品}。",
+                  slots: { "物品": [
+                      { en: "schoolbag", zh: "书包" }, { en: "notebook", zh: "笔记本" },
+                      { en: "pencil", zh: "铅笔" }, { en: "ruler", zh: "尺子" }] } }
+            ]
+        },
+        "六上U5": {
+            desc: "太空与天文",
+            templates: [
+                { en: "What can you see in the sky?", zh: "你在天空中能看到什么？", slots: {} },
+                { en: "I can see the {天体}.", zh: "我能看到{天体}。", slots: { "天体": CELESTIALS } },
+                { en: "The {天体} is {形容词}.", zh: "{天体}是{形容词}的。",
+                  slots: { "天体": CELESTIALS, "形容词": CELESTIAL_ADJ } }
+            ]
+        },
+        "六上U6": {
+            desc: "能源与环保",
+            templates: [
+                { en: "We should save {资源}.", zh: "我们应该节约{资源}。", slots: { "资源": RESOURCES } },
+                { en: "Please turn off the {电器}.", zh: "请关掉{电器}。", slots: { "电器": APPLIANCES } },
+                { en: "We can {环保动作}.", zh: "我们可以{环保动作}。", slots: { "环保动作": ECO_ACTIONS } }
             ]
         }
     };
 
+    // 已知短语（用于短语感知分词）
+    const KNOWN_PHRASES = [
+        "Jinggangshan Revolution Museum",
+        "Hong Kong-Zhuhai-Macao Bridge",
+        "visited my grandparents",
+        "take a dancing class",
+        "cheered for the runners",
+        "make a snowman",
+        "clean the room",
+        "clean my room",
+        "sweep the floor",
+        "wash the clothes",
+        "make the bed",
+        "water the flowers",
+        "water the grass",
+        "plant new trees",
+        "make a robot",
+        "play the piano",
+        "play ping-pong",
+        "play badminton",
+        "play basketball",
+        "play football",
+        "play sports",
+        "play chess",
+        "play games",
+        "read books",
+        "read a book",
+        "went to the park",
+        "watched TV",
+        "went to school",
+        "go to school",
+        "go to the zoo",
+        "go to bed",
+        "go swimming",
+        "go shopping",
+        "go for a walk",
+        "go on a picnic",
+        "go hiking",
+        "go cycling",
+        "go home",
+        "get up",
+        "eat breakfast",
+        "eat dinner",
+        "have breakfast",
+        "have lunch",
+        "have dinner",
+        "jump rope",
+        "speak English",
+        "ride a bike",
+        "take pictures",
+        "take a picture",
+        "ice-skate",
+        "look after",
+        "take care of",
+        "the Great Wall",
+        "the Red Army",
+        "Eiffel Tower",
+        "Terracotta Warriors",
+        "New Zealand",
+        "New York",
+        "count down",
+        "counted down",
+        "book fair",
+        "run out",
+        "look up",
+        "come from",
+        "science museum",
+        "post office",
+        "pet shop",
+        "air conditioner",
+        "watch TV",
+        "school project",
+        "healthy food",
+        "play on a phone",
+        "stay up late",
+        "eat too much",
+        "chicken soup",
+        "not too bad",
+        "Chinese and maths",
+        "maths and English",
+        "music and PE",
+        "art and music",
+        "famous mountains",
+        "clean rivers",
+        "tall trees",
+        "beef and rice",
+        "some chicken soup",
+        "a hamburger",
+        "some dumplings",
+        "some ice cream",
+        "stay in bed",
+        "drink more water",
+        "see a doctor",
+        "reuse bottles",
+        "plant trees",
+        "save water",
+        "baby sister",
+        "red panda",
+        "my friend",
+        "my best friend",
+        "school bus driver",
+        "ran in the race",
+        "ran in the race",
+        "office worker",
+        "factory worker",
+        "delivery worker",
+        "police officer",
+        "T-shirt",
+        "hard-working"
+    ];
+
+    // 干扰词词库（覆盖四个年级）
     const OLD_WORDS = [
-        "name","nice","ear","hand","eye","mouth","arm","can","share","smile","listen","help","say","friend","good",
-        "mum","dad","grandma","grandpa","grandfather","grandmother","mother","father","me","sister","family","big",
-        "cousin","brother","baby","uncle","aunt","small","like","dog","pet","cat","fish","bird","rabbit","go","zoo",
-        "fox","Miss","panda","red panda","cute","monkey","tiger","elephant","lion","animal","giraffe","tall","fast",
-        "apple","banana","farm","air","orange","grape","school","garden","need","water","flower","grass","plant","new",
-        "tree","sun","give","them","colour","green","red","blue","make","purple","brown","bear","yellow","duck","sea",
-        "pink","draw","white","black","some","one","two","three","four","five","six","seven","eight","nine","ten","old",
-        "year","o'clock","cut","eat","cake","where","from","about","today","student","after","who","girl",
-        "neighbour","boy","woman","man","Mr","classmate","he","also","English","she","very","UK","China","Canada","USA",
-        "has","long","body","short","leg","right","fat","thin","slow","love","tail","her","gift","picture","card","sing",
-        "dance","talk","face","all","song","or","much","eraser","find","ruler","pen","pencil","book","bag","paper","these",
-        "see","smell","taste","hear","touch","nose","tongue","class","in","computer","learn","breakfast","time","bread",
-        "egg","milk","noodle","juice","rice","meat","vegetable","healthy","plate","soup","fruit","colourful","candy",
-        "yummy","boat","cool","keep","at","home","ball","doll","car","on","shelf","in","cap","map","under","still","put",
-        "fifteen","twelve","fourteen","thirteen","eleven","twenty","sixteen","seventeen","eighteen","nineteen","piggy bank",
-        "pay","back"
+        "name", "nice", "ear", "hand", "eye", "mouth", "arm", "can", "share", "smile",
+        "listen", "help", "say", "friend", "good",
+        "mum", "dad", "grandma", "grandpa", "grandfather", "grandmother", "mother", "father",
+        "me", "sister", "family", "big", "cousin", "brother", "baby", "uncle", "aunt", "small",
+        "like", "dog", "pet", "cat", "fish", "bird", "rabbit", "panda", "monkey", "go", "zoo",
+        "tiger", "elephant", "fox", "lion", "Miss", "cute", "animal", "giraffe", "tall", "fast",
+        "apple", "banana", "farm", "air", "orange", "grape", "water", "school", "flower",
+        "garden", "grass", "need", "tree", "sun", "plant", "new", "give", "them",
+        "colour", "green", "red", "blue", "purple", "make", "brown", "yellow", "pink",
+        "bear", "white", "black", "duck", "sea", "draw", "some",
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        "old", "year", "o'clock", "cut", "eat", "cake",
+        "team", "player", "him", "lovely", "clever", "young", "hard-working", "science",
+        "robot", "jump", "rope", "piano", "chess", "front", "easy", "star", "wonderful",
+        "sad", "worried", "angry", "excited", "matter", "project", "centre", "parent",
+        "agree", "finish", "both", "wrong", "afraid", "laugh", "move", "yours",
+        "Wednesday", "Tuesday", "Friday", "Monday", "Thursday", "Saturday", "Sunday",
+        "because", "usually", "weekend", "sometimes", "evening", "answer", "ping-pong",
+        "night", "visit", "grandparent", "lesson", "subject",
+        "stay", "should", "flu", "else", "exercise", "enough", "habit", "house", "show",
+        "phone", "rest", "check", "less", "brush", "tooth", "teeth", "twice", "hour", "free",
+        "hungry", "beef", "ice", "cream", "dumpling", "tea", "hamburger", "Mrs", "coconut",
+        "interesting", "seed", "pull", "stem", "root", "lotus", "lake", "world", "round",
+        "different", "way", "river", "nature", "waterfall", "forest", "mountain", "famous",
+        "fog", "flood", "wind", "fire", "trip", "dangerous", "heavy", "hotel", "close",
+        "umbrella", "raincoat", "worry", "fine", "know", "before", "bring",
+        "was", "clomb", "kilometre", "send", "went", "thousand", "clay", "saw", "village",
+        "ate", "dry", "took", "view", "inspiring", "bamboo", "pumpkin", "restaurant", "airport",
+        "planet", "earth", "sky", "daytime", "cloud", "moon", "space", "star", "sunset",
+        "time", "Mars", "power", "electricity", "solar", "type", "energy", "light", "head",
+        "cool", "resource", "change", "quick", "shower", "unplug", "difference", "reduce",
+        "drive", "reuse", "own", "market", "bottle", "top", "useful", "dirty", "side"
     ];
 
     // ================================================================
@@ -1221,6 +1999,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const state = {
         selectedUnits: new Set(),
         moreOldWords: false,
+        splitPhrases: true,            // ★ 默认开启
         highEnd: false,
         currentEn: '',
         currentZh: '',
@@ -1238,6 +2017,7 @@ document.addEventListener('DOMContentLoaded', function() {
         retryMode: false,
     };
 
+    let pendingUnits = new Set();      // 二级卡片中暂存的单元选择
     let nextItemId = 0;
     let isDragging = false;
     let dragState = null;
@@ -1247,8 +2027,20 @@ document.addEventListener('DOMContentLoaded', function() {
     //  4. DOM
     // ================================================================
     const $ = id => document.getElementById(id);
-    const unitCheckGroup = $('unitCheckGroup');
+    const unitTriggerBtn = $('unitTriggerBtn');
+    const unitCount = $('unitCount');
+    const unitModalOverlay = $('unitModalOverlay');
+    const unitModalBody = $('unitModalBody');
+    const unitModalClose = $('unitModalClose');
+    const unitSelectAll = $('unitSelectAll');
+    const unitDeselectAll = $('unitDeselectAll');
+    const unitModalConfirm = $('unitModalConfirm');
+    const splitPhrasesConfirmOverlay = $('splitPhrasesConfirmOverlay');
+    const splitPhrasesCancel = $('splitPhrasesCancel');
+    const splitPhrasesConfirm = $('splitPhrasesConfirm');
+
     const moreOldWordsCheck = $('moreOldWords');
+    const splitPhrasesCheck = $('splitPhrasesCheck');
     const shuffleBtn = $('shuffleBtn');
     const checkBtn = $('checkBtn');
     const nextBtn = $('nextBtn');
@@ -1269,7 +2061,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tutorialOverlay = $('tutorialOverlay');
     const tutorialClose = $('tutorialClose');
     const tutorialNext = $('tutorialNext');
-    const tutorialSkip = $('tutorialSkip');
+    const tutorialPrev = $('tutorialPrev');
     const tutorialTitle = $('tutorialTitle');
     const tutorialDesc = $('tutorialDesc');
     const tutorialDots = $('tutorialDots').querySelectorAll('.dot');
@@ -1286,12 +2078,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return arr;
     }
-    function tokenize(sentence) {
-        const tokens = sentence.match(/[A-Za-z']+|[.,!?;:]/g);
-        return tokens ? tokens.map(t => t.toLowerCase()) : [];
+
+    // ★ 短语感知分词
+    function tokenizePhraseAware(sentence, splitPhrases) {
+        let tokens = sentence.match(/[A-Za-z']+|[.,!?;:]/g) || [];
+        if (splitPhrases) return tokens;
+
+        const phrases = KNOWN_PHRASES.slice().sort((a, b) => b.split(/\s+/).length - a.split(/\s+/).length);
+        let result = [];
+        let i = 0;
+        while (i < tokens.length) {
+            let matched = false;
+            for (const phrase of phrases) {
+                const phraseWords = phrase.toLowerCase().split(/\s+/);
+                if (i + phraseWords.length > tokens.length) continue;
+                let match = true;
+                for (let j = 0; j < phraseWords.length; j++) {
+                    const tokenClean = tokens[i + j].toLowerCase().replace(/[.,!?;:]/g, '');
+                    if (tokenClean !== phraseWords[j]) { match = false; break; }
+                }
+                if (match) {
+                    const merged = tokens.slice(i, i + phraseWords.length).join(' ');
+                    result.push(merged);
+                    i += phraseWords.length;
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                result.push(tokens[i]);
+                i++;
+            }
+        }
+        return result;
     }
-    function getDistractors(exclude, count = 4) {
-        const pool = OLD_WORDS.filter(w => !exclude.includes(w));
+
+    function lower(arr) { return arr.map(w => w.toLowerCase()); }
+    function getDistractors(excludeLower, count = 4) {
+        const pool = OLD_WORDS.filter(w => !excludeLower.includes(w.toLowerCase()));
         if (pool.length === 0) return [];
         return shuffleArray([...pool]).slice(0, count);
     }
@@ -1304,13 +2128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function ease() {
         return state.highEnd
             ? 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-            : 'cubic-bezier(0.4, 0, 0.2, 1)';
-    }
-
-    function filterSlotByUnits(arr) {
-        return arr.filter(item =>
-            !item.src || item.src.some(u => state.selectedUnits.has(u))
-        );
+            : 'cubic-bezier(0.25, 0.1, 0.25, 1)';
     }
 
     // ================================================================
@@ -1329,13 +2147,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const slotKeys = Object.keys(template.slots);
             const chosen = {};
             let valid = true;
-
             for (const key of slotKeys) {
-                if (key === 'be') continue;
                 const arr = template.slots[key];
-                const filtered = filterSlotByUnits(arr);
-                if (filtered.length === 0) { valid = false; break; }
-                chosen[key] = filtered[Math.floor(Math.random() * filtered.length)];
+                if (!arr || arr.length === 0) { valid = false; break; }
+                chosen[key] = arr[Math.floor(Math.random() * arr.length)];
             }
             if (!valid) continue;
 
@@ -1352,68 +2167,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 const val = chosen[key];
                 let enVal = val.en, zhVal = val.zh;
                 if (key === '职业') {
-                    if (subjectNum === 'p') { enVal = val.plural; zhVal = val.zh; }
-                    else {
-                        if (template.en.includes('a {职业}')) { enVal = val.en; zhVal = val.zh; }
-                        else { enVal = `a ${val.en}`; zhVal = `一位${val.zh}`; }
-                    }
-                }
-                if (key === '动作') {
-                    enVal = (subjectNum === 'p') ? val.base : val.en;
+                    if (subjectNum === 'p') { enVal = val.plural || val.en; zhVal = val.zh; }
                 }
                 en = en.replace(`{${key}}`, enVal);
                 zh = zh.replace(`{${key}}`, zhVal);
             }
             if (en.includes('{be}')) en = en.replace(/{be}/g, getBe(subjectNum));
-            en = en.replace(/\ba a \b/g, 'a ');
-            en = en.replace(/\ba an \b/g, 'an ');
-            if (!en.endsWith('.') && !en.endsWith('?') && !en.endsWith('!')) en += '.';
-            if (!zh.endsWith('。') && !zh.endsWith('？') && !zh.endsWith('！')) zh += '。';
+            if (!/[.?!]$/.test(en)) en += '.';
+            if (!/[。？！]$/.test(zh)) zh += '。';
+
             return {
                 en, zh,
                 patternDesc: template.unitDesc,
                 templateEn: template.en,
-                correctWords: tokenize(en),
+                correctWords: tokenizePhraseAware(en, state.splitPhrases),
             };
         }
         return null;
     }
 
     // ================================================================
-    //  7. 卡片倾斜（仅高级渲染时启用，立体感较弱）
+    //  7. 倾斜
     // ================================================================
     function applyTilt(el) {
         if (!state.highEnd) return;
         if (el.dataset.tiltBound === '1') return;
         el.dataset.tiltBound = '1';
-
         let rafId = null, hovering = false;
         let tRX = 0, tRY = 0, tLift = 0;
         let cRX = 0, cRY = 0, cLift = 0;
-
-        const PERSPECTIVE = 1000;
-        const ROT_RANGE = 12;
-        const LIFT = 14;
+        const PERSPECTIVE = 720, ROT_RANGE = 28, LIFT = 30;
 
         function tick() {
-            cRX += (tRX - cRX) * 0.18;
-            cRY += (tRY - cRY) * 0.18;
-            cLift += (tLift - cLift) * 0.18;
+            cRX += (tRX - cRX) * 0.17;
+            cRY += (tRY - cRY) * 0.17;
+            cLift += (tLift - cLift) * 0.17;
             const settled = !hovering &&
                 Math.abs(tRX - cRX) < 0.04 &&
                 Math.abs(tRY - cRY) < 0.04 &&
                 Math.abs(tLift - cLift) < 0.12;
-            if (settled) {
-                el.style.transform = ''; el.style.zIndex = ''; rafId = null; return;
-            }
-            const scale = 1 + cLift * 0.006;
+            if (settled) { el.style.transform = ''; el.style.zIndex = ''; rafId = null; return; }
+            const scale = 1 + cLift * 0.008;
             el.style.transform =
-                `perspective(${PERSPECTIVE}px) rotateX(${cRX.toFixed(2)}deg) ` +
-                `rotateY(${cRY.toFixed(2)}deg) translateZ(${cLift.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+                `perspective(${PERSPECTIVE}px) rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg) translateZ(${cLift.toFixed(2)}px) scale(${scale.toFixed(3)})`;
             rafId = requestAnimationFrame(tick);
         }
         function kick() { if (rafId === null) rafId = requestAnimationFrame(tick); }
-
         el.addEventListener('pointermove', (e) => {
             if (isDragging) return;
             if (e.pointerType === 'mouse' && e.buttons !== 0) return;
@@ -1435,36 +2234,31 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!r.width || !r.height) return;
             const px = (e.clientX - r.left) / r.width;
             const py = (e.clientY - r.top) / r.height;
-            cRX = -(py - 0.5) * 8; cRY = (px - 0.5) * 8; cLift = 12;
+            cRX = -(py - 0.5) * 18; cRY = (px - 0.5) * 18; cLift = 26;
             if (!hovering) { tRX = 0; tRY = 0; tLift = 0; }
+            el.style.transform =
+                `perspective(${PERSPECTIVE}px) rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg) translateZ(${cLift.toFixed(2)}px) scale(1.03)`;
             kick();
         });
     }
 
-    // ================================================================
-    //  7b. 整个面板 3D 倾斜（仅高级渲染，幅度减弱）
-    // ================================================================
     let panelTiltSetup = false;
     function setupPanelTilt() {
         if (panelTiltSetup) return;
         panelTiltSetup = true;
         let rafId = null, hovering = false;
         let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
-        const ROT_X_RANGE = 3.5;
-        const ROT_Y_RANGE = 4.5;
-
+        const ROT_X_RANGE = 6, ROT_Y_RANGE = 8;
         function tick() {
-            cRX += (tRX - cRX) * 0.14;
-            cRY += (tRY - cRY) * 0.14;
+            cRX += (tRX - cRX) * 0.12;
+            cRY += (tRY - cRY) * 0.12;
             const settled = !hovering &&
                 Math.abs(tRX - cRX) < 0.02 && Math.abs(tRY - cRY) < 0.02;
             if (settled) { appEl.style.transform = ''; rafId = null; return; }
-            appEl.style.transform =
-                `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
+            appEl.style.transform = `rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
             rafId = requestAnimationFrame(tick);
         }
         function kick() { if (rafId === null) rafId = requestAnimationFrame(tick); }
-
         document.addEventListener('pointermove', (e) => {
             if (!state.highEnd) return;
             if (e.pointerType === 'touch') return;
@@ -1480,12 +2274,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     function resetPanelTilt() { appEl.style.transform = ''; }
 
-    // ================================================================
-    //  7c. 大卡片柔光跟随（仅高级渲染）
-    // ================================================================
     const GLOW_SELECTOR = '.info-bar, .chinese-hint, .history-section, .card-pool, .answer-zone';
     let glowTargets = null, glowRaf = null, glowPointer = null;
-
     function getGlowTargets() {
         if (!glowTargets || !glowTargets[0] || !glowTargets[0].isConnected) {
             glowTargets = [...document.querySelectorAll(GLOW_SELECTOR)];
@@ -1565,15 +2355,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
                     if (state.highEnd) {
                         el.animate([
-                            { transform: `translate(${dx}px, ${dy}px) scale(0.97)` },
-                            { transform: `translate(${dx*0.3}px, ${dy*0.3}px) scale(1.02)`, offset: 0.65 },
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.96)` },
+                            { transform: `translate(${dx*0.3}px, ${dy*0.3}px) scale(1.03)`, offset: 0.65 },
                             { transform: 'translate(0, 0) scale(1)' }
-                        ], { duration: 320, easing: ease() });
+                        ], { duration: 420, easing: ease() });
                     } else {
                         el.animate([
                             { transform: `translate(${dx}px, ${dy}px)` },
                             { transform: 'translate(0, 0)' }
-                        ], { duration: 140, easing: 'ease-out' });
+                        ], { duration: 280, easing: ease() });
                     }
                 }
             });
@@ -1589,13 +2379,11 @@ document.addEventListener('DOMContentLoaded', function() {
         answerZone.querySelectorAll('.token[data-id]').forEach(el => {
             oldRects.set(parseInt(el.dataset.id), el.getBoundingClientRect());
         });
-
         answerZone.innerHTML = '';
         if (state.answerItems.length === 0) {
             answerZone.innerHTML = `<span class="placeholder">👆 点击下方单词添加到此处</span>`;
             return;
         }
-
         state.answerItems.forEach((item, idx) => {
             const div = document.createElement('div');
             div.className = 'token';
@@ -1615,7 +2403,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             answerZone.appendChild(div);
         });
-
         requestAnimationFrame(() => {
             const tokens = [...answerZone.querySelectorAll('.token[data-id]')];
             tokens.forEach((el) => {
@@ -1626,16 +2413,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     const dy = sourceRect.top - newRect.top;
                     if (state.highEnd) {
                         el.animate([
-                            { transform: `translate(${dx}px, ${dy}px) scale(0.75) rotate(-8deg)`, opacity: 0.3, offset: 0 },
-                            { transform: `translate(${dx*0.55}px, ${dy*0.55 - 10}px) scale(1.10) rotate(4deg)`, opacity: 1, offset: 0.55 },
-                            { transform: `translate(${dx*0.15}px, ${dy*0.15 + 3}px) scale(0.96) rotate(-2deg)`, opacity: 1, offset: 0.82 },
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.55) rotate(-16deg)`, opacity: 0.25, offset: 0 },
+                            { transform: `translate(${dx*0.68}px, ${dy*0.68 - 22}px) scale(1.22) rotate(7deg)`, opacity: 1, offset: 0.48 },
+                            { transform: `translate(${dx*0.26}px, ${dy*0.26 + 6}px) scale(0.92) rotate(-4deg)`, opacity: 1, offset: 0.74 },
+                            { transform: `translate(${dx*0.06}px, ${dy*0.06 - 2}px) scale(1.07) rotate(2deg)`, opacity: 1, offset: 0.88 },
                             { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 1 }
-                        ], { duration: 420, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'backwards' });
+                        ], { duration: 620, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'backwards' });
                     } else {
                         el.animate([
-                            { transform: `translate(${dx}px, ${dy}px) scale(0.94)`, opacity: 0.4, offset: 0 },
-                            { transform: 'translate(0, 0) scale(1)', opacity: 1, offset: 1 }
-                        ], { duration: 200, easing: 'ease-out', fill: 'backwards' });
+                            { transform: `translate(${dx}px, ${dy}px) scale(0.86) rotate(-6deg)`, opacity: 0.35, offset: 0 },
+                            { transform: `translate(${dx*0.28}px, ${dy*0.28}px) scale(1.05) rotate(2deg)`, opacity: 1, offset: 0.72 },
+                            { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1, offset: 1 }
+                        ], { duration: 380, easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)', fill: 'backwards' });
                     }
                     return;
                 }
@@ -1646,28 +2435,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
                         if (state.highEnd) {
                             const horiz = Math.abs(dx) >= Math.abs(dy);
-                            const sx0 = horiz ? 0.88 : 1;
-                            const sy0 = horiz ? 1 : 0.88;
-                            const sx1 = horiz ? 1.05 : 1;
-                            const sy1 = horiz ? 1 : 1.05;
+                            const sx0 = horiz ? 0.84 : 1;
+                            const sy0 = horiz ? 1 : 0.84;
+                            const sx1 = horiz ? 1.07 : 1;
+                            const sy1 = horiz ? 1 : 1.07;
                             el.animate([
                                 { transform: `translate(${dx}px, ${dy}px) scale(${sx0}, ${sy0})` },
                                 { transform: `translate(${dx*0.36}px, ${dy*0.36}px) scale(${sx1}, ${sy1})`, offset: 0.6 },
-                                { transform: `translate(${dx*0.09}px, ${dy*0.09}px) scale(0.99, 0.99)`, offset: 0.84 },
+                                { transform: `translate(${dx*0.09}px, ${dy*0.09}px) scale(0.985, 0.985)`, offset: 0.84 },
                                 { transform: 'translate(0, 0) scale(1, 1)' }
-                            ], { duration: 340, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'backwards' });
+                            ], { duration: 480, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'backwards' });
                         } else {
                             el.animate([
                                 { transform: `translate(${dx}px, ${dy}px)` },
                                 { transform: 'translate(0, 0)' }
-                            ], { duration: 140, easing: 'ease-out', fill: 'backwards' });
+                            ], { duration: 260, easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)', fill: 'backwards' });
                         }
                     }
                 } else {
                     el.animate([
-                        { transform: 'scale(0.9)', opacity: 0 },
-                        { transform: 'scale(1)', opacity: 1 }
-                    ], { duration: state.highEnd ? 300 : 160, easing: ease(), fill: 'backwards' });
+                        { transform: 'scale(0.6) rotate(-6deg)', opacity: 0 },
+                        { transform: 'scale(1.08) rotate(3deg)', opacity: 1, offset: 0.65 },
+                        { transform: 'scale(1) rotate(0)', opacity: 1 }
+                    ], { duration: state.highEnd ? 460 : 300, easing: ease(), fill: 'backwards' });
                 }
             });
         });
@@ -1735,19 +2525,15 @@ document.addEventListener('DOMContentLoaded', function() {
             position: fixed; left: ${rect.left}px; top: ${rect.top}px;
             width: ${rect.width}px; height: ${rect.height}px;
             pointer-events: none; z-index: 10000; margin: 0;
-            transform: rotate(-2deg) scale(1.06);
-            box-shadow: 0 12px 30px rgba(217, 140, 106, 0.28), 0 4px 10px rgba(217, 140, 106, 0.15);
+            transform: rotate(-3deg) scale(1.12);
+            box-shadow: 0 26px 66px rgba(217, 140, 106, 0.42), 0 8px 20px rgba(217, 140, 106, 0.22);
             transition: none; opacity: 0.96;
-            border-radius: 24px;
         `;
         if (state.highEnd) {
             ghost.style.background = 'linear-gradient(140deg, rgba(255,255,255,0.55) 0%, rgba(255,240,225,0.32) 100%)';
-            ghost.style.backdropFilter = 'blur(20px) saturate(180%)';
-            ghost.style.webkitBackdropFilter = 'blur(20px) saturate(180%)';
+            ghost.style.backdropFilter = 'blur(26px) saturate(210%)';
+            ghost.style.webkitBackdropFilter = 'blur(26px) saturate(210%)';
             ghost.style.border = '1px solid rgba(255,255,255,0.75)';
-        } else {
-            ghost.style.background = '#fffdf8';
-            ghost.style.border = '1.5px solid rgba(220, 180, 140, 0.45)';
         }
         document.body.appendChild(ghost);
         origEl.style.visibility = 'hidden';
@@ -1831,12 +2617,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
         state.retryMode = false;
         if (state.selectedUnits.size === 0) {
-            document.querySelectorAll('#unitCheckGroup input[type="checkbox"]:not(#unit-all)').forEach(cb => cb.checked = true);
-            document.getElementById('unit-all').checked = true;
-            state.selectedUnits.clear();
-            document.querySelectorAll('#unitCheckGroup input[type="checkbox"]:not(#unit-all)').forEach(cb => {
-                if (cb.checked) state.selectedUnits.add(cb.value);
-            });
+            // 兜底：全部选中
+            Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
         }
         const q = generateQuestion();
         if (!q) {
@@ -1850,13 +2632,12 @@ document.addEventListener('DOMContentLoaded', function() {
         chineseHint.textContent = q.zh;
         patternBadge.textContent = `📐 句型：${q.templateEn}`;
 
-        let distractors = [];
-        if (state.moreOldWords) {
-            const exclude = new Set(q.correctWords);
-            distractors = getDistractors([...exclude], 4);
-        }
         let allWords = q.correctWords.slice();
-        distractors.forEach(d => allWords.push(d));
+        if (state.moreOldWords) {
+            const excludeLower = lower(q.correctWords);
+            const distractors = getDistractors(excludeLower, 4);
+            distractors.forEach(d => allWords.push(d));
+        }
         state.shuffledWords = shuffleArray(allWords);
         state.answerItems = [];
         state.usedIndices = [];
@@ -1876,21 +2657,19 @@ document.addEventListener('DOMContentLoaded', function() {
         state.retryMode = true;
         state.currentEn = item.en;
         state.currentZh = item.zh;
-        state.correctWords = tokenize(item.en);
+        state.correctWords = tokenizePhraseAware(item.en, state.splitPhrases);
         chineseHint.textContent = item.zh;
         patternBadge.textContent = `📖 复习旧句子（不重复计分）`;
-
         let allWords = state.correctWords.slice();
         if (state.moreOldWords) {
-            const exclude = new Set(state.correctWords);
-            const distractors = getDistractors([...exclude], 4);
+            const excludeLower = lower(state.correctWords);
+            const distractors = getDistractors(excludeLower, 4);
             distractors.forEach(d => allWords.push(d));
         }
         state.shuffledWords = shuffleArray(allWords);
         state.answerItems = [];
         state.usedIndices = [];
         state.isAnswered = false;
-
         checkBtn.disabled = false;
         nextBtn.disabled = true;
         renderCardPool();
@@ -1903,8 +2682,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkAnswer() {
         if (state.isAnswered) return;
-        const user = state.answerItems.map(it => it.word);
-        const correct = state.correctWords;
+        const user = lower(state.answerItems.map(it => it.word));
+        const correct = lower(state.correctWords);
         if (user.length !== correct.length) {
             statusBadge.textContent = '❌ 单词数量不对，请检查是否漏选或有多余单词';
             statusBadge.className = 'status-badge wrong';
@@ -1920,7 +2699,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const key = state.currentEn;
             const alreadyScored = state.scoredSentences.has(key);
             const previouslyFailed = state.failedSentences.has(key);
-
             if (alreadyScored || previouslyFailed || state.retryMode) {
                 statusBadge.textContent = '✅ 完全正确！（此句已练习过，不重复计分）';
             } else {
@@ -1938,7 +2716,7 @@ document.addEventListener('DOMContentLoaded', function() {
             autoNextTimer = setTimeout(() => {
                 autoNextTimer = null;
                 if (state.isAnswered) nextQuestion();
-            }, state.highEnd ? 1200 : 900);
+            }, state.highEnd ? 1200 : 950);
         } else {
             state.failedSentences.add(state.currentEn);
             let wrongIdx = -1;
@@ -2003,12 +2781,7 @@ document.addEventListener('DOMContentLoaded', function() {
         state.retryMode = false;
         updateHistoryUI();
         if (state.selectedUnits.size === 0) {
-            document.querySelectorAll('#unitCheckGroup input[type="checkbox"]:not(#unit-all)').forEach(cb => cb.checked = true);
-            document.getElementById('unit-all').checked = true;
-            state.selectedUnits.clear();
-            document.querySelectorAll('#unitCheckGroup input[type="checkbox"]:not(#unit-all)').forEach(cb => {
-                if (cb.checked) state.selectedUnits.add(cb.value);
-            });
+            Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
         }
         loadQuestion();
         statusBadge.textContent = '🎯 点击下方单词开始';
@@ -2018,13 +2791,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateScore() {
         scoreEl.textContent = state.score;
-        if (state.highEnd) {
-            scoreEl.animate([
-                { transform: 'scale(1)' },
-                { transform: 'scale(1.20)' },
-                { transform: 'scale(1)' }
-            ], { duration: 400, easing: ease() });
-        }
+        scoreEl.animate([
+            { transform: 'scale(1)' },
+            { transform: 'scale(1.28)' },
+            { transform: 'scale(1)' }
+        ], { duration: state.highEnd ? 560 : 360, easing: ease() });
     }
 
     function updateHistoryUI() {
@@ -2041,57 +2812,130 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  13. 单元选择
+    //  13. 单元选择（二级卡片）
     // ================================================================
-    function renderUnitChecks() {
-        const units = Object.keys(TEMPLATES_DATA);
-        unitCheckGroup.innerHTML = '';
-        const allDiv = document.createElement('span');
-        allDiv.className = 'unit-check';
-        allDiv.innerHTML = `<input type="checkbox" id="unit-all" checked /> <label for="unit-all" class="unit-label">全部</label>`;
-        unitCheckGroup.appendChild(allDiv);
-        units.forEach(u => {
-            const div = document.createElement('span');
-            div.className = 'unit-check';
-            div.innerHTML = `<input type="checkbox" id="unit-${u}" value="${u}" checked /> <label for="unit-${u}" class="unit-label">${u}</label>`;
-            unitCheckGroup.appendChild(div);
-        });
-        const allCheck = document.getElementById('unit-all');
-        const unitChecks = unitCheckGroup.querySelectorAll('input[type="checkbox"]:not(#unit-all)');
-        allCheck.addEventListener('change', function() {
-            const checked = this.checked;
-            unitChecks.forEach(cb => cb.checked = checked);
-            updateSelectedUnits();
-        });
-        unitChecks.forEach(cb => {
-            cb.addEventListener('change', function() {
-                const allChecked = Array.from(unitChecks).every(c => c.checked);
-                allCheck.checked = allChecked;
-                updateSelectedUnits();
-            });
-        });
-        function updateSelectedUnits() {
-            state.selectedUnits.clear();
-            unitChecks.forEach(cb => { if (cb.checked) state.selectedUnits.add(cb.value); });
-            if (state.selectedUnits.size > 0) {
-                resetGame();
-            } else {
-                statusBadge.textContent = '⚠️ 请至少选择一个单元';
-                statusBadge.className = 'status-badge';
-                cardPool.innerHTML = '';
-                answerZone.innerHTML = `<span class="placeholder">👆 请选择单元</span>`;
-            }
-        }
-        updateSelectedUnits();
+    function updateUnitTriggerLabel() {
+        unitCount.textContent = state.selectedUnits.size;
     }
 
+    function renderUnitModal() {
+        const units = Object.keys(TEMPLATES_DATA);
+        // 按年级分组
+        const groups = {};
+        units.forEach(u => {
+            const grade = u.slice(0, 2);
+            if (!groups[grade]) groups[grade] = [];
+            groups[grade].push(u);
+        });
+
+        const gradeOrder = ['三上', '四上', '五上', '六上'];
+        const gradeNames = { '三上': '三年级上册', '四上': '四年级上册', '五上': '五年级上册', '六上': '六年级上册' };
+
+        let html = '';
+        gradeOrder.forEach(grade => {
+            if (!groups[grade]) return;
+            html += `<div class="unit-grade-group">
+                <div class="unit-grade-label">${gradeNames[grade]}</div>
+                <div class="unit-grid">`;
+            groups[grade].forEach(u => {
+                const data = TEMPLATES_DATA[u];
+                const isSelected = pendingUnits.has(u);
+                const unitNum = u.slice(2);
+                html += `<div class="unit-item ${isSelected ? 'selected' : ''}" data-unit="${u}">
+                    <div class="unit-item-name">${unitNum}</div>
+                    <div class="unit-item-desc">${data.desc}</div>
+                </div>`;
+            });
+            html += `</div></div>`;
+        });
+        unitModalBody.innerHTML = html;
+
+        unitModalBody.querySelectorAll('.unit-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const unit = item.dataset.unit;
+                if (pendingUnits.has(unit)) {
+                    pendingUnits.delete(unit);
+                    item.classList.remove('selected');
+                } else {
+                    pendingUnits.add(unit);
+                    item.classList.add('selected');
+                }
+            });
+        });
+    }
+
+    function openUnitModal() {
+        pendingUnits = new Set(state.selectedUnits);
+        renderUnitModal();
+        unitModalOverlay.classList.add('show');
+    }
+    function closeUnitModal() {
+        unitModalOverlay.classList.remove('show');
+    }
+
+    unitTriggerBtn.addEventListener('click', openUnitModal);
+    unitModalClose.addEventListener('click', closeUnitModal);
+    unitModalOverlay.addEventListener('click', (e) => {
+        if (e.target === unitModalOverlay) closeUnitModal();
+    });
+    unitSelectAll.addEventListener('click', () => {
+        Object.keys(TEMPLATES_DATA).forEach(u => pendingUnits.add(u));
+        renderUnitModal();
+    });
+    unitDeselectAll.addEventListener('click', () => {
+        pendingUnits.clear();
+        renderUnitModal();
+    });
+    unitModalConfirm.addEventListener('click', () => {
+        if (pendingUnits.size === 0) {
+            alert('请至少选择一个单元');
+            return;
+        }
+        state.selectedUnits = new Set(pendingUnits);
+        updateUnitTriggerLabel();
+        closeUnitModal();
+        resetGame();
+    });
+
     // ================================================================
-    //  14. 事件绑定
+    //  14. 拆分短语开关 & 确认弹窗
+    // ================================================================
+    splitPhrasesCheck.addEventListener('change', function() {
+        if (!this.checked) {
+            // 用户想关闭：弹出确认
+            this.checked = true; // 先还原，等待用户确认
+            splitPhrasesConfirmOverlay.classList.add('show');
+        } else {
+            state.splitPhrases = true;
+        }
+    });
+
+    splitPhrasesConfirm.addEventListener('click', () => {
+        splitPhrasesCheck.checked = false;
+        state.splitPhrases = false;
+        splitPhrasesConfirmOverlay.classList.remove('show');
+        // ★ 不重新加载当前题目，只影响后续题目
+        statusBadge.textContent = '🔤 已关闭拆分短语（下题起生效）';
+        statusBadge.className = 'status-badge';
+    });
+
+    splitPhrasesCancel.addEventListener('click', () => {
+        // 保持开启
+        splitPhrasesCheck.checked = true;
+        state.splitPhrases = true;
+        splitPhrasesConfirmOverlay.classList.remove('show');
+    });
+
+    // ================================================================
+    //  15. 其它事件绑定
     // ================================================================
     moreOldWordsCheck.addEventListener('change', function() {
         state.moreOldWords = this.checked;
-        if (state.selectedUnits.size > 0) loadQuestion();
+        // ★ 不重新加载当前题目
+        statusBadge.textContent = this.checked ? '🧠 已开启干扰词（下题起生效）' : '🧠 已关闭干扰词（下题起生效）';
+        statusBadge.className = 'status-badge';
     });
+
     shuffleBtn.addEventListener('click', function() {
         if (state.isAnswered) {
             statusBadge.textContent = '⏳ 本题已答，请点击下一题';
@@ -2100,9 +2944,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         state.answerItems = [];
         state.usedIndices = [];
-        const correct = state.correctWords;
-        const distractors = state.shuffledWords.filter(w => !correct.includes(w));
-        let all = correct.slice();
+        const correctLower = lower(state.correctWords);
+        const distractors = state.shuffledWords.filter(w => !correctLower.includes(w.toLowerCase()));
+        let all = state.correctWords.slice();
         distractors.forEach(d => all.push(d));
         state.shuffledWords = shuffleArray(all);
         Sound.shuffle();
@@ -2111,12 +2955,15 @@ document.addEventListener('DOMContentLoaded', function() {
         statusBadge.textContent = '🔀 已重排，请重新排列';
         statusBadge.className = 'status-badge';
     });
+
     checkBtn.addEventListener('click', checkAnswer);
     nextBtn.addEventListener('click', nextQuestion);
+
     clearHistoryBtn.addEventListener('click', function() {
         state.history = [];
         updateHistoryUI();
     });
+
     historyBtn.addEventListener('click', function() {
         if (state.history.length === 0) { alert('暂无练习记录'); return; }
         let msg = '📜 练习历史 (最近12条)\n\n';
@@ -2126,18 +2973,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         alert(msg);
     });
+
     resetProgressBtn.addEventListener('click', function() {
         if (confirm('重置所有进度和分数？')) {
             state.totalQuestions = 20;
             resetGame();
         }
     });
+
     glassToggle.addEventListener('click', function() {
         state.highEnd = !state.highEnd;
         appEl.classList.toggle('high-end', state.highEnd);
         glassToggle.classList.toggle('on', state.highEnd);
         modeTag.textContent = state.highEnd ? '液态玻璃' : '流畅版';
-        localStorage.setItem('highEnd', state.highEnd ? '1' : '0');
+        localStorage.setItem('highEnd_s356', state.highEnd ? '1' : '0');
         if (!state.highEnd) resetPanelTilt();
         if (state.shuffledWords.length > 0) {
             renderCardPool();
@@ -2145,7 +2994,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         Sound.shuffle();
     });
-    if (localStorage.getItem('highEnd') === '1') {
+
+    if (localStorage.getItem('highEnd_s356') === '1') {
         state.highEnd = true;
         appEl.classList.add('high-end');
         glassToggle.classList.add('on');
@@ -2153,14 +3003,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  15. 教学弹窗
+    //  16. 教学弹窗
     // ================================================================
     const tutorialSteps = [
-        { title: '第一步：点击单词', desc: '点击下方卡片池中的单词，它会飞入上方答题区，按顺序排列成句子。' },
-        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。' },
-        { title: '第三步：检查答案', desc: '排列完成后点击「检查答案」，系统会判断正误。答对会自动进入下一题。' },
+        { title: '第一步：点击单词', desc: '点击下方卡片池中的单词，它会沿着弧线飞入上方答题区，按顺序排列成句子。' },
+        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边，动画丝滑流畅。' },
+        { title: '第三步：检查答案', desc: '排列完成后点击「检查答案」，系统会判断正误。答对会自动进入下一题，让练习更连贯。' },
         { title: '第四步：句型提醒', desc: '不确定句子结构？看看中文上方的「📐 句型」小标签，它会提示这个句子的模板结构。' },
-        { title: '第五步：重新练习', desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。' }
+        { title: '第五步：拆分短语', desc: '「拆分短语」开关默认开启，短语会拆成独立单词。关闭后，像 "play sports" 这样的短语会作为一个整体卡片。' },
+        { title: '第六步：重新练习', desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。' }
     ];
     let tutorialIndex = 0;
 
@@ -2171,13 +3022,16 @@ document.addEventListener('DOMContentLoaded', function() {
         stageContents.forEach((el, i) => el.classList.toggle('active', i === idx));
         tutorialDots.forEach((d, i) => d.classList.toggle('active', i === idx));
         tutorialNext.textContent = idx === tutorialSteps.length - 1 ? '开始游戏 🚀' : '下一步 →';
+        tutorialPrev.disabled = (idx === 0);
     }
     function openTutorial() { tutorialOverlay.classList.add('show'); updateTutorialStep(0); }
     function closeTutorial() { tutorialOverlay.classList.remove('show'); }
 
     tutorialBtn.addEventListener('click', openTutorial);
     tutorialClose.addEventListener('click', closeTutorial);
-    tutorialSkip.addEventListener('click', closeTutorial);
+    tutorialPrev.addEventListener('click', () => {
+        if (tutorialIndex > 0) updateTutorialStep(tutorialIndex - 1);
+    });
     tutorialNext.addEventListener('click', () => {
         if (tutorialIndex >= tutorialSteps.length - 1) closeTutorial();
         else updateTutorialStep(tutorialIndex + 1);
@@ -2185,15 +3039,15 @@ document.addEventListener('DOMContentLoaded', function() {
     tutorialOverlay.addEventListener('click', (e) => {
         if (e.target === tutorialOverlay) closeTutorial();
     });
-    if (!localStorage.getItem('tutorialShown')) {
+    if (!localStorage.getItem('tutorialShown_s356')) {
         setTimeout(() => {
             openTutorial();
-            localStorage.setItem('tutorialShown', '1');
+            localStorage.setItem('tutorialShown_s356', '1');
         }, 600);
     }
 
     // ================================================================
-    //  16. 清理 & 启动
+    //  17. 清理
     // ================================================================
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && dragState) {
@@ -2203,11 +3057,35 @@ document.addEventListener('DOMContentLoaded', function() {
             renderAnswerZone();
         }
     });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (unitModalOverlay.classList.contains('show')) closeUnitModal();
+            if (splitPhrasesConfirmOverlay.classList.contains('show')) {
+                splitPhrasesCancel.click();
+            }
+        }
+    });
 
+    // ================================================================
+    //  18. 启动
+    // ================================================================
     setupBigCardGlow();
     setupPanelTilt();
-    renderUnitChecks();
-    console.log('🧩 句型建筑师 · 液态玻璃版已启动');
+
+    // ★ 初始化：默认全选所有单元
+    Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
+    updateUnitTriggerLabel();
+
+    // ★ 确保拆分短语开关状态与 DOM 一致
+    splitPhrasesCheck.checked = true;
+    state.splitPhrases = true;
+
+    // 启动游戏
+    loadQuestion();
+    statusBadge.textContent = '🎯 点击下方单词开始';
+    statusBadge.className = 'status-badge';
+
+    console.log('🧩 句型建筑师 · 三上/四上/五上/六上 已启动');
 });
 </script>
 </body>
