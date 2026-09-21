@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<title>🧩 句型建筑师 · 来自太空的小头脑</title>
+<title>🧩 句型建筑师 · 小学英语句型练习</title>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -264,7 +264,6 @@
         border: 1px solid rgba(255, 255, 255, 0.32);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
     }
-    /* ===== 基础 ===== */
     .header {
         padding: clamp(12px, 1.6vh, 22px) clamp(18px, 2vw, 32px);
         display: flex; flex-wrap: wrap; gap: 8px 16px;
@@ -329,7 +328,6 @@
     }
     .settings .switch input { width: 36px; height: 18px; accent-color: #d98c6a; cursor: pointer; }
     .settings .switch label { cursor: pointer; }
-    /* 单元触发按钮 */
     .unit-trigger-btn {
         background: #fffaf3;
         border: 1px solid rgba(220, 180, 140, 0.4);
@@ -585,9 +583,6 @@
         color: #4a2a1a; cursor: pointer; transition: all 0.25s var(--anim-ease); white-space: nowrap;
     }
     .history-list .h-item:hover { background: #fff9f0; transform: translateY(-2px); border-color: #f7b88a; }
-    /* ============================================================
-       二级卡片：单元选择（始终扁平化设计，不受高级渲染影响）
-       ============================================================ */
     .unit-modal-overlay {
         position: fixed;
         inset: 0;
@@ -602,10 +597,7 @@
         animation: overlayFadeIn 0.3s ease;
     }
     .unit-modal-overlay.show { display: flex; }
-    @keyframes overlayFadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+    @keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
     .unit-modal-card {
         position: relative;
         background: #fffaf3;
@@ -755,9 +747,6 @@
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(217, 140, 106, 0.3);
     }
-    /* ============================================================
-       确认弹窗（拆分短语关闭提示）
-       ============================================================ */
     .confirm-modal-overlay {
         position: fixed;
         inset: 0;
@@ -832,9 +821,6 @@
         color: #fff;
     }
     .confirm-btn.primary:hover { transform: translateY(-1px); }
-    /* ============================================================
-       教学弹窗
-       ============================================================ */
     .tutorial-overlay {
         position: fixed; inset: 0;
         background: rgba(60, 30, 20, 0.35);
@@ -897,6 +883,17 @@
     .tutorial-stage .stage-content { display: none; }
     .tutorial-stage .stage-content.active { display: block; }
     .demo-fly { width: 260px; height: 140px; position: relative; }
+    .demo-fly .demo-zone {
+        position: absolute; left: 10px; top: 10px;
+        width: 240px; height: 44px;
+        border: 2px dashed rgba(255, 200, 160, 0.5);
+        border-radius: 22px;
+        animation: demoZonePulse 4s ease-in-out infinite;
+    }
+    @keyframes demoZonePulse {
+        0%, 25%, 70%, 100% { border-color: rgba(255, 200, 160, 0.5); box-shadow: none; }
+        35%, 55% { border-color: #d98c6a; box-shadow: 0 0 18px rgba(217, 140, 106, 0.45); }
+    }
     .demo-fly .demo-token {
         position: absolute; padding: 6px 16px; border-radius: 30px;
         background: rgba(255, 245, 235, 0.95);
@@ -904,23 +901,32 @@
         font-weight: 700; color: #4a2a1a; font-size: 0.9rem;
         box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
     }
-    .demo-fly .demo-token.t1 { left: 10px; top: 100px; animation: demoFly1 3s infinite; }
-    .demo-fly .demo-token.t2 { left: 110px; top: 100px; animation: demoFly2 3s infinite; }
-    .demo-fly .demo-zone {
-        position: absolute; left: 10px; top: 10px;
-        width: 240px; height: 44px;
-        border: 2px dashed rgba(255, 200, 160, 0.5);
-        border-radius: 22px;
+    .demo-fly .demo-token.t1 {
+        left: 10px; top: 100px;
+        animation: demoFly1 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+    }
+    .demo-fly .demo-token.t2 {
+        left: 110px; top: 100px;
+        animation: demoFly2 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+        animation-delay: 0.15s;
     }
     @keyframes demoFly1 {
-        0%, 25% { transform: translate(0, 0); opacity: 1; }
-        60% { transform: translate(40px, -70px) scale(1.1) rotate(-4deg); opacity: 1; }
-        100% { transform: translate(40px, -70px) scale(1) rotate(0deg); opacity: 1; }
+        0%, 5%    { transform: translate(0, 0) scale(1); }
+        10%       { transform: translate(0, 4px) scale(0.92); }
+        28%       { transform: translate(50px, -80px) scale(1.15); }
+        36%       { transform: translate(50px, -72px) scale(0.98); }
+        42%, 58%  { transform: translate(50px, -75px) scale(1); }
+        72%       { transform: translate(0, 0) scale(0.96); }
+        82%, 100% { transform: translate(0, 0) scale(1); }
     }
     @keyframes demoFly2 {
-        0%, 30% { transform: translate(0, 0); opacity: 1; }
-        70% { transform: translate(-20px, -70px) scale(1.1) rotate(3deg); opacity: 1; }
-        100% { transform: translate(-20px, -70px) scale(1) rotate(0deg); opacity: 1; }
+        0%, 5%    { transform: translate(0, 0) scale(1); }
+        10%       { transform: translate(0, 4px) scale(0.92); }
+        28%       { transform: translate(20px, -80px) scale(1.15); }
+        36%       { transform: translate(20px, -72px) scale(0.98); }
+        42%, 58%  { transform: translate(20px, -75px) scale(1); }
+        72%       { transform: translate(0, 0) scale(0.96); }
+        82%, 100% { transform: translate(0, 0) scale(1); }
     }
     .demo-swap { width: 260px; height: 140px; position: relative; }
     .demo-swap .demo-token {
@@ -928,19 +934,34 @@
         background: rgba(255, 245, 235, 0.95);
         border: 2px solid rgba(255, 200, 160, 0.5);
         font-weight: 700; color: #4a2a1a; font-size: 0.9rem; top: 50px;
-        box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
     }
-    .demo-swap .demo-token.a { left: 30px; animation: demoSwapA 3s infinite; }
-    .demo-swap .demo-token.b { left: 140px; animation: demoSwapB 3s infinite; }
+    .demo-swap .demo-token.a {
+        left: 30px;
+        animation: demoSwapA 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+    }
+    .demo-swap .demo-token.b {
+        left: 140px;
+        animation: demoSwapB 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+    }
     @keyframes demoSwapA {
-        0%, 30% { transform: translateX(0) rotate(0); z-index: 2; }
-        50% { transform: translateX(55px) translateY(-15px) rotate(-4deg) scale(1.08); z-index: 3; }
-        70%, 100% { transform: translateX(110px) rotate(0); z-index: 2; }
+        0%, 5%    { transform: translateX(0) translateY(0) scale(1); z-index: 2; box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
+        12%       { transform: translateX(0) translateY(-10px) scale(1.1) rotate(-4deg); z-index: 3; box-shadow: 0 12px 24px rgba(217,140,106,0.35); }
+        26%       { transform: translateX(50px) translateY(-16px) scale(1.12) rotate(-6deg); z-index: 3; box-shadow: 0 14px 28px rgba(217,140,106,0.4); }
+        38%       { transform: translateX(105px) translateY(0) scale(1.02) rotate(0deg); z-index: 3; box-shadow: 0 8px 18px rgba(217,140,106,0.25); }
+        46%, 60%  { transform: translateX(110px) translateY(0) scale(1); z-index: 2; box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
+        70%       { transform: translateX(110px) translateY(-10px) scale(1.1) rotate(4deg); z-index: 3; box-shadow: 0 12px 24px rgba(217,140,106,0.35); }
+        85%       { transform: translateX(20px) translateY(-16px) scale(1.1) rotate(3deg); z-index: 3; box-shadow: 0 12px 24px rgba(217,140,106,0.35); }
+        95%, 100% { transform: translateX(0) translateY(0) scale(1); z-index: 2; box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
     }
     @keyframes demoSwapB {
-        0%, 30% { transform: translateX(0); }
-        50% { transform: translateX(-30px); }
-        70%, 100% { transform: translateX(-110px); }
+        0%, 5%    { transform: translateX(0) translateY(0) scale(1); }
+        12%       { transform: translateX(0) translateY(-6px) scale(0.97); }
+        26%       { transform: translateX(-35px) translateY(-8px) scale(0.95); }
+        38%       { transform: translateX(-105px) translateY(0) scale(1.02); }
+        46%, 60%  { transform: translateX(-110px) translateY(0) scale(1); }
+        70%       { transform: translateX(-110px) translateY(-6px) scale(0.97); }
+        85%       { transform: translateX(-30px) translateY(-8px) scale(0.98); }
+        95%, 100% { transform: translateX(0) translateY(0) scale(1); }
     }
     .demo-check {
         width: 260px; height: 140px;
@@ -954,15 +975,25 @@
         border: 2px solid rgba(255, 200, 160, 0.5);
         font-weight: 700; color: #4a2a1a; font-size: 0.85rem;
     }
-    .demo-check .demo-token.highlight { animation: demoCheck 3s infinite; }
-    .demo-check .demo-check-mark { font-size: 2rem; opacity: 0; animation: demoCheckMark 3s infinite; }
-    @keyframes demoCheck {
-        0%, 20% { background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); }
-        50%, 100% { background: rgba(200, 240, 210, 0.9); border-color: #66bb6a; }
+    .demo-check .demo-token.highlight {
+        animation: demoCheckStagger 3.6s ease-in-out infinite;
+    }
+    .demo-check .demo-token.highlight:nth-child(1) { animation-delay: 0s; }
+    .demo-check .demo-token.highlight:nth-child(2) { animation-delay: 0.35s; }
+    .demo-check .demo-token.highlight:nth-child(3) { animation-delay: 0.7s; }
+    .demo-check .demo-check-mark {
+        font-size: 2rem; opacity: 0;
+        animation: demoCheckMark 3.6s ease-in-out infinite;
+    }
+    @keyframes demoCheckStagger {
+        0%, 8%   { background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); transform: scale(1); }
+        18%, 72% { background: rgba(200, 240, 210, 0.95); border-color: #66bb6a; transform: scale(1.05); }
+        82%, 100%{ background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); transform: scale(1); }
     }
     @keyframes demoCheckMark {
-        0%, 20% { opacity: 0; transform: scale(0.5); }
-        50%, 100% { opacity: 1; transform: scale(1); }
+        0%, 55%  { opacity: 0; transform: scale(0.4); }
+        68%, 85% { opacity: 1; transform: scale(1); }
+        95%, 100%{ opacity: 0; transform: scale(0.9); }
     }
     .demo-pattern { width: 260px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .demo-pattern-hint {
@@ -982,11 +1013,85 @@
         background: linear-gradient(135deg, rgba(247, 184, 138, 0.42), rgba(217, 140, 106, 0.36));
         border: 1px solid rgba(247, 184, 138, 0.55);
         color: #6a3a20; font-weight: 700; font-size: 0.72rem;
-        animation: demoPatternPulse 2.4s infinite;
+        animation: demoPatternPulse 2.4s ease-in-out infinite;
     }
     @keyframes demoPatternPulse {
         0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247, 184, 138, 0.5); }
-        50% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(247, 184, 138, 0); }
+        50%      { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(247, 184, 138, 0); }
+    }
+    .demo-phrase {
+        width: 260px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .demo-phrase-row { display: flex; gap: 6px; align-items: center; }
+    .demo-phrase-tag {
+        padding: 5px 14px; border-radius: 20px;
+        background: rgba(255, 245, 235, 0.95);
+        border: 2px solid rgba(255, 200, 160, 0.5);
+        font-weight: 700; color: #4a2a1a; font-size: 0.8rem;
+        animation: demoPhraseGlow 4.5s ease-in-out infinite;
+    }
+    @keyframes demoPhraseGlow {
+        0%, 8%    { background: rgba(255, 245, 235, 0.95); transform: scale(1); box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
+        18%, 32%  { background: rgba(255, 200, 160, 0.55); border-color: #d98c6a; transform: scale(1.08); box-shadow: 0 8px 20px rgba(217,140,106,0.3); }
+        45%, 100% { background: rgba(255, 245, 235, 0.95); transform: scale(1); box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
+    }
+    .demo-phrase-arrow {
+        font-size: 1.2rem; color: #d98c6a;
+        animation: demoArrowPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes demoArrowPulse {
+        0%, 100% { opacity: 0.4; transform: scale(1); }
+        50%      { opacity: 1; transform: scale(1.2); }
+    }
+    .demo-phrase-split-row { display: flex; gap: 4px; }
+    .demo-phrase-split-row .demo-token {
+        padding: 4px 10px; border-radius: 16px;
+        background: rgba(255, 245, 235, 0.95);
+        border: 1.5px solid rgba(255, 200, 160, 0.5);
+        font-weight: 700; color: #4a2a1a; font-size: 0.72rem;
+        animation: demoPhraseSplitIn 4.5s ease-in-out infinite;
+    }
+    .demo-phrase-split-row .demo-token:nth-child(1) { animation-delay: 0s; }
+    .demo-phrase-split-row .demo-token:nth-child(2) { animation-delay: 0.15s; }
+    @keyframes demoPhraseSplitIn {
+        0%, 35%   { opacity: 0.25; transform: translateY(6px) scale(0.85); background: rgba(255, 245, 235, 0.5); }
+        50%, 100% { opacity: 1; transform: translateY(0) scale(1); background: rgba(255, 245, 235, 0.95); }
+    }
+    .demo-possessive { width: 260px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .demo-possessive-row { display: flex; gap: 6px; align-items: center; }
+    .demo-possessive-tag {
+        padding: 5px 12px; border-radius: 18px;
+        background: rgba(255, 245, 235, 0.95);
+        border: 2px solid rgba(255, 200, 160, 0.5);
+        font-weight: 700; color: #4a2a1a; font-size: 0.78rem;
+        animation: demoPossessiveGlow 5s ease-in-out infinite;
+    }
+    .demo-possessive-tag:nth-child(1) { animation-delay: 0s; }
+    .demo-possessive-tag:nth-child(2) { animation-delay: 0.2s; }
+    @keyframes demoPossessiveGlow {
+        0%, 8%    { background: rgba(255, 245, 235, 0.95); transform: scale(1); }
+        18%, 32%  { background: rgba(255, 200, 160, 0.55); border-color: #d98c6a; transform: scale(1.06); }
+        45%, 100% { background: rgba(255, 245, 235, 0.95); transform: scale(1); }
+    }
+    .demo-possessive-arrow {
+        font-size: 1.1rem; color: #d98c6a;
+        animation: demoArrowPulse 2.4s ease-in-out infinite;
+    }
+    .demo-possessive-split-row { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; }
+    .demo-possessive-split-row .demo-token {
+        padding: 4px 9px; border-radius: 14px;
+        background: rgba(255, 245, 235, 0.95);
+        border: 1.5px solid rgba(255, 200, 160, 0.5);
+        font-weight: 700; color: #4a2a1a; font-size: 0.68rem;
+        animation: demoPossessiveSplitIn 5s ease-in-out infinite;
+    }
+    .demo-possessive-split-row .demo-token:nth-child(1) { animation-delay: 0s; }
+    .demo-possessive-split-row .demo-token:nth-child(2) { animation-delay: 0.12s; }
+    .demo-possessive-split-row .demo-token:nth-child(3) { animation-delay: 0.24s; }
+    .demo-possessive-split-row .demo-token:nth-child(4) { animation-delay: 0.36s; }
+    @keyframes demoPossessiveSplitIn {
+        0%, 35%   { opacity: 0.25; transform: translateY(6px) scale(0.85); background: rgba(255, 245, 235, 0.5); }
+        50%, 100% { opacity: 1; transform: translateY(0) scale(1); background: rgba(255, 245, 235, 0.95); }
     }
     .demo-history { width: 260px; display: flex; flex-direction: column; gap: 6px; position: relative; }
     .demo-history-item {
@@ -995,51 +1100,21 @@
         border: 1px solid rgba(255, 200, 160, 0.32);
         font-weight: 600; color: #4a2a1a; font-size: 0.78rem; text-align: center;
     }
-    .demo-history-item.highlight { animation: demoHistoryClick 2.6s infinite; }
+    .demo-history-item.highlight { animation: demoHistoryClick 3.2s ease-in-out infinite; }
     @keyframes demoHistoryClick {
-        0%, 25% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
-        45%, 72% { transform: scale(1.06); background: rgba(247, 184, 138, 0.45); border-color: #d98c6a; box-shadow: 0 4px 14px rgba(217,140,106,0.2); }
-        90%, 100% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
+        0%, 18%   { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
+        38%, 62%  { transform: scale(1.06); background: rgba(247, 184, 138, 0.45); border-color: #d98c6a; box-shadow: 0 4px 14px rgba(217,140,106,0.2); }
+        82%, 100% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
     }
     .demo-history-cursor {
         position: absolute; font-size: 1.1rem; right: 26px; top: 50%;
-        animation: demoCursorMove 2.6s infinite; pointer-events: none;
+        animation: demoCursorMove 3.2s ease-in-out infinite; pointer-events: none;
     }
     @keyframes demoCursorMove {
-        0%, 25% { opacity: 0; transform: translate(20px, -50%) scale(1); }
-        35% { opacity: 1; transform: translate(0, -50%) scale(1.15); }
-        50%, 72% { opacity: 1; transform: translate(0, -50%) scale(0.88); }
-        85%, 100% { opacity: 0; transform: translate(20px, -50%) scale(1); }
-    }
-    /* 短语演示 */
-    .demo-phrase { width: 260px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .demo-phrase-row { display: flex; gap: 6px; align-items: center; }
-    .demo-phrase-tag {
-        padding: 5px 14px; border-radius: 20px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.8rem;
-    }
-    .demo-phrase-tag.split { animation: demoPhraseSplit 4s infinite; }
-    @keyframes demoPhraseSplit {
-        0%, 20% { background: rgba(255, 245, 235, 0.95); }
-        50%, 70% { background: rgba(255, 200, 160, 0.55); border-color: #d98c6a; transform: scale(1.04); }
-        100% { background: rgba(255, 245, 235, 0.95); }
-    }
-    .demo-phrase-arrow {
-        font-size: 1.1rem; color: #d98c6a;
-        animation: demoArrowPulse 2s infinite;
-    }
-    @keyframes demoArrowPulse {
-        0%, 100% { opacity: 0.4; transform: scale(1); }
-        50% { opacity: 1; transform: scale(1.15); }
-    }
-    .demo-phrase-split-row { display: flex; gap: 4px; }
-    .demo-phrase-split-row .demo-token {
-        padding: 4px 10px; border-radius: 16px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 1.5px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.72rem;
+        0%, 12%  { opacity: 0; transform: translate(20px, -50%) scale(1) rotate(0); }
+        28%      { opacity: 1; transform: translate(4px, -50%) scale(1.22) rotate(-18deg); }
+        42%, 62% { opacity: 1; transform: translate(0, -50%) scale(0.82) rotate(0); }
+        78%, 100%{ opacity: 0; transform: translate(20px, -50%) scale(1) rotate(0); }
     }
     .tutorial-text { text-align: center; min-height: 80px; padding: 0 4px; }
     .tutorial-text h3 { font-size: 1.15rem; font-weight: 800; color: #7a4a2a; margin-bottom: 8px; }
@@ -1158,9 +1233,6 @@
     </div>
 </div>
 
-<!-- ============================
-     二级卡片：单元选择（始终扁平化）
-     ============================ -->
 <div class="unit-modal-overlay" id="unitModalOverlay">
     <div class="unit-modal-card">
         <div class="unit-modal-header">
@@ -1176,9 +1248,6 @@
     </div>
 </div>
 
-<!-- ============================
-     确认弹窗：拆分短语关闭提示
-     ============================ -->
 <div class="confirm-modal-overlay" id="splitPhrasesConfirmOverlay">
     <div class="confirm-modal-card">
         <h3>🔤 关闭拆分短语？</h3>
@@ -1191,7 +1260,6 @@
     </div>
 </div>
 
-<!-- 教学弹窗 -->
 <div class="tutorial-overlay" id="tutorialOverlay">
     <div class="tutorial-card">
         <div class="tutorial-header">
@@ -1219,8 +1287,6 @@
                         <div class="demo-token highlight">I</div>
                         <div class="demo-token highlight">can</div>
                         <div class="demo-token highlight">sweep</div>
-                        <div class="demo-token highlight">the</div>
-                        <div class="demo-token highlight">floor</div>
                     </div>
                     <div class="demo-check-mark">✅</div>
                 </div>
@@ -1247,6 +1313,21 @@
                 </div>
             </div>
             <div class="stage-content" data-step="5">
+                <div class="demo-possessive">
+                    <div class="demo-possessive-row">
+                        <div class="demo-possessive-tag">What's</div>
+                        <div class="demo-possessive-tag">Mike's</div>
+                    </div>
+                    <div class="demo-possessive-arrow">⇅</div>
+                    <div class="demo-possessive-split-row">
+                        <span class="demo-token">What</span>
+                        <span class="demo-token">'s</span>
+                        <span class="demo-token">Mike</span>
+                        <span class="demo-token">'s</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stage-content" data-step="6">
                 <div class="demo-history">
                     <div class="demo-history-item">✅ 我会扫地。</div>
                     <div class="demo-history-item highlight">❌ 这是我的姐姐。</div>
@@ -1257,12 +1338,13 @@
         </div>
         <div class="tutorial-text">
             <h3 id="tutorialTitle">第一步：点击单词</h3>
-            <p id="tutorialDesc">点击下方卡片池中的单词，它会自动飞入上方答题区，按顺序排列成句子。</p>
+            <p id="tutorialDesc">点击下方卡片池中的单词，它会飞入上方答题区，停留片刻后返回原位，循环演示。</p>
         </div>
         <div class="tutorial-nav">
             <button class="btn btn-skip" id="tutorialPrev">上一步</button>
             <div class="dots" id="tutorialDots">
                 <span class="dot active"></span>
+                <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
@@ -1278,17 +1360,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
-    //  0. 通用词汇池
+    //  0. 词汇池
     // ================================================================
     const NAMES = [
-        { en: "Mike Black", zh: "迈克·布莱克" },
-        { en: "Wu Binbin", zh: "吴斌斌" },
-        { en: "Sarah", zh: "萨拉" },
-        { en: "Chen Jie", zh: "陈杰" },
-        { en: "John", zh: "约翰" },
-        { en: "Amy", zh: "埃米" },
-        { en: "Zhang Peng", zh: "张鹏" },
-        { en: "Miss White", zh: "怀特小姐" }
+        { en: "Mike Black", zh: "迈克·布莱克" }, { en: "Wu Binbin", zh: "吴斌斌" },
+        { en: "Sarah", zh: "萨拉" }, { en: "Chen Jie", zh: "陈杰" },
+        { en: "John", zh: "约翰" }, { en: "Amy", zh: "埃米" },
+        { en: "Zhang Peng", zh: "张鹏" }, { en: "Miss White", zh: "怀特小姐" }
     ];
 
     const RELATIVES = [
@@ -1339,18 +1417,15 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "nine", zh: "九" }, { en: "ten", zh: "十" }
     ];
 
-    // 四上职业（分单元）
     const JOBS_S4U1 = [
-        { en: "doctor", zh: "医生" },
-        { en: "farmer", zh: "农民" },
+        { en: "doctor", zh: "医生" }, { en: "farmer", zh: "农民" },
         { en: "nurse", zh: "护士" },
         { en: "office worker", zh: "办公室职员", phrase: true },
         { en: "factory worker", zh: "工厂工人", phrase: true },
         { en: "cook", zh: "厨师" }
     ];
     const JOBS_S4U4 = [
-        { en: "firefighter", zh: "消防员" },
-        { en: "driver", zh: "司机" },
+        { en: "firefighter", zh: "消防员" }, { en: "driver", zh: "司机" },
         { en: "cleaner", zh: "清洁工" },
         { en: "delivery worker", zh: "快递员", phrase: true },
         { en: "police officer", zh: "警察", phrase: true }
@@ -1371,7 +1446,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "my grandpa", zh: "我的爷爷", phrase: true }
     ];
 
-    // 五上
     const PERSONS = [
         { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' },
         { en: "My friend", zh: "我的朋友", num: 's', phrase: true },
@@ -1428,7 +1502,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "lakes", zh: "湖泊" }, { en: "waterfalls", zh: "瀑布" }
     ];
 
-    // 六上
     const CITIES = [
         { en: "Sydney", zh: "悉尼" }, { en: "Beijing", zh: "北京" },
         { en: "London", zh: "伦敦" }, { en: "New York", zh: "纽约", phrase: true },
@@ -1474,10 +1547,9 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // ================================================================
-    //  1. 模板数据（三上 + 四上 + 五上 + 六上）
+    //  1. 模板数据
     // ================================================================
     const TEMPLATES_DATA = {
-        // ===== 三年级上册 =====
         "三上U1": {
             desc: "问候与介绍",
             templates: [
@@ -1557,7 +1629,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
 
-        // ===== 四年级上册 =====
         "四上U1": {
             desc: "职业与家务",
             templates: [
@@ -1635,7 +1706,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
 
-        // ===== 五年级上册 =====
         "五上U1": {
             desc: "描述人物",
             templates: [
@@ -1727,7 +1797,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
 
-        // ===== 六年级上册 =====
         "六上U1": {
             desc: "谈论周末（过去时）",
             templates: [
@@ -1809,118 +1878,56 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // 已知短语（用于短语感知分词）
+    // 已知短语
     const KNOWN_PHRASES = [
-        "Jinggangshan Revolution Museum",
-        "Hong Kong-Zhuhai-Macao Bridge",
-        "visited my grandparents",
-        "take a dancing class",
-        "cheered for the runners",
-        "make a snowman",
-        "clean the room",
-        "clean my room",
-        "sweep the floor",
-        "wash the clothes",
-        "make the bed",
-        "water the flowers",
-        "water the grass",
-        "plant new trees",
-        "make a robot",
-        "play the piano",
-        "play ping-pong",
-        "play badminton",
-        "play basketball",
-        "play football",
-        "play sports",
-        "play chess",
-        "play games",
-        "read books",
-        "read a book",
-        "went to the park",
-        "watched TV",
-        "went to school",
-        "go to school",
-        "go to the zoo",
-        "go to bed",
-        "go swimming",
-        "go shopping",
-        "go for a walk",
-        "go on a picnic",
-        "go hiking",
-        "go cycling",
-        "go home",
-        "get up",
-        "eat breakfast",
-        "eat dinner",
-        "have breakfast",
-        "have lunch",
-        "have dinner",
-        "jump rope",
-        "speak English",
-        "ride a bike",
-        "take pictures",
-        "take a picture",
-        "ice-skate",
-        "look after",
-        "take care of",
-        "the Great Wall",
-        "the Red Army",
-        "Eiffel Tower",
-        "Terracotta Warriors",
-        "New Zealand",
-        "New York",
-        "count down",
-        "counted down",
-        "book fair",
-        "run out",
-        "look up",
-        "come from",
-        "science museum",
-        "post office",
-        "pet shop",
-        "air conditioner",
-        "watch TV",
-        "school project",
-        "healthy food",
-        "play on a phone",
-        "stay up late",
-        "eat too much",
-        "chicken soup",
-        "not too bad",
-        "Chinese and maths",
-        "maths and English",
-        "music and PE",
-        "art and music",
-        "famous mountains",
-        "clean rivers",
-        "tall trees",
-        "beef and rice",
-        "some chicken soup",
-        "a hamburger",
-        "some dumplings",
-        "some ice cream",
-        "stay in bed",
-        "drink more water",
-        "see a doctor",
-        "reuse bottles",
-        "plant trees",
-        "save water",
-        "baby sister",
-        "red panda",
-        "my friend",
-        "my best friend",
-        "school bus driver",
-        "ran in the race",
-        "ran in the race",
-        "office worker",
-        "factory worker",
-        "delivery worker",
-        "police officer",
-        "T-shirt",
-        "hard-working"
+        "visited my grandparents", "cheered for the runners", "make a snowman",
+        "clean the room", "clean my room", "sweep the floor", "wash the clothes",
+        "make the bed", "water the flowers", "water the grass", "plant new trees",
+        "make a robot", "play the piano", "play ping-pong", "play badminton",
+        "play basketball", "play football", "play sports", "play chess", "play games",
+        "read books", "read a book", "went to the park", "watched TV",
+        "went to school", "go to school", "go to the zoo", "go to bed",
+        "go swimming", "go shopping", "go for a walk", "go on a picnic",
+        "go hiking", "go cycling", "go home", "get up",
+        "eat breakfast", "eat dinner", "have breakfast", "have lunch", "have dinner",
+        "jump rope", "speak English", "ride a bike", "take pictures", "take a picture",
+        "ice-skate", "look after", "take care of", "the Great Wall", "the Red Army",
+        "Eiffel Tower", "Terracotta Warriors", "New Zealand", "New York",
+        "count down", "counted down", "book fair", "run out", "look up", "come from",
+        "science museum", "post office", "pet shop", "air conditioner", "watch TV",
+        "school project", "healthy food", "play on a phone", "stay up late",
+        "eat too much", "chicken soup", "not too bad",
+        "Chinese and maths", "maths and English", "music and PE", "art and music",
+        "famous mountains", "clean rivers", "tall trees",
+        "beef and rice", "some chicken soup", "a hamburger", "some dumplings",
+        "some ice cream", "stay in bed", "drink more water", "see a doctor",
+        "reuse bottles", "plant trees", "save water",
+        "baby sister", "red panda", "my friend", "my best friend",
+        "school bus driver", "ran in the race", "office worker", "factory worker",
+        "delivery worker", "police officer", "T-shirt", "hard-working"
     ];
 
-    // 干扰词词库（覆盖四个年级）
+    // ★ 专有名词集合（卡片池和答题区保持原始首字母大写）
+    const PROPER_NOUNS = new Set([
+        // 人名
+        'mike', 'black', 'wu', 'binbin', 'sarah', 'chen', 'jie', 'john', 'amy',
+        'zhang', 'peng', 'white', 'wang', 'li',
+        // 城市/国家
+        'sydney', 'beijing', 'london', 'york', 'shanghai', 'tokyo',
+        'china', 'uk', 'usa', 'canada', 'australia', 'hainan',
+        // 星期
+        'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
+        'mondays', 'tuesdays', 'wednesdays', 'thursdays', 'fridays', 'saturdays', 'sundays',
+        // 月份
+        'january', 'february', 'march', 'april', 'may', 'june',
+        'july', 'august', 'september', 'october', 'november', 'december',
+        // 科目
+        'chinese', 'english', 'maths', 'pe', 'art', 'music',
+        // 其他
+        'i',
+    ]);
+
+    // 干扰词
     const OLD_WORDS = [
         "name", "nice", "ear", "hand", "eye", "mouth", "arm", "can", "share", "smile",
         "listen", "help", "say", "friend", "good",
@@ -1934,7 +1941,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "bear", "white", "black", "duck", "sea", "draw", "some",
         "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
         "old", "year", "o'clock", "cut", "eat", "cake",
-        "team", "player", "him", "lovely", "clever", "young", "hard-working", "science",
+        "team", "player", "him", "lovely", "clever", "young", "science",
         "robot", "jump", "rope", "piano", "chess", "front", "easy", "star", "wonderful",
         "sad", "worried", "angry", "excited", "matter", "project", "centre", "parent",
         "agree", "finish", "both", "wrong", "afraid", "laugh", "move", "yours",
@@ -1948,7 +1955,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "different", "way", "river", "nature", "waterfall", "forest", "mountain", "famous",
         "fog", "flood", "wind", "fire", "trip", "dangerous", "heavy", "hotel", "close",
         "umbrella", "raincoat", "worry", "fine", "know", "before", "bring",
-        "was", "clomb", "kilometre", "send", "went", "thousand", "clay", "saw", "village",
+        "was", "kilometre", "send", "went", "thousand", "clay", "saw", "village",
         "ate", "dry", "took", "view", "inspiring", "bamboo", "pumpkin", "restaurant", "airport",
         "planet", "earth", "sky", "daytime", "cloud", "moon", "space", "star", "sunset",
         "time", "Mars", "power", "electricity", "solar", "type", "energy", "light", "head",
@@ -1999,7 +2006,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const state = {
         selectedUnits: new Set(),
         moreOldWords: false,
-        splitPhrases: true,            // ★ 默认开启
+        splitPhrases: true,
         highEnd: false,
         currentEn: '',
         currentZh: '',
@@ -2017,7 +2024,7 @@ document.addEventListener('DOMContentLoaded', function() {
         retryMode: false,
     };
 
-    let pendingUnits = new Set();      // 二级卡片中暂存的单元选择
+    let pendingUnits = new Set();
     let nextItemId = 0;
     let isDragging = false;
     let dragState = null;
@@ -2079,9 +2086,57 @@ document.addEventListener('DOMContentLoaded', function() {
         return arr;
     }
 
-    // ★ 短语感知分词
+    function normalizeToken(token) {
+        if (token === null || token === undefined) return '';
+        return String(token).toLowerCase().replace(/[.,!?;:]/g, '').trim();
+    }
+    function isPunctuationToken(t) {
+        return /^[.,!?;:]+$/.test(t);
+    }
+
+    // ★ 卡片池显示形式：普通单词小写，专有名词保留原始大小写
+    function toDisplayForm(word) {
+        if (!word) return word;
+        if (isPunctuationToken(word)) return word;
+        if (word === "'s") return word;
+        const lower = word.toLowerCase();
+        if (PROPER_NOUNS.has(lower)) {
+            return word; // 专有名词保留原样
+        }
+        return lower; // 普通单词 → 全小写
+    }
+
+    // ★ 答题区第一个位置显示形式：普通单词首字母大写，专有名词保留原样
+    function toFirstPositionForm(word) {
+        if (!word) return word;
+        if (isPunctuationToken(word)) return word;
+        if (word === "'s") return word;
+        const lower = word.toLowerCase();
+        if (PROPER_NOUNS.has(lower)) {
+            return word; // 专有名词保留原样
+        }
+        // 首字母大写
+        return lower.charAt(0).toUpperCase() + lower.slice(1);
+    }
+
+    // 拆解 's
     function tokenizePhraseAware(sentence, splitPhrases) {
-        let tokens = sentence.match(/[A-Za-z']+|[.,!?;:]/g) || [];
+        let rawTokens = sentence.match(/[A-Za-z'\-]+|[.,!?;:]/g) || [];
+
+        let tokens = [];
+        for (const t of rawTokens) {
+            const lowerT = t.toLowerCase();
+            if (lowerT.endsWith("'s") && lowerT.length > 2 && !lowerT.endsWith("-'s")) {
+                const stem = t.slice(0, -2);
+                if (/[A-Za-z]/.test(stem)) {
+                    tokens.push(stem);
+                    tokens.push("'s");
+                    continue;
+                }
+            }
+            tokens.push(t);
+        }
+
         if (splitPhrases) return tokens;
 
         const phrases = KNOWN_PHRASES.slice().sort((a, b) => b.split(/\s+/).length - a.split(/\s+/).length);
@@ -2094,7 +2149,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (i + phraseWords.length > tokens.length) continue;
                 let match = true;
                 for (let j = 0; j < phraseWords.length; j++) {
-                    const tokenClean = tokens[i + j].toLowerCase().replace(/[.,!?;:]/g, '');
+                    const tokenClean = normalizeToken(tokens[i + j]);
                     if (tokenClean !== phraseWords[j]) { match = false; break; }
                 }
                 if (match) {
@@ -2113,16 +2168,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return result;
     }
 
-    function lower(arr) { return arr.map(w => w.toLowerCase()); }
+    function lower(arr) { return arr.map(w => String(w).toLowerCase()); }
     function getDistractors(excludeLower, count = 4) {
         const pool = OLD_WORDS.filter(w => !excludeLower.includes(w.toLowerCase()));
         if (pool.length === 0) return [];
         return shuffleArray([...pool]).slice(0, count);
-    }
-    function capitalizeFirst(word) {
-        if (!word) return word;
-        if (/[a-z]/.test(word[0])) return word[0].toUpperCase() + word.slice(1);
-        return word;
     }
     function getBe(num) { return num === 'p' ? 'are' : 'is'; }
     function ease() {
@@ -2165,12 +2215,8 @@ document.addEventListener('DOMContentLoaded', function() {
             for (const key of slotKeys) {
                 if (key === 'be') continue;
                 const val = chosen[key];
-                let enVal = val.en, zhVal = val.zh;
-                if (key === '职业') {
-                    if (subjectNum === 'p') { enVal = val.plural || val.en; zhVal = val.zh; }
-                }
-                en = en.replace(`{${key}}`, enVal);
-                zh = zh.replace(`{${key}}`, zhVal);
+                en = en.replace(`{${key}}`, val.en);
+                zh = zh.replace(`{${key}}`, val.zh);
             }
             if (en.includes('{be}')) en = en.replace(/{be}/g, getBe(subjectNum));
             if (!/[.?!]$/.test(en)) en += '.';
@@ -2322,7 +2368,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  8. 渲染卡片池
+    //  8. 渲染卡片池 ★ 使用 toDisplayForm 处理大小写
     // ================================================================
     function renderCardPool() {
         const oldRects = new Map();
@@ -2335,7 +2381,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div');
             div.className = 'token';
             div.dataset.poolIdx = idx;
-            div.textContent = word;
+            div.textContent = toDisplayForm(word);  // ★ 应用显示形式
             if (state.usedIndices.includes(idx)) {
                 div.classList.add('used');
             } else {
@@ -2371,7 +2417,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  9. 渲染答案区
+    //  9. 渲染答案区 ★ 第一个位置首字母大写，其他位置小写
     // ================================================================
     function renderAnswerZone(opts = {}) {
         const { sourceRect = null, newItemId = null } = opts;
@@ -2388,8 +2434,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div');
             div.className = 'token';
             div.dataset.id = item.id;
-            let display = item.word;
-            if (idx === 0 && /[a-z]/.test(item.word[0])) display = capitalizeFirst(item.word);
+            // ★ 通过位置决定大小写
+            const display = idx === 0 ? toFirstPositionForm(item.word) : toDisplayForm(item.word);
             div.textContent = display;
             const orderSpan = document.createElement('span');
             orderSpan.className = 'order';
@@ -2617,7 +2663,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
         state.retryMode = false;
         if (state.selectedUnits.size === 0) {
-            // 兜底：全部选中
             Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
         }
         const q = generateQuestion();
@@ -2682,19 +2727,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkAnswer() {
         if (state.isAnswered) return;
-        const user = lower(state.answerItems.map(it => it.word));
-        const correct = lower(state.correctWords);
-        if (user.length !== correct.length) {
-            statusBadge.textContent = '❌ 单词数量不对，请检查是否漏选或有多余单词';
+
+        const userWords = state.answerItems
+            .map(it => it.word)
+            .filter(t => !isPunctuationToken(t))
+            .map(normalizeToken)
+            .filter(t => t.length > 0);
+
+        const correctWords = state.correctWords
+            .filter(t => !isPunctuationToken(t))
+            .map(normalizeToken)
+            .filter(t => t.length > 0);
+
+        if (userWords.length !== correctWords.length) {
+            statusBadge.textContent = `❌ 单词数量不对（你放了 ${userWords.length} 个，需要 ${correctWords.length} 个）`;
             statusBadge.className = 'status-badge wrong';
             Sound.wrong();
             return;
         }
-        let allMatch = true;
-        for (let i = 0; i < correct.length; i++) {
-            if (user[i] !== correct[i]) { allMatch = false; break; }
+
+        let wrongIdx = -1;
+        for (let i = 0; i < correctWords.length; i++) {
+            if (userWords[i] !== correctWords[i]) { wrongIdx = i; break; }
         }
-        if (allMatch) {
+
+        if (wrongIdx === -1) {
             state.isAnswered = true;
             const key = state.currentEn;
             const alreadyScored = state.scoredSentences.has(key);
@@ -2719,11 +2776,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, state.highEnd ? 1200 : 950);
         } else {
             state.failedSentences.add(state.currentEn);
-            let wrongIdx = -1;
-            for (let i = 0; i < Math.min(user.length, correct.length); i++) {
-                if (user[i] !== correct[i]) { wrongIdx = i; break; }
-            }
-            statusBadge.textContent = `❌ 第 ${wrongIdx+1} 个单词位置错误，再试试！（此句之后不计分）`;
+            statusBadge.textContent = `❌ 第 ${wrongIdx + 1} 个单词位置错误，再试试！（此句之后不计分）`;
             statusBadge.className = 'status-badge wrong';
             Sound.wrong();
             state.history.push({ en: state.currentEn, zh: state.currentZh, correct: false });
@@ -2812,7 +2865,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  13. 单元选择（二级卡片）
+    //  13. 单元选择
     // ================================================================
     function updateUnitTriggerLabel() {
         unitCount.textContent = state.selectedUnits.size;
@@ -2820,7 +2873,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderUnitModal() {
         const units = Object.keys(TEMPLATES_DATA);
-        // 按年级分组
         const groups = {};
         units.forEach(u => {
             const grade = u.slice(0, 2);
@@ -2898,12 +2950,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ================================================================
-    //  14. 拆分短语开关 & 确认弹窗
+    //  14. 拆分短语开关
     // ================================================================
     splitPhrasesCheck.addEventListener('change', function() {
         if (!this.checked) {
-            // 用户想关闭：弹出确认
-            this.checked = true; // 先还原，等待用户确认
+            this.checked = true;
             splitPhrasesConfirmOverlay.classList.add('show');
         } else {
             state.splitPhrases = true;
@@ -2914,13 +2965,11 @@ document.addEventListener('DOMContentLoaded', function() {
         splitPhrasesCheck.checked = false;
         state.splitPhrases = false;
         splitPhrasesConfirmOverlay.classList.remove('show');
-        // ★ 不重新加载当前题目，只影响后续题目
         statusBadge.textContent = '🔤 已关闭拆分短语（下题起生效）';
         statusBadge.className = 'status-badge';
     });
 
     splitPhrasesCancel.addEventListener('click', () => {
-        // 保持开启
         splitPhrasesCheck.checked = true;
         state.splitPhrases = true;
         splitPhrasesConfirmOverlay.classList.remove('show');
@@ -2931,7 +2980,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     moreOldWordsCheck.addEventListener('change', function() {
         state.moreOldWords = this.checked;
-        // ★ 不重新加载当前题目
         statusBadge.textContent = this.checked ? '🧠 已开启干扰词（下题起生效）' : '🧠 已关闭干扰词（下题起生效）';
         statusBadge.className = 'status-badge';
     });
@@ -3006,12 +3054,13 @@ document.addEventListener('DOMContentLoaded', function() {
     //  16. 教学弹窗
     // ================================================================
     const tutorialSteps = [
-        { title: '第一步：点击单词', desc: '点击下方卡片池中的单词，它会沿着弧线飞入上方答题区，按顺序排列成句子。' },
-        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边，动画丝滑流畅。' },
-        { title: '第三步：检查答案', desc: '排列完成后点击「检查答案」，系统会判断正误。答对会自动进入下一题，让练习更连贯。' },
+        { title: '第一步：点击单词', desc: '点击下方单词卡片，它会飞入上方答题区停留片刻后返回，循环演示"放入-拿出"的过程。' },
+        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。循环演示拿起-放下。' },
+        { title: '第三步：检查答案', desc: '排列完成后点击「检查答案」，系统会逐个高亮判断正误。答对会自动进入下一题。' },
         { title: '第四步：句型提醒', desc: '不确定句子结构？看看中文上方的「📐 句型」小标签，它会提示这个句子的模板结构。' },
-        { title: '第五步：拆分短语', desc: '「拆分短语」开关默认开启，短语会拆成独立单词。关闭后，像 "play sports" 这样的短语会作为一个整体卡片。' },
-        { title: '第六步：重新练习', desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。' }
+        { title: '第五步：拆分短语', desc: '「拆分短语」默认开启，像 "play sports" 这样的短语会拆成 "play" 和 "sports" 两张卡片。' },
+        { title: '第六步：\'s 拆分', desc: '所有以 \'s 结尾的词都会拆开：What\'s → What + \'s，Mike\'s → Mike + \'s，覆盖 is / 所有格 / us 缩写。' },
+        { title: '第七步：重新练习', desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。' }
     ];
     let tutorialIndex = 0;
 
@@ -3039,10 +3088,10 @@ document.addEventListener('DOMContentLoaded', function() {
     tutorialOverlay.addEventListener('click', (e) => {
         if (e.target === tutorialOverlay) closeTutorial();
     });
-    if (!localStorage.getItem('tutorialShown_s356')) {
+    if (!localStorage.getItem('tutorialShown_s356_v4')) {
         setTimeout(() => {
             openTutorial();
-            localStorage.setItem('tutorialShown_s356', '1');
+            localStorage.setItem('tutorialShown_s356_v4', '1');
         }, 600);
     }
 
@@ -3072,20 +3121,17 @@ document.addEventListener('DOMContentLoaded', function() {
     setupBigCardGlow();
     setupPanelTilt();
 
-    // ★ 初始化：默认全选所有单元
     Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
     updateUnitTriggerLabel();
 
-    // ★ 确保拆分短语开关状态与 DOM 一致
     splitPhrasesCheck.checked = true;
     state.splitPhrases = true;
 
-    // 启动游戏
     loadQuestion();
     statusBadge.textContent = '🎯 点击下方单词开始';
     statusBadge.className = 'status-badge';
 
-    console.log('🧩 句型建筑师 · 三上/四上/五上/六上 已启动');
+    console.log('🧩 句型建筑师 · 已启动（卡片池小写 + 位置识别首字母大写）');
 });
 </script>
 </body>
