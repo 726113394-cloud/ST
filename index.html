@@ -407,11 +407,102 @@
         padding: 0 12px; border-radius: 20px;
     }
     .chinese-hint .zh { font-size: clamp(1.15rem, 0.5vw + 0.95rem, 1.55rem); }
+    /* ★ 句型提示：点击显示的切换按钮 */
+    .pattern-toggle {
+        font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
+        background: rgba(217, 140, 106, 0.18);
+        border: 1px solid rgba(217, 140, 106, 0.30);
+        padding: 3px 14px;
+        border-radius: 30px;
+        color: #7a4a2a;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        user-select: none;
+        line-height: 1.4;
+    }
+    .pattern-toggle:hover {
+        background: rgba(217, 140, 106, 0.32);
+        border-color: rgba(217, 140, 106, 0.5);
+        transform: translateY(-1px);
+    }
+    .pattern-toggle:active {
+        transform: scale(0.96);
+    }
+    .pattern-toggle.on {
+        background: linear-gradient(135deg, rgba(247, 184, 138, 0.55), rgba(217, 140, 106, 0.45));
+        border-color: rgba(217, 140, 106, 0.65);
+        color: #5a3020;
+        box-shadow: 0 2px 8px rgba(217, 140, 106, 0.22);
+    }
+    .pattern-toggle .arrow {
+        display: inline-block;
+        font-size: 0.75em;
+        transition: transform 0.3s ease;
+    }
+    .pattern-toggle.on .arrow {
+        transform: rotate(180deg);
+    }
+    /* ★ 句型提示内容：默认隐藏，点击后显示 */
     .pattern-badge {
         font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
         background: rgba(217, 140, 106, 0.15);
-        padding: 2px 16px; border-radius: 30px;
-        color: #7a4a2a; font-weight: 600; display: inline-block; margin-top: 2px;
+        padding: 3px 16px;
+        border-radius: 30px;
+        color: #7a4a2a;
+        font-weight: 600;
+        display: none;
+        margin-top: 2px;
+        line-height: 1.5;
+        max-width: 100%;
+        word-break: break-word;
+    }
+    .pattern-badge.show {
+        display: inline-block;
+        animation: patternReveal 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes patternReveal {
+        from { opacity: 0; transform: translateY(-6px) scale(0.92); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    /* 高级渲染下的句型切换与显示 */
+    .app.high-end .pattern-toggle {
+        background: linear-gradient(150deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.06) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.40);
+        color: #5a3a2a;
+        backdrop-filter: blur(20px) saturate(185%);
+        -webkit-backdrop-filter: blur(20px) saturate(185%);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.80),
+            0 3px 10px rgba(180, 130, 80, 0.06);
+    }
+    .app.high-end .pattern-toggle:hover {
+        background: linear-gradient(150deg, rgba(255,255,255,.30) 0%, rgba(255,250,244,.14) 100%);
+        border-color: rgba(255, 240, 220, 0.70);
+    }
+    .app.high-end .pattern-toggle.on {
+        background: linear-gradient(140deg,
+            rgba(255, 226, 200, 0.55) 0%,
+            rgba(255, 200, 165, 0.42) 100%);
+        border-color: rgba(255, 255, 255, 0.60);
+        color: #5a3020;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.85),
+            0 3px 10px rgba(217, 140, 106, 0.16);
+    }
+    .app.high-end .pattern-badge {
+        background: linear-gradient(150deg,
+            rgba(255, 255, 255, 0.20) 0%,
+            rgba(255, 255, 255, 0.07) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.36);
+        color: #5a3a2a;
+        backdrop-filter: blur(18px) saturate(180%);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
     }
     .status-badge {
         display: block; padding: clamp(5px, 0.7vh, 9px) 18px; border-radius: 40px;
@@ -1217,7 +1308,8 @@
         <div class="chinese-hint">
             <span class="label">中文</span>
             <span class="zh" id="chineseHint">正在加载...</span>
-            <span class="pattern-badge" id="patternBadge">句型</span>
+            <button class="pattern-toggle" id="patternToggle" title="点击显示/隐藏句型">📐 句型 <span class="arrow">▼</span></button>
+            <span class="pattern-badge" id="patternBadge"></span>
         </div>
         <div class="status-badge" id="statusBadge">🎯 准备就绪</div>
         <div class="card-pool" id="cardPool"></div>
@@ -1418,7 +1510,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "nine", zh: "九" }, { en: "ten", zh: "十" }
     ];
 
-    // ★ 四上U1 职业：只保留教材本单元出现的（doctor / farmer / nurse / office worker / factory worker / cook）
     const JOBS_S4U1 = [
         { en: "doctor", zh: "医生" }, { en: "farmer", zh: "农民" },
         { en: "nurse", zh: "护士" },
@@ -1426,7 +1517,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "factory worker", zh: "工厂工人", phrase: true },
         { en: "cook", zh: "厨师" }
     ];
-    // ★ 四上U4 职业：firefighter / driver / cleaner / delivery worker / police officer
     const JOBS_S4U4 = [
         { en: "firefighter", zh: "消防员" }, { en: "driver", zh: "司机" },
         { en: "cleaner", zh: "清洁工" },
@@ -1434,10 +1524,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "police officer", zh: "警察", phrase: true }
     ];
 
-    // ★ 四上U1 家务：仅保留本单元教材句子中出现的
-    //   教材句子：I can cook. / I can clean the room. / We sweep the floor.
-    //   We can also make a gift! / I look after my sister. / We cook together.
-    //   不含 wash the clothes / make the bed（这些是其他单元内容）
     const CHORES_S4U1 = [
         { en: "cook", zh: "做饭" },
         { en: "clean the room", zh: "打扫房间", phrase: true },
@@ -1445,7 +1531,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "make a gift", zh: "做礼物", phrase: true }
     ];
 
-    // 四上U1「我照顾……」——教材原句 I look after my sister.
     const LOOK_AFTER_TARGETS = [
         { en: "my sister", zh: "我的妹妹", phrase: true },
         { en: "my brother", zh: "我的弟弟", phrase: true },
@@ -1453,7 +1538,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "my grandpa", zh: "我的爷爷", phrase: true }
     ];
 
-    // 四上U2 描述朋友
     const PERSONS_S4U2 = [
         { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' }
     ];
@@ -1469,7 +1553,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "maths", zh: "数学" }
     ];
 
-    // 四上U3 地点
     const PLACES_S4U3 = [
         { en: "playground", zh: "操场" }, { en: "park", zh: "公园" },
         { en: "gym", zh: "体育馆" }, { en: "library", zh: "图书馆" },
@@ -1477,7 +1560,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "hospital", zh: "医院" }, { en: "shop", zh: "商店" }
     ];
 
-    // 五上U1 描述人物
     const PERSONS_S5U1 = [
         { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' },
         { en: "My friend", zh: "我的朋友", num: 's', phrase: true },
@@ -1503,7 +1585,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "play chess", zh: "下棋", phrase: true }
     ];
 
-    // 五上U2 情绪
     const EMOTIONS_S5U2 = [
         { en: "sad", zh: "难过" }, { en: "worried", zh: "担心" },
         { en: "angry", zh: "生气" }, { en: "excited", zh: "兴奋" }
@@ -1514,7 +1595,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "class", zh: "班级" }
     ];
 
-    // 五上U3 星期课程
     const WEEKDAYS = [
         { en: "Mondays", zh: "周一" }, { en: "Tuesdays", zh: "周二" },
         { en: "Wednesdays", zh: "周三" }, { en: "Thursdays", zh: "周四" },
@@ -1534,7 +1614,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "play sports", zh: "做运动", phrase: true }
     ];
 
-    // 五上U4 健康
     const HEALTHY_FOOD_S5U4 = [
         { en: "healthy food", zh: "健康食品", phrase: true },
         { en: "vegetables", zh: "蔬菜" },
@@ -1546,7 +1625,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "eat too much", zh: "吃太多", phrase: true }
     ];
 
-    // 五上U5 食物
     const FOODS_S5U5 = [
         { en: "beef and rice", zh: "牛肉和米饭", phrase: true },
         { en: "chicken soup", zh: "鸡汤", phrase: true },
@@ -1556,7 +1634,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "tea", zh: "茶" }
     ];
 
-    // 五上U6 自然公园
     const NATURE_THINGS_S5U6 = [
         { en: "rivers", zh: "河流" }, { en: "mountains", zh: "山" },
         { en: "trees", zh: "树" }, { en: "flowers", zh: "花" },
@@ -1568,7 +1645,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "tall trees", zh: "高大的树", phrase: true }
     ];
 
-    // 六上U1 周末
     const WEEKEND_EVAL_S6U1 = [
         { en: "great", zh: "很棒" }, { en: "good", zh: "很好" },
         { en: "OK", zh: "还行" }, { en: "not too bad", zh: "还不错", phrase: true }
@@ -1580,7 +1656,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "visited my grandparents", zh: "看望了祖父母", phrase: true }
     ];
 
-    // 六上U2 运动会
     const EVENTS_S6U2 = [
         { en: "race", zh: "比赛" }, { en: "marathon", zh: "马拉松" },
         { en: "book fair", zh: "书展", phrase: true }
@@ -1591,7 +1666,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "counted down", zh: "倒计时", phrase: true }
     ];
 
-    // 六上U3 生病
     const ILLNESSES_S6U3 = [
         { en: "cold", zh: "感冒" }, { en: "fever", zh: "发烧" },
         { en: "cough", zh: "咳嗽" }, { en: "headache", zh: "头痛" }
@@ -1602,7 +1676,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "see a doctor", zh: "看医生", phrase: true }
     ];
 
-    // 六上U4 金钱购物
     const PRICES_S6U4 = [
         { en: "ten", zh: "十" }, { en: "twenty", zh: "二十" },
         { en: "thirty", zh: "三十" }, { en: "fifty", zh: "五十" }
@@ -1612,7 +1685,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "pencil", zh: "铅笔" }, { en: "ruler", zh: "尺子" }
     ];
 
-    // 六上U5 太空
     const CELESTIALS_S6U5 = [
         { en: "moon", zh: "月亮" }, { en: "sun", zh: "太阳" },
         { en: "stars", zh: "星星" }, { en: "cloud", zh: "云" },
@@ -1623,7 +1695,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "blue", zh: "蓝色的" }, { en: "far", zh: "遥远的" }
     ];
 
-    // 六上U6 环保
     const RESOURCES_S6U6 = [
         { en: "water", zh: "水" }, { en: "electricity", zh: "电" },
         { en: "energy", zh: "能源" }, { en: "paper", zh: "纸" }
@@ -1638,7 +1709,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "save water", zh: "节约用水", phrase: true }
     ];
 
-    // 六上城市/天气/服装（用于六上其他单元）
     const CITIES = [
         { en: "Sydney", zh: "悉尼" }, { en: "Beijing", zh: "北京" },
         { en: "London", zh: "伦敦" }, { en: "New York", zh: "纽约", phrase: true },
@@ -1662,10 +1732,9 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // ================================================================
-    //  1. 模板数据 —— 严格按单元教材内容
+    //  1. 模板数据
     // ================================================================
     const TEMPLATES_DATA = {
-        // ===== 三年级上册 =====
         "三上U1": {
             desc: "问候与介绍",
             templates: [
@@ -1745,7 +1814,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
 
-        // ===== 四年级上册 =====
         "四上U1": {
             desc: "职业与家务",
             templates: [
@@ -1820,7 +1888,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
 
-        // ===== 五年级上册 =====
         "五上U1": {
             desc: "描述人物",
             templates: [
@@ -1884,7 +1951,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
 
-        // ===== 六年级上册 =====
         "六上U1": {
             desc: "谈论周末（过去时）",
             templates: [
@@ -1937,7 +2003,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // 已知短语
     const KNOWN_PHRASES = [
         "visited my grandparents", "cheered for the runners", "make a snowman",
         "clean the room", "clean my room", "sweep the floor", "wash the clothes",
@@ -1968,7 +2033,6 @@ document.addEventListener('DOMContentLoaded', function() {
         "T-shirt", "hard-working"
     ];
 
-    // 专有名词
     const PROPER_NOUNS = new Set([
         'mike', 'black', 'wu', 'binbin', 'sarah', 'chen', 'jie', 'john', 'amy',
         'zhang', 'peng', 'white', 'wang', 'li',
@@ -1982,7 +2046,6 @@ document.addEventListener('DOMContentLoaded', function() {
         'i',
     ]);
 
-    // 干扰词（跨年级通用）
     const OLD_WORDS = [
         "name", "nice", "ear", "hand", "eye", "mouth", "arm", "can", "share", "smile",
         "listen", "help", "say", "friend", "good",
@@ -2050,7 +2113,8 @@ document.addEventListener('DOMContentLoaded', function() {
         shuffle() { this.play(440, 0.06, 0.1); setTimeout(() => this.play(554, 0.06, 0.1), 70); },
         remove() { this.play(420, 0.05, 0.08); setTimeout(()=>this.play(300,0.05,0.06),50); },
         start() { this.play(660, 0.06, 0.1); setTimeout(() => this.play(880, 0.06, 0.1), 70); },
-        drop() { this.play(500, 0.05, 0.09); setTimeout(()=>this.play(700,0.06,0.07),40); }
+        drop() { this.play(500, 0.05, 0.09); setTimeout(()=>this.play(700,0.06,0.07),40); },
+        toggle() { this.play(720, 0.05, 0.08); setTimeout(()=>this.play(960,0.04,0.07), 40); }
     };
     Sound.init();
 
@@ -2108,6 +2172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const progress = $('progress');
     const scoreEl = $('score');
     const chineseHint = $('chineseHint');
+    const patternToggle = $('patternToggle');
     const patternBadge = $('patternBadge');
     const statusBadge = $('statusBadge');
     const cardPool = $('cardPool');
@@ -2224,6 +2289,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return state.highEnd
             ? 'cubic-bezier(0.34, 1.56, 0.64, 1)'
             : 'cubic-bezier(0.25, 0.1, 0.25, 1)';
+    }
+
+    // ★ 重置句型提示为隐藏状态
+    function resetPatternHint(templateEn) {
+        patternBadge.textContent = `📐 句型：${templateEn}`;
+        patternBadge.classList.remove('show');
+        patternToggle.classList.remove('on');
     }
 
     // ================================================================
@@ -2719,7 +2791,8 @@ document.addEventListener('DOMContentLoaded', function() {
         state.currentZh = q.zh;
         state.correctWords = q.correctWords;
         chineseHint.textContent = q.zh;
-        patternBadge.textContent = `📐 句型：${q.templateEn}`;
+        // ★ 句型提示改为点击显示，默认隐藏
+        resetPatternHint(q.templateEn);
 
         let allWords = q.correctWords.slice();
         if (state.moreOldWords) {
@@ -2748,7 +2821,9 @@ document.addEventListener('DOMContentLoaded', function() {
         state.currentZh = item.zh;
         state.correctWords = tokenizePhraseAware(item.en, state.splitPhrases);
         chineseHint.textContent = item.zh;
-        patternBadge.textContent = `📖 复习旧句子（不重复计分）`;
+        // ★ 复习模式句型提示：显示复习模式说明，默认隐藏
+        resetPatternHint('复习旧句子');
+
         let allWords = state.correctWords.slice();
         if (state.moreOldWords) {
             const excludeLower = lower(state.correctWords);
@@ -3020,7 +3095,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ================================================================
-    //  15. 其它事件绑定
+    //  15. 句型提示切换
+    // ================================================================
+    patternToggle.addEventListener('click', function() {
+        patternBadge.classList.toggle('show');
+        this.classList.toggle('on');
+        Sound.toggle();
+    });
+
+    // ================================================================
+    //  16. 其它事件绑定
     // ================================================================
     moreOldWordsCheck.addEventListener('change', function() {
         state.moreOldWords = this.checked;
@@ -3095,13 +3179,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  16. 教学弹窗
+    //  17. 教学弹窗
     // ================================================================
     const tutorialSteps = [
         { title: '第一步：点击单词', desc: '点击下方单词卡片，它会飞入上方答题区停留片刻后返回，循环演示"放入-拿出"的过程。' },
         { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。循环演示拿起-放下。' },
         { title: '第三步：检查答案', desc: '排列完成后点击「检查答案」，系统会逐个高亮判断正误。答对会自动进入下一题。' },
-        { title: '第四步：句型提醒', desc: '不确定句子结构？看看中文上方的「📐 句型」小标签，它会提示这个句子的模板结构。' },
+        { title: '第四步：句型提示', desc: '不确定句子结构？点击中文旁的「📐 句型」按钮，即可查看本题的句型模板，再点一次收起。' },
         { title: '第五步：拆分短语', desc: '「拆分短语」默认开启，像 "sweep the floor" 这样的短语会拆成独立单词卡片。' },
         { title: '第六步：\'s 拆分', desc: '所有以 \'s 结尾的词都会拆开：What\'s → What + \'s，Mike\'s → Mike + \'s，覆盖 is / 所有格 / us 缩写。' },
         { title: '第七步：重新练习', desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。' }
@@ -3132,15 +3216,15 @@ document.addEventListener('DOMContentLoaded', function() {
     tutorialOverlay.addEventListener('click', (e) => {
         if (e.target === tutorialOverlay) closeTutorial();
     });
-    if (!localStorage.getItem('tutorialShown_s356_v5')) {
+    if (!localStorage.getItem('tutorialShown_s356_v6')) {
         setTimeout(() => {
             openTutorial();
-            localStorage.setItem('tutorialShown_s356_v5', '1');
+            localStorage.setItem('tutorialShown_s356_v6', '1');
         }, 600);
     }
 
     // ================================================================
-    //  17. 清理
+    //  18. 清理
     // ================================================================
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && dragState) {
@@ -3160,7 +3244,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ================================================================
-    //  18. 启动
+    //  19. 启动
     // ================================================================
     setupBigCardGlow();
     setupPanelTilt();
@@ -3175,7 +3259,7 @@ document.addEventListener('DOMContentLoaded', function() {
     statusBadge.textContent = '🎯 点击下方单词开始';
     statusBadge.className = 'status-badge';
 
-    console.log('🧩 句型建筑师 · 已启动（词库严格按单元隔离）');
+    console.log('🧩 句型建筑师 · 已启动（句型提示点击显示）');
 });
 </script>
 </body>
