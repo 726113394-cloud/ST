@@ -2904,9 +2904,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const CONTRACTIONS = {
         "i'm": '主语 + be', "it's": '主语 + be', "he's": '主语 + be', "she's": '主语 + be',
         "that's": '主语 + be', "they're": '主语 + be', "we're": '主语 + be',
-        "what's": '疑问词 + be', "who's": '疑问词 + be', "where's": '疑问词 + be',
+        "what's": '疑问词 + be', "who's": '疑问词 + be', "where's": '疑问词 + be', "let's": "Let's",
     };
     const WH_WORDS = { what: '疑问词', where: '疑问词', which: '疑问词', how: '疑问词', whose: '疑问词', why: '疑问词', who: '疑问词', when: '疑问词' };
+
+    // 固定句（没有槽位）用的功能词表：这些照原样显示，其余内容词挖成 ___
+    // —— 卡片本来就在学生眼前，提示只该给结构，不能把顺序全交代了
+    const KEEP_WORDS = {};
+    ('a an the some any and or but in on at to for with of from up down out not too also often ' +
+     'very so please now then here there just all me us him them do does did can could would ' +
+     'should will may must have has had let is are am').split(' ').forEach(w => { KEEP_WORDS[w] = 1; });
 
     function buildPatternHint(template) {
         if (template.hint) return template.hint;
@@ -2914,8 +2921,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const en = template.en;
         if (slotKeys.length === 0) {
             const kind = /\?\s*$/.test(en) ? '疑问句' : (/!\s*$/.test(en) ? '感叹句' : '陈述句');
-            const words = (en.match(/[A-Za-z'\-]+/g) || []).length;
-            return `📐 固定${kind} · ${words} 个词 · 自己回忆`;
+            const tokens = (en.match(/[A-Za-z0-9'\-]+/g) || []);
+            const parts = tokens.map(t => {
+                const low = t.toLowerCase();
+                if (CONTRACTIONS[low]) return CONTRACTIONS[low];
+                if (BE_TOKENS.test(low)) return 'be';
+                if (PRONOUNS[low]) return '主语';
+                if (WH_WORDS[low]) return WH_WORDS[low];
+                if (KEEP_WORDS[low]) return t;
+                return '___';
+            });
+            const merged = [];
+            parts.forEach(p => { if (p === '___' && merged[merged.length - 1] === '___') return; merged.push(p); });
+            return `📐 ${kind} · ${tokens.length} 个词 · ${merged.join(' + ')}`;
         }
         // 把 {槽位} 换成占位符再切词，避免槽位名里的中文被拆开
         const slots = {};
