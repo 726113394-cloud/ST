@@ -1,0 +1,1341 @@
+{
+  "order": [
+    "三上U1",
+    "三上U2",
+    "三上U3",
+    "三上U4",
+    "三上U5",
+    "三上U6",
+    "四上U1",
+    "四上U2",
+    "四上U3",
+    "四上U4",
+    "四上U5",
+    "四上U6",
+    "四下U1",
+    "四下U2",
+    "四下U3",
+    "四下U4",
+    "四下U5",
+    "四下U6",
+    "五上U1",
+    "五上U2",
+    "五上U3",
+    "五上U4",
+    "五上U5",
+    "五上U6",
+    "六上U1",
+    "六上U2",
+    "六上U3",
+    "六上U4",
+    "六上U5",
+    "六上U6"
+  ],
+  "units": {
+    "三上U1": {
+      "desc": "问候与介绍",
+      "templates": [
+        {
+          "en": "Hello, I'm {名字}.",
+          "zh": "你好，我是{名字}。",
+          "slots": {
+            "名字": "NAMES"
+          }
+        },
+        {
+          "en": "My name is {名字}.",
+          "zh": "我的名字是{名字}。",
+          "slots": {
+            "名字": "NAMES"
+          }
+        },
+        {
+          "en": "Nice to meet you.",
+          "zh": "很高兴见到你。",
+          "slots": {}
+        },
+        {
+          "en": "We can {动作}.",
+          "zh": "我们可以{动作}。",
+          "slots": {
+            "动作": [
+              {
+                "en": "share",
+                "zh": "分享"
+              },
+              {
+                "en": "help",
+                "zh": "帮忙"
+              },
+              {
+                "en": "listen",
+                "zh": "倾听"
+              },
+              {
+                "en": "smile",
+                "zh": "微笑"
+              }
+            ]
+          }
+        },
+        {
+          "en": "I am {形容词} to my friends.",
+          "zh": "我对朋友们很{形容词}。",
+          "slots": {
+            "形容词": [
+              {
+                "en": "nice",
+                "zh": "友好"
+              },
+              {
+                "en": "good",
+                "zh": "好"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "三上U2": {
+      "desc": "家庭与家人",
+      "templates": [
+        {
+          "en": "This is my {亲属}.",
+          "zh": "这是我的{亲属}。",
+          "slots": {
+            "亲属": "RELATIVES"
+          }
+        },
+        {
+          "en": "Is that your {亲属}?",
+          "zh": "那是你的{亲属}吗？",
+          "slots": {
+            "亲属": "RELATIVES"
+          },
+          "swap": {
+            "en": "That is your {亲属}.",
+            "zh": "那是你的{亲属}。"
+          }
+        },
+        {
+          "en": "Is this your {亲属}?",
+          "zh": "这是你的{亲属}吗？",
+          "slots": {
+            "亲属": "RELATIVES"
+          },
+          "swap": {
+            "en": "This is your {亲属}.",
+            "zh": "这是你的{亲属}。"
+          }
+        },
+        {
+          "en": "I have a {大小} family.",
+          "zh": "我有一个{大小}的家庭。",
+          "slots": {
+            "大小": [
+              {
+                "en": "big",
+                "zh": "大"
+              },
+              {
+                "en": "small",
+                "zh": "小"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "三上U3": {
+      "desc": "宠物与动物",
+      "templates": [
+        {
+          "en": "Do you have a {宠物}?",
+          "zh": "你有一只{宠物}吗？",
+          "slots": {
+            "宠物": "PETS"
+          },
+          "swap": {
+            "en": "You have a {宠物}.",
+            "zh": "你有一只{宠物}。"
+          }
+        },
+        {
+          "en": "I have a {宠物}.",
+          "zh": "我有一只{宠物}。",
+          "slots": {
+            "宠物": "PETS"
+          }
+        },
+        {
+          "en": "Let's go to the {地点}!",
+          "zh": "让我们去{地点}吧！",
+          "slots": {
+            "地点": [
+              {
+                "en": "zoo",
+                "zh": "动物园"
+              },
+              {
+                "en": "park",
+                "zh": "公园"
+              },
+              {
+                "en": "school",
+                "zh": "学校"
+              },
+              {
+                "en": "garden",
+                "zh": "花园"
+              }
+            ]
+          }
+        },
+        {
+          "en": "It's a {动物}.",
+          "zh": "它是一只{动物}。",
+          "slots": {
+            "动物": "ANIMALS"
+          }
+        },
+        {
+          "en": "I like {动物复数}.",
+          "zh": "我喜欢{动物复数}。",
+          "slots": {
+            "动物复数": "ANIMAL_PLURALS"
+          }
+        }
+      ]
+    },
+    "三上U4": {
+      "desc": "水果与农场",
+      "templates": [
+        {
+          "en": "Do you like {水果复数}?",
+          "zh": "你喜欢{水果复数}吗？",
+          "slots": {
+            "水果复数": "FRUITS_PLURAL"
+          },
+          "swap": {
+            "en": "You like {水果复数}.",
+            "zh": "你喜欢{水果复数}。"
+          }
+        },
+        {
+          "en": "I don't like {水果复数}.",
+          "zh": "我不喜欢{水果复数}。",
+          "slots": {
+            "水果复数": "FRUITS_PLURAL"
+          }
+        },
+        {
+          "en": "Do you like the {地点}?",
+          "zh": "你喜欢{地点}吗？",
+          "slots": {
+            "地点": [
+              {
+                "en": "farm",
+                "zh": "农场"
+              },
+              {
+                "en": "garden",
+                "zh": "花园"
+              },
+              {
+                "en": "park",
+                "zh": "公园"
+              },
+              {
+                "en": "zoo",
+                "zh": "动物园"
+              }
+            ]
+          },
+          "swap": {
+            "en": "You like the {地点}.",
+            "zh": "你喜欢{地点}。"
+          }
+        },
+        {
+          "en": "We can water the {对象}.",
+          "zh": "我们可以给{对象}浇水。",
+          "slots": {
+            "对象": [
+              {
+                "en": "flowers",
+                "zh": "花"
+              },
+              {
+                "en": "grass",
+                "zh": "草"
+              },
+              {
+                "en": "trees",
+                "zh": "树"
+              }
+            ]
+          }
+        },
+        {
+          "en": "Plants can give us many things.",
+          "zh": "植物能给我们很多东西。",
+          "slots": {}
+        }
+      ]
+    },
+    "三上U5": {
+      "desc": "颜色",
+      "templates": [
+        {
+          "en": "What colour is it?",
+          "zh": "它是什么颜色？",
+          "slots": {}
+        },
+        {
+          "en": "It's {颜色}.",
+          "zh": "它是{颜色}的。",
+          "slots": {
+            "颜色": "COLORS"
+          }
+        },
+        {
+          "en": "What colours do you like?",
+          "zh": "你喜欢什么颜色？",
+          "slots": {}
+        },
+        {
+          "en": "I like {颜色}.",
+          "zh": "我喜欢{颜色}。",
+          "slots": {
+            "颜色": "COLORS"
+          }
+        },
+        {
+          "en": "Let's draw some {颜色} birds.",
+          "zh": "让我们画一些{颜色}的小鸟。",
+          "slots": {
+            "颜色": "COLORS"
+          }
+        }
+      ]
+    },
+    "三上U6": {
+      "desc": "数字与年龄",
+      "templates": [
+        {
+          "en": "How old are you?",
+          "zh": "你几岁了？",
+          "slots": {}
+        },
+        {
+          "en": "I'm {数字} years old.",
+          "zh": "我{数字}岁了。",
+          "slots": {
+            "数字": "NUMBERS"
+          }
+        },
+        {
+          "en": "How many {物品复数}?",
+          "zh": "有多少{物品复数}？",
+          "slots": {
+            "物品复数": [
+              {
+                "en": "apples",
+                "zh": "苹果"
+              },
+              {
+                "en": "bananas",
+                "zh": "香蕉"
+              },
+              {
+                "en": "cakes",
+                "zh": "蛋糕"
+              },
+              {
+                "en": "books",
+                "zh": "书"
+              }
+            ]
+          }
+        },
+        {
+          "en": "It's {时间} o'clock.",
+          "zh": "现在{时间}点了。",
+          "slots": {
+            "时间": [
+              {
+                "en": "five",
+                "zh": "五"
+              },
+              {
+                "en": "six",
+                "zh": "六"
+              },
+              {
+                "en": "seven",
+                "zh": "七"
+              },
+              {
+                "en": "eight",
+                "zh": "八"
+              },
+              {
+                "en": "nine",
+                "zh": "九"
+              },
+              {
+                "en": "ten",
+                "zh": "十"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "四上U1": {
+      "desc": "职业与家务",
+      "templates": [
+        {
+          "en": "What's your mother's job?",
+          "zh": "你妈妈的工作是什么？",
+          "slots": {}
+        },
+        {
+          "en": "She's a {职业}.",
+          "zh": "她是一位{职业}。",
+          "slots": {
+            "职业": "JOBS_S4U1"
+          }
+        },
+        {
+          "en": "He's a {职业}.",
+          "zh": "他是一位{职业}。",
+          "slots": {
+            "职业": "JOBS_S4U1"
+          }
+        },
+        {
+          "en": "I can {家务}.",
+          "zh": "我会{家务}。",
+          "slots": {
+            "家务": "CHORES_S4U1"
+          }
+        },
+        {
+          "en": "I look after {对象}.",
+          "zh": "我照顾{对象}。",
+          "slots": {
+            "对象": "LOOK_AFTER_TARGETS"
+          }
+        },
+        {
+          "en": "We {家务} together.",
+          "zh": "我们一起{家务}。",
+          "slots": {
+            "家务": "CHORES_S4U1"
+          }
+        },
+        {
+          "en": "What can we do for them?",
+          "zh": "我们能为他们做点什么？",
+          "slots": {}
+        },
+        {
+          "en": "We can do some chores.",
+          "zh": "我们可以做一些家务。",
+          "slots": {}
+        }
+      ]
+    },
+    "四上U2": {
+      "desc": "描述朋友",
+      "templates": [
+        {
+          "en": "What's your friend's name?",
+          "zh": "你朋友的名字是什么？",
+          "slots": {}
+        },
+        {
+          "en": "His name is {名字}.",
+          "zh": "他的名字是{名字}。",
+          "slots": {
+            "名字": "NAMES"
+          }
+        },
+        {
+          "en": "Her name is {名字}.",
+          "zh": "她的名字是{名字}。",
+          "slots": {
+            "名字": "NAMES"
+          }
+        },
+        {
+          "en": "{某人} {be} {形容词1} and {形容词2}.",
+          "zh": "{某人}又{形容词1}又{形容词2}。",
+          "slots": {
+            "某人": "PERSONS_S4U2",
+            "形容词1": "PERSON_ADJ_1_S4U2",
+            "形容词2": "PERSON_ADJ_2_S4U2"
+          }
+        },
+        {
+          "en": "{某人} {be} also {形容词}.",
+          "zh": "{某人}也很{形容词}。",
+          "slots": {
+            "某人": "PERSONS_S4U2",
+            "形容词": "PERSON_ADJ_2_S4U2"
+          }
+        },
+        {
+          "en": "He has nice short hair too.",
+          "zh": "他还有一头好看的短发。",
+          "slots": {}
+        },
+        {
+          "en": "He often helps me with {科目}.",
+          "zh": "他经常帮我{科目}。",
+          "slots": {
+            "科目": "SUBJECTS_S4U2"
+          }
+        },
+        {
+          "en": "Who's your best friend?",
+          "zh": "谁是你最好的朋友？",
+          "slots": {}
+        },
+        {
+          "en": "We play games together.",
+          "zh": "我们一起玩游戏。",
+          "slots": {}
+        },
+        {
+          "en": "We play football together.",
+          "zh": "我们一起踢足球。",
+          "slots": {}
+        }
+      ]
+    },
+    "四上U3": {
+      "desc": "地点与活动",
+      "templates": [
+        {
+          "en": "There is a {地点}.",
+          "zh": "有一个{地点}。",
+          "slots": {
+            "地点": "PLACES_S4U3"
+          }
+        },
+        {
+          "en": "There are many people.",
+          "zh": "有很多人。",
+          "slots": {}
+        },
+        {
+          "en": "My favourite place is the {地点}.",
+          "zh": "我最喜欢的地方是{地点}。",
+          "slots": {
+            "地点": "PLACES_S4U3"
+          }
+        },
+        {
+          "en": "Let's do some sports.",
+          "zh": "让我们做运动吧。",
+          "slots": {}
+        },
+        {
+          "en": "Great!",
+          "zh": "太好了！",
+          "slots": {}
+        }
+      ]
+    },
+    "四上U4": {
+      "desc": "职业与帮助",
+      "templates": [
+        {
+          "en": "Our neighbour is a {职业}.",
+          "zh": "我们的邻居是一位{职业}。",
+          "slots": {
+            "职业": "JOBS_S4U4"
+          }
+        },
+        {
+          "en": "He often helps people.",
+          "zh": "他经常帮助人们。",
+          "slots": {}
+        },
+        {
+          "en": "He's a school bus driver.",
+          "zh": "他是一位校车司机。",
+          "slots": {}
+        },
+        {
+          "en": "He takes us to school every day.",
+          "zh": "他每天送我们去学校。",
+          "slots": {}
+        },
+        {
+          "en": "That's an important job too!",
+          "zh": "那也是一份重要的工作！",
+          "slots": {}
+        },
+        {
+          "en": "Chen Jie is making the bed.",
+          "zh": "陈杰正在整理床铺。",
+          "slots": {}
+        }
+      ]
+    },
+    "四上U5": {
+      "desc": "天气与对话",
+      "templates": [
+        {
+          "en": "What's the weather like in {城市}?",
+          "zh": "{城市}的天气怎么样？",
+          "slots": {
+            "城市": "CITIES"
+          }
+        },
+        {
+          "en": "It's {天气} today.",
+          "zh": "今天天气{天气}。",
+          "slots": {
+            "天气": "WEATHERS"
+          }
+        },
+        {
+          "en": "It's raining now.",
+          "zh": "现在正在下雨。",
+          "slots": {}
+        },
+        {
+          "en": "It's OK. We can go to the library.",
+          "zh": "没关系。我们可以去图书馆。",
+          "slots": {}
+        },
+        {
+          "en": "We can't play basketball in the park.",
+          "zh": "我们不能在公园打篮球。",
+          "slots": {}
+        }
+      ]
+    },
+    "四上U6": {
+      "desc": "服装与季节",
+      "templates": [
+        {
+          "en": "Whose {衣物} is this?",
+          "zh": "这是谁的{衣物}？",
+          "slots": {
+            "衣物": "CLOTHES"
+          }
+        },
+        {
+          "en": "It's your dad's.",
+          "zh": "这是你爸爸的。",
+          "slots": {}
+        },
+        {
+          "en": "Can I wear this new shirt today?",
+          "zh": "今天我能穿这件新衬衫吗？",
+          "slots": {},
+          "swap": {
+            "en": "I can wear this new shirt today.",
+            "zh": "我今天能穿这件新衬衫。"
+          }
+        },
+        {
+          "en": "Yes, but wear a coat too.",
+          "zh": "可以，但也要穿件外套。",
+          "slots": {}
+        },
+        {
+          "en": "Which season do you like?",
+          "zh": "你喜欢哪个季节？",
+          "slots": {}
+        },
+        {
+          "en": "I like {季节}.",
+          "zh": "我喜欢{季节}。",
+          "slots": {
+            "季节": "SEASONS"
+          }
+        }
+      ]
+    },
+    "五上U1": {
+      "desc": "描述人物",
+      "templates": [
+        {
+          "en": "What's he like?",
+          "zh": "他是什么样的人？",
+          "slots": {}
+        },
+        {
+          "en": "What's she like?",
+          "zh": "她是什么样的人？",
+          "slots": {}
+        },
+        {
+          "en": "{某人} {be} {形容词1} and {形容词2}.",
+          "zh": "{某人}又{形容词1}又{形容词2}。",
+          "slots": {
+            "某人": "PERSONS_S5U1",
+            "形容词1": "PERSON_ADJ_1_S5U1",
+            "形容词2": "PERSON_ADJ_2_S5U1"
+          }
+        },
+        {
+          "en": "Is {谁} good at {运动}?",
+          "zh": "{谁}擅长{运动}吗？",
+          "slots": {
+            "谁": [
+              {
+                "en": "he",
+                "zh": "他"
+              },
+              {
+                "en": "she",
+                "zh": "她"
+              }
+            ],
+            "运动": "SPORTS_S5U1"
+          },
+          "swap": {
+            "en": "{谁} is good at {运动}.",
+            "zh": "{谁}擅长{运动}。"
+          }
+        },
+        {
+          "en": "{某人} {be} also {形容词}.",
+          "zh": "{某人}也很{形容词}。",
+          "slots": {
+            "某人": "PERSONS_S5U1",
+            "形容词": "PERSON_ADJ_2_S5U1"
+          }
+        },
+        {
+          "en": "I can {动作}.",
+          "zh": "我会{动作}。",
+          "slots": {
+            "动作": "ABILITIES_S5U1"
+          }
+        }
+      ]
+    },
+    "五上U2": {
+      "desc": "情绪与项目",
+      "templates": [
+        {
+          "en": "What's the matter?",
+          "zh": "怎么了？",
+          "slots": {}
+        },
+        {
+          "en": "I look {情绪}.",
+          "zh": "我看起来{情绪}。",
+          "slots": {
+            "情绪": "EMOTIONS_S5U2"
+          }
+        },
+        {
+          "en": "It's about our {东西}.",
+          "zh": "它是关于我们的{东西}。",
+          "slots": {
+            "东西": "TOPICS_S5U2"
+          }
+        },
+        {
+          "en": "Why not do both?",
+          "zh": "为什么不两个都做呢？",
+          "slots": {}
+        }
+      ]
+    },
+    "五上U3": {
+      "desc": "星期与课程",
+      "templates": [
+        {
+          "en": "What's your favourite day at school?",
+          "zh": "你最喜欢上学的哪一天？",
+          "slots": {}
+        },
+        {
+          "en": "What do you have on {星期}?",
+          "zh": "你{星期}有什么课？",
+          "slots": {
+            "星期": "WEEKDAYS"
+          }
+        },
+        {
+          "en": "I have {课程}.",
+          "zh": "我有{课程}课。",
+          "slots": {
+            "课程": "SUBJECTS_S5U3"
+          }
+        },
+        {
+          "en": "I often {活动}.",
+          "zh": "我经常{活动}。",
+          "slots": {
+            "活动": "SPORTS_ACTIVITIES_S5U3"
+          }
+        }
+      ]
+    },
+    "五上U4": {
+      "desc": "健康与习惯",
+      "templates": [
+        {
+          "en": "How can we all stay healthy?",
+          "zh": "我们怎样才能保持健康？",
+          "slots": {}
+        },
+        {
+          "en": "We should eat {食物}.",
+          "zh": "我们应该吃{食物}。",
+          "slots": {
+            "食物": "HEALTHY_FOOD_S5U4"
+          }
+        },
+        {
+          "en": "You shouldn't {动作}.",
+          "zh": "你不应该{动作}。",
+          "slots": {
+            "动作": "BAD_HABITS_S5U4"
+          }
+        }
+      ]
+    },
+    "五上U5": {
+      "desc": "食物与饮料",
+      "templates": [
+        {
+          "en": "What would you like to eat?",
+          "zh": "你想吃什么？",
+          "slots": {}
+        },
+        {
+          "en": "I'd like {食物}.",
+          "zh": "我想要{食物}。",
+          "slots": {
+            "食物": "FOODS_S5U5"
+          }
+        },
+        {
+          "en": "Would you like some {食物} too?",
+          "zh": "你还想要一些{食物}吗？",
+          "slots": {
+            "食物": "FOODS_S5U5"
+          }
+        }
+      ]
+    },
+    "五上U6": {
+      "desc": "自然公园",
+      "templates": [
+        {
+          "en": "There are many {自然景物} in the nature park.",
+          "zh": "自然公园里有很多{自然景物}。",
+          "slots": {
+            "自然景物": "NATURE_THINGS_S5U6"
+          }
+        },
+        {
+          "en": "Is there a {景物} in the forest?",
+          "zh": "森林里有一个{景物}吗？",
+          "slots": {
+            "景物": [
+              {
+                "en": "waterfall",
+                "zh": "瀑布"
+              },
+              {
+                "en": "lake",
+                "zh": "湖"
+              },
+              {
+                "en": "river",
+                "zh": "河流"
+              },
+              {
+                "en": "mountain",
+                "zh": "山"
+              }
+            ]
+          },
+          "swap": {
+            "en": "There is a {景物} in the forest.",
+            "zh": "森林里有一个{景物}。"
+          }
+        },
+        {
+          "en": "Yes, there is.",
+          "zh": "是的，有。",
+          "slots": {}
+        },
+        {
+          "en": "Are there any {景物复数} in the nature park?",
+          "zh": "自然公园里有{景物复数}吗？",
+          "slots": {
+            "景物复数": "NATURE_PLURALS_S5U6"
+          },
+          "swap": {
+            "en": "There are some {景物复数} in the nature park.",
+            "zh": "自然公园里有一些{景物复数}。"
+          }
+        }
+      ]
+    },
+    "六上U1": {
+      "desc": "谈论周末（过去时）",
+      "templates": [
+        {
+          "en": "What did you do last weekend?",
+          "zh": "你上周末做了什么？",
+          "slots": {}
+        },
+        {
+          "en": "Where did you go last weekend?",
+          "zh": "你上周末去了哪里？",
+          "slots": {}
+        },
+        {
+          "en": "How was your weekend?",
+          "zh": "你的周末怎么样？",
+          "slots": {}
+        },
+        {
+          "en": "It was {评价}.",
+          "zh": "它{评价}。",
+          "slots": {
+            "评价": "WEEKEND_EVAL_S6U1"
+          }
+        },
+        {
+          "en": "I {过去式} last weekend.",
+          "zh": "我上周末{过去式}。",
+          "slots": {
+            "过去式": "WEEKEND_ACTIONS_S6U1"
+          }
+        }
+      ]
+    },
+    "六上U2": {
+      "desc": "运动会与活动",
+      "templates": [
+        {
+          "en": "There was a {活动} yesterday.",
+          "zh": "昨天有一场{活动}。",
+          "slots": {
+            "活动": "EVENTS_S6U2"
+          }
+        },
+        {
+          "en": "We {动作} yesterday.",
+          "zh": "我们昨天{动作}。",
+          "slots": {
+            "动作": "ACTIONS_S6U2"
+          }
+        }
+      ]
+    },
+    "六上U3": {
+      "desc": "生病与身体",
+      "templates": [
+        {
+          "en": "What's the matter?",
+          "zh": "怎么了？",
+          "slots": {}
+        },
+        {
+          "en": "I have a {疾病}.",
+          "zh": "我{疾病}。",
+          "slots": {
+            "疾病": "ILLNESSES_S6U3"
+          }
+        },
+        {
+          "en": "You should {建议}.",
+          "zh": "你应该{建议}。",
+          "slots": {
+            "建议": "ADVICE_S6U3"
+          }
+        }
+      ]
+    },
+    "六上U4": {
+      "desc": "金钱与购物",
+      "templates": [
+        {
+          "en": "How much is it?",
+          "zh": "它多少钱？",
+          "slots": {}
+        },
+        {
+          "en": "It's {价格} yuan.",
+          "zh": "它是{价格}元。",
+          "slots": {
+            "价格": "PRICES_S6U4"
+          }
+        },
+        {
+          "en": "I want to buy a {物品}.",
+          "zh": "我想买一个{物品}。",
+          "slots": {
+            "物品": "ITEMS_S6U4"
+          }
+        }
+      ]
+    },
+    "六上U5": {
+      "desc": "太空与天文",
+      "templates": [
+        {
+          "en": "What can you see in the sky?",
+          "zh": "你在天空中能看到什么？",
+          "slots": {}
+        },
+        {
+          "en": "I can see the {天体}.",
+          "zh": "我能看到{天体}。",
+          "slots": {
+            "天体": "CELESTIALS_S6U5"
+          }
+        },
+        {
+          "en": "The {天体} is {形容词}.",
+          "zh": "{天体}是{形容词}的。",
+          "slots": {
+            "天体": "CELESTIALS_S6U5",
+            "形容词": "CELESTIAL_ADJ_S6U5"
+          }
+        }
+      ]
+    },
+    "六上U6": {
+      "desc": "能源与环保",
+      "templates": [
+        {
+          "en": "We should save {资源}.",
+          "zh": "我们应该节约{资源}。",
+          "slots": {
+            "资源": "RESOURCES_S6U6"
+          }
+        },
+        {
+          "en": "Please turn off the {电器}.",
+          "zh": "请关掉{电器}。",
+          "slots": {
+            "电器": "APPLIANCES_S6U6"
+          }
+        },
+        {
+          "en": "We can {环保动作}.",
+          "zh": "我们可以{环保动作}。",
+          "slots": {
+            "环保动作": "ECO_ACTIONS_S6U6"
+          }
+        }
+      ]
+    },
+    "四下U1": {
+      "desc": "教室与课堂规则",
+      "templates": [
+        {
+          "en": "Hurry up!",
+          "zh": "快点！",
+          "slots": {}
+        },
+        {
+          "en": "I'm ready. Let's go!",
+          "zh": "我准备好了。我们走吧！",
+          "slots": {}
+        },
+        {
+          "en": "Who's on duty today?",
+          "zh": "今天谁值日？",
+          "slots": {}
+        },
+        {
+          "en": "I can put back the {物品}.",
+          "zh": "我能把{物品}放回原处。",
+          "slots": {
+            "物品": "ITEMS_S4B_U1"
+          }
+        },
+        {
+          "en": "Don't be late for {课程}!",
+          "zh": "{课程}不要迟到！",
+          "slots": {
+            "课程": "CLASSES_S4B_U1"
+          }
+        },
+        {
+          "en": "Excuse me?",
+          "zh": "打扰一下，请问？",
+          "slots": {}
+        },
+        {
+          "en": "Don't run in the classroom.",
+          "zh": "不要在教室里跑。",
+          "slots": {}
+        }
+      ]
+    },
+    "四下U2": {
+      "desc": "家居房间与规则",
+      "templates": [
+        {
+          "en": "Mum, can I {动作}?",
+          "zh": "妈妈，我可以{动作}吗？",
+          "slots": {
+            "动作": "HOME_ACTIONS_S4B_U2"
+          }
+        },
+        {
+          "en": "No. You have to {动作} first.",
+          "zh": "不行。你得先{动作}。",
+          "slots": {
+            "动作": "FIRST_TASKS_S4B_U2"
+          }
+        },
+        {
+          "en": "Shh. Don't be so {形容词}!",
+          "zh": "嘘。别这么{形容词}！",
+          "slots": {
+            "形容词": "MANNER_ADJ_S4B_U2"
+          }
+        },
+        {
+          "en": "Be careful. Don't {动作}.",
+          "zh": "小心。不要{动作}。",
+          "slots": {
+            "动作": "DANGER_ACTIONS_S4B_U2"
+          }
+        },
+        {
+          "en": "Where is the {地点}?",
+          "zh": "{地点}在哪里？",
+          "slots": {
+            "地点": "ROOMS_S4B_U2"
+          }
+        },
+        {
+          "en": "It's in the {地点}.",
+          "zh": "它在{地点}里。",
+          "slots": {
+            "地点": "ROOMS_S4B_U2"
+          }
+        },
+        {
+          "en": "Is the {地点} safe?",
+          "zh": "{地点}安全吗？",
+          "slots": {
+            "地点": "ROOMS_S4B_U2"
+          },
+          "swap": {
+            "en": "The {地点} is safe.",
+            "zh": "{地点}是安全的。"
+          }
+        }
+      ]
+    },
+    "四下U3": {
+      "desc": "时间与日常作息",
+      "templates": [
+        {
+          "en": "What time is it?",
+          "zh": "现在几点了？",
+          "slots": {}
+        },
+        {
+          "en": "It's {时间}.",
+          "zh": "现在{时间}。",
+          "slots": {
+            "时间": "CLOCK_TIMES_S4B_U3"
+          }
+        },
+        {
+          "en": "It's time to {动作}.",
+          "zh": "该{动作}了。",
+          "slots": {
+            "动作": "ROUTINES_S4B_U3"
+          }
+        },
+        {
+          "en": "It's time for {食物}.",
+          "zh": "该吃{食物}了。",
+          "slots": {
+            "食物": "MEALS_S4B_U3"
+          }
+        },
+        {
+          "en": "Time to go home, kids.",
+          "zh": "孩子们，该回家了。",
+          "slots": {}
+        },
+        {
+          "en": "Have a nice day!",
+          "zh": "祝你今天愉快！",
+          "slots": {}
+        }
+      ]
+    },
+    "四下U4": {
+      "desc": "服装与购物",
+      "templates": [
+        {
+          "en": "Can I buy a new {衣物}?",
+          "zh": "我可以买一件新的{衣物}吗？",
+          "slots": {
+            "衣物": "CLOTHES_S4B_U4"
+          }
+        },
+        {
+          "en": "Let's go to the {地点}!",
+          "zh": "我们去{地点}吧！",
+          "slots": {
+            "地点": "SHOPS_S4B_U4"
+          }
+        },
+        {
+          "en": "This {衣物} is too {形容词}.",
+          "zh": "这件{衣物}太{形容词}了。",
+          "slots": {
+            "衣物": "CLOTHES_S4B_U4",
+            "形容词": "SHOP_ADJ_S4B_U4"
+          }
+        },
+        {
+          "en": "I like this {颜色} {衣物}.",
+          "zh": "我喜欢这件{颜色}的{衣物}。",
+          "slots": {
+            "衣物": "CLOTHES_S4B_U4",
+            "颜色": "COLORS"
+          }
+        },
+        {
+          "en": "Can I help you?",
+          "zh": "需要我帮忙吗？",
+          "slots": {}
+        },
+        {
+          "en": "Let's take it.",
+          "zh": "我们就买它吧。",
+          "slots": {}
+        },
+        {
+          "en": "How much is the {衣物}?",
+          "zh": "这件{衣物}多少钱？",
+          "slots": {
+            "衣物": "CLOTHES_S4B_U4"
+          }
+        }
+      ]
+    },
+    "四下U5": {
+      "desc": "农场动物与蔬菜",
+      "templates": [
+        {
+          "en": "What animals do you have on the farm?",
+          "zh": "你农场里有哪些动物？",
+          "slots": {}
+        },
+        {
+          "en": "I have a lot of {动物复数}.",
+          "zh": "我有很多{动物复数}。",
+          "slots": {
+            "动物复数": "FARM_ANIMALS_S4B_U5"
+          }
+        },
+        {
+          "en": "What are these?",
+          "zh": "这些是什么？",
+          "slots": {}
+        },
+        {
+          "en": "They're {蔬菜复数}.",
+          "zh": "它们是{蔬菜复数}。",
+          "slots": {
+            "蔬菜复数": "VEGETABLES_S4B_U5"
+          }
+        },
+        {
+          "en": "Are these {蔬菜复数}?",
+          "zh": "这些是{蔬菜复数}吗？",
+          "slots": {
+            "蔬菜复数": "VEGETABLES_S4B_U5"
+          },
+          "swap": {
+            "en": "These are {蔬菜复数}.",
+            "zh": "这些是{蔬菜复数}。"
+          }
+        },
+        {
+          "en": "How fresh!",
+          "zh": "真新鲜啊！",
+          "slots": {}
+        },
+        {
+          "en": "Do you have any {动物复数}?",
+          "zh": "你有{动物复数}吗？",
+          "slots": {
+            "动物复数": "FARM_ANIMALS_S4B_U5"
+          },
+          "swap": {
+            "en": "I have some {动物复数}.",
+            "zh": "我有一些{动物复数}。"
+          }
+        }
+      ]
+    },
+    "四下U6": {
+      "desc": "用餐与餐桌礼仪",
+      "templates": [
+        {
+          "en": "Let's {动作}!",
+          "zh": "我们{动作}吧！",
+          "slots": {
+            "动作": "TABLE_TASKS_S4B_U6"
+          }
+        },
+        {
+          "en": "Can you please pass me the {食物}?",
+          "zh": "请你把{食物}递给我好吗？",
+          "slots": {
+            "食物": "FOODS_S4B_U6"
+          }
+        },
+        {
+          "en": "Would you like {餐具}?",
+          "zh": "你想要{餐具}吗？",
+          "slots": {
+            "餐具": "TABLEWARE_S4B_U6"
+          }
+        },
+        {
+          "en": "No, thank you. I can use {餐具}.",
+          "zh": "不用了，谢谢。我会用{餐具}。",
+          "slots": {
+            "餐具": "TABLEWARE_S4B_U6"
+          }
+        },
+        {
+          "en": "Don't {动作}, please.",
+          "zh": "请不要{动作}。",
+          "slots": {
+            "动作": "WASTE_ACTIONS_S4B_U6"
+          }
+        },
+        {
+          "en": "The {食物} is delicious.",
+          "zh": "{食物}很好吃。",
+          "slots": {
+            "食物": "FOODS_S4B_U6"
+          }
+        }
+      ]
+    }
+  }
+}

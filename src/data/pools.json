@@ -1,0 +1,2211 @@
+{
+  "order": [
+    "NAMES",
+    "RELATIVES",
+    "PETS",
+    "ANIMALS",
+    "ANIMAL_PLURALS",
+    "FRUITS_PLURAL",
+    "COLORS",
+    "NUMBERS",
+    "JOBS_S4U1",
+    "JOBS_S4U4",
+    "CHORES",
+    "LOOK_AFTER_TARGETS",
+    "PERSONS",
+    "PERSON_ADJ_1",
+    "PERSON_ADJ_2",
+    "SPORTS",
+    "ABILITIES",
+    "WEEKDAYS",
+    "SUBJECTS",
+    "SPORTS_ACTIVITIES",
+    "FOODS",
+    "NATURE_THINGS",
+    "CITIES",
+    "WEATHERS",
+    "CLOTHES",
+    "SEASONS",
+    "CELESTIALS",
+    "CELESTIAL_ADJ",
+    "RESOURCES",
+    "APPLIANCES",
+    "ECO_ACTIONS",
+    "CHORES_S4U1",
+    "PERSONS_S4U2",
+    "PERSON_ADJ_1_S4U2",
+    "PERSON_ADJ_2_S4U2",
+    "SUBJECTS_S4U2",
+    "PLACES_S4U3",
+    "PERSONS_S5U1",
+    "PERSON_ADJ_1_S5U1",
+    "PERSON_ADJ_2_S5U1",
+    "SPORTS_S5U1",
+    "ABILITIES_S5U1",
+    "EMOTIONS_S5U2",
+    "TOPICS_S5U2",
+    "SUBJECTS_S5U3",
+    "SPORTS_ACTIVITIES_S5U3",
+    "HEALTHY_FOOD_S5U4",
+    "BAD_HABITS_S5U4",
+    "FOODS_S5U5",
+    "NATURE_THINGS_S5U6",
+    "NATURE_PLURALS_S5U6",
+    "WEEKEND_EVAL_S6U1",
+    "WEEKEND_ACTIONS_S6U1",
+    "EVENTS_S6U2",
+    "ACTIONS_S6U2",
+    "ILLNESSES_S6U3",
+    "ADVICE_S6U3",
+    "PRICES_S6U4",
+    "ITEMS_S6U4",
+    "CELESTIALS_S6U5",
+    "CELESTIAL_ADJ_S6U5",
+    "RESOURCES_S6U6",
+    "APPLIANCES_S6U6",
+    "ECO_ACTIONS_S6U6",
+    "ITEMS_S4B_U1",
+    "CLASSES_S4B_U1",
+    "ROOMS_S4B_U2",
+    "HOME_ACTIONS_S4B_U2",
+    "FIRST_TASKS_S4B_U2",
+    "MANNER_ADJ_S4B_U2",
+    "DANGER_ACTIONS_S4B_U2",
+    "CLOCK_TIMES_S4B_U3",
+    "ROUTINES_S4B_U3",
+    "MEALS_S4B_U3",
+    "CLOTHES_S4B_U4",
+    "SHOP_ADJ_S4B_U4",
+    "SHOPS_S4B_U4",
+    "FARM_ANIMALS_S4B_U5",
+    "VEGETABLES_S4B_U5",
+    "TABLE_TASKS_S4B_U6",
+    "TABLEWARE_S4B_U6",
+    "FOODS_S4B_U6",
+    "WASTE_ACTIONS_S4B_U6"
+  ],
+  "pools": {
+    "NAMES": {
+      "name": "NAMES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "Mike Black",
+          "zh": "迈克·布莱克"
+        },
+        {
+          "en": "Wu Binbin",
+          "zh": "吴斌斌"
+        },
+        {
+          "en": "Sarah",
+          "zh": "萨拉"
+        },
+        {
+          "en": "Chen Jie",
+          "zh": "陈杰"
+        },
+        {
+          "en": "John",
+          "zh": "约翰"
+        },
+        {
+          "en": "Amy",
+          "zh": "埃米"
+        },
+        {
+          "en": "Zhang Peng",
+          "zh": "张鹏"
+        },
+        {
+          "en": "Miss White",
+          "zh": "怀特小姐"
+        }
+      ]
+    },
+    "RELATIVES": {
+      "name": "RELATIVES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "grandma",
+          "zh": "奶奶"
+        },
+        {
+          "en": "grandpa",
+          "zh": "爷爷"
+        },
+        {
+          "en": "mother",
+          "zh": "妈妈"
+        },
+        {
+          "en": "father",
+          "zh": "爸爸"
+        },
+        {
+          "en": "sister",
+          "zh": "姐姐"
+        },
+        {
+          "en": "brother",
+          "zh": "哥哥"
+        },
+        {
+          "en": "uncle",
+          "zh": "叔叔"
+        },
+        {
+          "en": "aunt",
+          "zh": "阿姨"
+        },
+        {
+          "en": "cousin",
+          "zh": "表兄妹"
+        },
+        {
+          "en": "baby sister",
+          "zh": "妹妹",
+          "phrase": true
+        }
+      ]
+    },
+    "PETS": {
+      "name": "PETS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "dog",
+          "zh": "狗"
+        },
+        {
+          "en": "cat",
+          "zh": "猫"
+        },
+        {
+          "en": "fish",
+          "zh": "鱼"
+        },
+        {
+          "en": "bird",
+          "zh": "鸟"
+        },
+        {
+          "en": "rabbit",
+          "zh": "兔子"
+        },
+        {
+          "en": "duck",
+          "zh": "鸭子"
+        },
+        {
+          "en": "panda",
+          "zh": "熊猫"
+        },
+        {
+          "en": "monkey",
+          "zh": "猴子"
+        }
+      ]
+    },
+    "ANIMALS": {
+      "name": "ANIMALS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "fox",
+          "zh": "狐狸"
+        },
+        {
+          "en": "panda",
+          "zh": "熊猫"
+        },
+        {
+          "en": "tiger",
+          "zh": "老虎"
+        },
+        {
+          "en": "elephant",
+          "zh": "大象"
+        },
+        {
+          "en": "lion",
+          "zh": "狮子"
+        },
+        {
+          "en": "monkey",
+          "zh": "猴子"
+        },
+        {
+          "en": "giraffe",
+          "zh": "长颈鹿"
+        },
+        {
+          "en": "red panda",
+          "zh": "小熊猫",
+          "phrase": true
+        }
+      ]
+    },
+    "ANIMAL_PLURALS": {
+      "name": "ANIMAL_PLURALS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "rabbits",
+          "zh": "兔子"
+        },
+        {
+          "en": "pandas",
+          "zh": "熊猫"
+        },
+        {
+          "en": "monkeys",
+          "zh": "猴子"
+        },
+        {
+          "en": "tigers",
+          "zh": "老虎"
+        },
+        {
+          "en": "elephants",
+          "zh": "大象"
+        },
+        {
+          "en": "lions",
+          "zh": "狮子"
+        }
+      ]
+    },
+    "FRUITS_PLURAL": {
+      "name": "FRUITS_PLURAL",
+      "kind": "items",
+      "items": [
+        {
+          "en": "apples",
+          "zh": "苹果"
+        },
+        {
+          "en": "bananas",
+          "zh": "香蕉"
+        },
+        {
+          "en": "oranges",
+          "zh": "橙子"
+        },
+        {
+          "en": "grapes",
+          "zh": "葡萄"
+        }
+      ]
+    },
+    "COLORS": {
+      "name": "COLORS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "red",
+          "zh": "红色"
+        },
+        {
+          "en": "blue",
+          "zh": "蓝色"
+        },
+        {
+          "en": "green",
+          "zh": "绿色"
+        },
+        {
+          "en": "yellow",
+          "zh": "黄色"
+        },
+        {
+          "en": "orange",
+          "zh": "橙色"
+        },
+        {
+          "en": "purple",
+          "zh": "紫色"
+        },
+        {
+          "en": "brown",
+          "zh": "棕色"
+        },
+        {
+          "en": "pink",
+          "zh": "粉色"
+        },
+        {
+          "en": "white",
+          "zh": "白色"
+        },
+        {
+          "en": "black",
+          "zh": "黑色"
+        }
+      ]
+    },
+    "NUMBERS": {
+      "name": "NUMBERS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "three",
+          "zh": "三"
+        },
+        {
+          "en": "four",
+          "zh": "四"
+        },
+        {
+          "en": "five",
+          "zh": "五"
+        },
+        {
+          "en": "six",
+          "zh": "六"
+        },
+        {
+          "en": "seven",
+          "zh": "七"
+        },
+        {
+          "en": "eight",
+          "zh": "八"
+        },
+        {
+          "en": "nine",
+          "zh": "九"
+        },
+        {
+          "en": "ten",
+          "zh": "十"
+        }
+      ]
+    },
+    "JOBS_S4U1": {
+      "name": "JOBS_S4U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "doctor",
+          "zh": "医生"
+        },
+        {
+          "en": "farmer",
+          "zh": "农民"
+        },
+        {
+          "en": "nurse",
+          "zh": "护士"
+        },
+        {
+          "en": "office worker",
+          "zh": "办公室职员",
+          "phrase": true
+        },
+        {
+          "en": "factory worker",
+          "zh": "工厂工人",
+          "phrase": true
+        },
+        {
+          "en": "cook",
+          "zh": "厨师"
+        }
+      ]
+    },
+    "JOBS_S4U4": {
+      "name": "JOBS_S4U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "firefighter",
+          "zh": "消防员"
+        },
+        {
+          "en": "driver",
+          "zh": "司机"
+        },
+        {
+          "en": "cleaner",
+          "zh": "清洁工"
+        },
+        {
+          "en": "delivery worker",
+          "zh": "快递员",
+          "phrase": true
+        },
+        {
+          "en": "police officer",
+          "zh": "警察",
+          "phrase": true
+        }
+      ]
+    },
+    "CHORES": {
+      "name": "CHORES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "cook",
+          "zh": "做饭"
+        },
+        {
+          "en": "clean the room",
+          "zh": "打扫房间",
+          "phrase": true
+        },
+        {
+          "en": "sweep the floor",
+          "zh": "扫地",
+          "phrase": true
+        },
+        {
+          "en": "wash the clothes",
+          "zh": "洗衣服",
+          "phrase": true
+        },
+        {
+          "en": "make the bed",
+          "zh": "整理床铺",
+          "phrase": true
+        }
+      ]
+    },
+    "LOOK_AFTER_TARGETS": {
+      "name": "LOOK_AFTER_TARGETS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "my sister",
+          "zh": "我的妹妹",
+          "phrase": true
+        },
+        {
+          "en": "my brother",
+          "zh": "我的弟弟",
+          "phrase": true
+        },
+        {
+          "en": "my grandma",
+          "zh": "我的奶奶",
+          "phrase": true
+        },
+        {
+          "en": "my grandpa",
+          "zh": "我的爷爷",
+          "phrase": true
+        }
+      ]
+    },
+    "PERSONS": {
+      "name": "PERSONS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "He",
+          "zh": "他",
+          "num": "s"
+        },
+        {
+          "en": "She",
+          "zh": "她",
+          "num": "s"
+        },
+        {
+          "en": "My friend",
+          "zh": "我的朋友",
+          "num": "s",
+          "phrase": true
+        },
+        {
+          "en": "My best friend",
+          "zh": "我最好的朋友",
+          "num": "s",
+          "phrase": true
+        }
+      ]
+    },
+    "PERSON_ADJ_1": {
+      "name": "PERSON_ADJ_1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "tall",
+          "zh": "高"
+        },
+        {
+          "en": "short",
+          "zh": "矮"
+        },
+        {
+          "en": "young",
+          "zh": "年轻"
+        },
+        {
+          "en": "old",
+          "zh": "老"
+        }
+      ]
+    },
+    "PERSON_ADJ_2": {
+      "name": "PERSON_ADJ_2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "strong",
+          "zh": "壮"
+        },
+        {
+          "en": "clever",
+          "zh": "聪明"
+        },
+        {
+          "en": "hard-working",
+          "zh": "勤奋",
+          "phrase": true
+        },
+        {
+          "en": "lovely",
+          "zh": "可爱"
+        },
+        {
+          "en": "kind",
+          "zh": "和蔼"
+        },
+        {
+          "en": "funny",
+          "zh": "有趣"
+        }
+      ]
+    },
+    "SPORTS": {
+      "name": "SPORTS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "football",
+          "zh": "足球"
+        },
+        {
+          "en": "basketball",
+          "zh": "篮球"
+        },
+        {
+          "en": "ping-pong",
+          "zh": "乒乓球"
+        },
+        {
+          "en": "badminton",
+          "zh": "羽毛球"
+        }
+      ]
+    },
+    "ABILITIES": {
+      "name": "ABILITIES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "make a robot",
+          "zh": "做机器人",
+          "phrase": true
+        },
+        {
+          "en": "jump rope",
+          "zh": "跳绳",
+          "phrase": true
+        },
+        {
+          "en": "play the piano",
+          "zh": "弹钢琴",
+          "phrase": true
+        },
+        {
+          "en": "play chess",
+          "zh": "下棋",
+          "phrase": true
+        },
+        {
+          "en": "speak English",
+          "zh": "说英语",
+          "phrase": true
+        }
+      ]
+    },
+    "WEEKDAYS": {
+      "name": "WEEKDAYS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "Mondays",
+          "zh": "周一"
+        },
+        {
+          "en": "Tuesdays",
+          "zh": "周二"
+        },
+        {
+          "en": "Wednesdays",
+          "zh": "周三"
+        },
+        {
+          "en": "Thursdays",
+          "zh": "周四"
+        },
+        {
+          "en": "Fridays",
+          "zh": "周五"
+        },
+        {
+          "en": "Saturdays",
+          "zh": "周六"
+        },
+        {
+          "en": "Sundays",
+          "zh": "周日"
+        }
+      ]
+    },
+    "SUBJECTS": {
+      "name": "SUBJECTS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "Chinese",
+          "zh": "语文"
+        },
+        {
+          "en": "maths",
+          "zh": "数学"
+        },
+        {
+          "en": "English",
+          "zh": "英语"
+        },
+        {
+          "en": "music",
+          "zh": "音乐"
+        },
+        {
+          "en": "PE",
+          "zh": "体育"
+        },
+        {
+          "en": "art",
+          "zh": "美术"
+        }
+      ]
+    },
+    "SPORTS_ACTIVITIES": {
+      "name": "SPORTS_ACTIVITIES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "play football",
+          "zh": "踢足球",
+          "phrase": true
+        },
+        {
+          "en": "play basketball",
+          "zh": "打篮球",
+          "phrase": true
+        },
+        {
+          "en": "play ping-pong",
+          "zh": "打乒乓球",
+          "phrase": true
+        },
+        {
+          "en": "play sports",
+          "zh": "做运动",
+          "phrase": true
+        }
+      ]
+    },
+    "FOODS": {
+      "name": "FOODS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "beef and rice",
+          "zh": "牛肉和米饭",
+          "phrase": true
+        },
+        {
+          "en": "some chicken soup",
+          "zh": "一些鸡汤",
+          "phrase": true
+        },
+        {
+          "en": "a hamburger",
+          "zh": "一个汉堡",
+          "phrase": true
+        },
+        {
+          "en": "some dumplings",
+          "zh": "一些饺子",
+          "phrase": true
+        },
+        {
+          "en": "some ice cream",
+          "zh": "一些冰淇淋",
+          "phrase": true
+        }
+      ]
+    },
+    "NATURE_THINGS": {
+      "name": "NATURE_THINGS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "rivers",
+          "zh": "河流"
+        },
+        {
+          "en": "mountains",
+          "zh": "山"
+        },
+        {
+          "en": "trees",
+          "zh": "树"
+        },
+        {
+          "en": "flowers",
+          "zh": "花"
+        },
+        {
+          "en": "lakes",
+          "zh": "湖泊"
+        },
+        {
+          "en": "waterfalls",
+          "zh": "瀑布"
+        }
+      ]
+    },
+    "CITIES": {
+      "name": "CITIES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "Sydney",
+          "zh": "悉尼"
+        },
+        {
+          "en": "Beijing",
+          "zh": "北京"
+        },
+        {
+          "en": "London",
+          "zh": "伦敦"
+        },
+        {
+          "en": "New York",
+          "zh": "纽约",
+          "phrase": true
+        },
+        {
+          "en": "Shanghai",
+          "zh": "上海"
+        },
+        {
+          "en": "Tokyo",
+          "zh": "东京"
+        }
+      ]
+    },
+    "WEATHERS": {
+      "name": "WEATHERS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "sunny",
+          "zh": "晴朗"
+        },
+        {
+          "en": "rainy",
+          "zh": "下雨"
+        },
+        {
+          "en": "windy",
+          "zh": "有风"
+        },
+        {
+          "en": "cloudy",
+          "zh": "多云"
+        },
+        {
+          "en": "hot",
+          "zh": "热"
+        },
+        {
+          "en": "cold",
+          "zh": "冷"
+        },
+        {
+          "en": "warm",
+          "zh": "温暖"
+        },
+        {
+          "en": "snowy",
+          "zh": "下雪"
+        }
+      ]
+    },
+    "CLOTHES": {
+      "name": "CLOTHES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "sweater",
+          "zh": "毛衣"
+        },
+        {
+          "en": "shirt",
+          "zh": "衬衫"
+        },
+        {
+          "en": "coat",
+          "zh": "外套"
+        },
+        {
+          "en": "dress",
+          "zh": "连衣裙"
+        },
+        {
+          "en": "hat",
+          "zh": "帽子"
+        },
+        {
+          "en": "jacket",
+          "zh": "夹克"
+        },
+        {
+          "en": "T-shirt",
+          "zh": "T恤",
+          "phrase": true
+        },
+        {
+          "en": "socks",
+          "zh": "袜子"
+        }
+      ]
+    },
+    "SEASONS": {
+      "name": "SEASONS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "spring",
+          "zh": "春天"
+        },
+        {
+          "en": "summer",
+          "zh": "夏天"
+        },
+        {
+          "en": "autumn",
+          "zh": "秋天"
+        },
+        {
+          "en": "winter",
+          "zh": "冬天"
+        }
+      ]
+    },
+    "CELESTIALS": {
+      "name": "CELESTIALS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "moon",
+          "zh": "月亮"
+        },
+        {
+          "en": "sun",
+          "zh": "太阳"
+        },
+        {
+          "en": "stars",
+          "zh": "星星"
+        },
+        {
+          "en": "cloud",
+          "zh": "云"
+        },
+        {
+          "en": "earth",
+          "zh": "地球"
+        },
+        {
+          "en": "sky",
+          "zh": "天空"
+        }
+      ]
+    },
+    "CELESTIAL_ADJ": {
+      "name": "CELESTIAL_ADJ",
+      "kind": "items",
+      "items": [
+        {
+          "en": "bright",
+          "zh": "明亮的"
+        },
+        {
+          "en": "round",
+          "zh": "圆的"
+        },
+        {
+          "en": "blue",
+          "zh": "蓝色的"
+        },
+        {
+          "en": "far",
+          "zh": "遥远的"
+        }
+      ]
+    },
+    "RESOURCES": {
+      "name": "RESOURCES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "water",
+          "zh": "水"
+        },
+        {
+          "en": "electricity",
+          "zh": "电"
+        },
+        {
+          "en": "energy",
+          "zh": "能源"
+        },
+        {
+          "en": "paper",
+          "zh": "纸"
+        }
+      ]
+    },
+    "APPLIANCES": {
+      "name": "APPLIANCES",
+      "kind": "items",
+      "items": [
+        {
+          "en": "light",
+          "zh": "灯"
+        },
+        {
+          "en": "TV",
+          "zh": "电视"
+        },
+        {
+          "en": "air conditioner",
+          "zh": "空调",
+          "phrase": true
+        }
+      ]
+    },
+    "ECO_ACTIONS": {
+      "name": "ECO_ACTIONS",
+      "kind": "items",
+      "items": [
+        {
+          "en": "reuse bottles",
+          "zh": "重复使用瓶子",
+          "phrase": true
+        },
+        {
+          "en": "plant trees",
+          "zh": "种树",
+          "phrase": true
+        },
+        {
+          "en": "save water",
+          "zh": "节约用水",
+          "phrase": true
+        }
+      ]
+    },
+    "CHORES_S4U1": {
+      "name": "CHORES_S4U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "cook",
+          "zh": "做饭"
+        },
+        {
+          "en": "clean the room",
+          "zh": "打扫房间",
+          "phrase": true
+        },
+        {
+          "en": "sweep the floor",
+          "zh": "扫地",
+          "phrase": true
+        },
+        {
+          "en": "make a gift",
+          "zh": "做礼物",
+          "phrase": true
+        }
+      ]
+    },
+    "PERSONS_S4U2": {
+      "name": "PERSONS_S4U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "He",
+          "zh": "他",
+          "num": "s"
+        },
+        {
+          "en": "She",
+          "zh": "她",
+          "num": "s"
+        }
+      ]
+    },
+    "PERSON_ADJ_1_S4U2": {
+      "name": "PERSON_ADJ_1_S4U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "tall",
+          "zh": "高"
+        },
+        {
+          "en": "short",
+          "zh": "矮"
+        }
+      ]
+    },
+    "PERSON_ADJ_2_S4U2": {
+      "name": "PERSON_ADJ_2_S4U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "strong",
+          "zh": "壮"
+        },
+        {
+          "en": "kind",
+          "zh": "和蔼"
+        },
+        {
+          "en": "funny",
+          "zh": "有趣"
+        },
+        {
+          "en": "quiet",
+          "zh": "安静"
+        }
+      ]
+    },
+    "SUBJECTS_S4U2": {
+      "name": "SUBJECTS_S4U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "English",
+          "zh": "英语"
+        },
+        {
+          "en": "Chinese",
+          "zh": "语文"
+        },
+        {
+          "en": "maths",
+          "zh": "数学"
+        }
+      ]
+    },
+    "PLACES_S4U3": {
+      "name": "PLACES_S4U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "playground",
+          "zh": "操场"
+        },
+        {
+          "en": "park",
+          "zh": "公园"
+        },
+        {
+          "en": "gym",
+          "zh": "体育馆"
+        },
+        {
+          "en": "library",
+          "zh": "图书馆"
+        },
+        {
+          "en": "garden",
+          "zh": "花园"
+        },
+        {
+          "en": "museum",
+          "zh": "博物馆"
+        },
+        {
+          "en": "hospital",
+          "zh": "医院"
+        },
+        {
+          "en": "shop",
+          "zh": "商店"
+        }
+      ]
+    },
+    "PERSONS_S5U1": {
+      "name": "PERSONS_S5U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "He",
+          "zh": "他",
+          "num": "s"
+        },
+        {
+          "en": "She",
+          "zh": "她",
+          "num": "s"
+        },
+        {
+          "en": "My friend",
+          "zh": "我的朋友",
+          "num": "s",
+          "phrase": true
+        },
+        {
+          "en": "My best friend",
+          "zh": "我最好的朋友",
+          "num": "s",
+          "phrase": true
+        }
+      ]
+    },
+    "PERSON_ADJ_1_S5U1": {
+      "name": "PERSON_ADJ_1_S5U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "tall",
+          "zh": "高"
+        },
+        {
+          "en": "short",
+          "zh": "矮"
+        },
+        {
+          "en": "young",
+          "zh": "年轻"
+        },
+        {
+          "en": "old",
+          "zh": "老"
+        }
+      ]
+    },
+    "PERSON_ADJ_2_S5U1": {
+      "name": "PERSON_ADJ_2_S5U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "strong",
+          "zh": "壮"
+        },
+        {
+          "en": "clever",
+          "zh": "聪明"
+        },
+        {
+          "en": "hard-working",
+          "zh": "勤奋",
+          "phrase": true
+        },
+        {
+          "en": "lovely",
+          "zh": "可爱"
+        }
+      ]
+    },
+    "SPORTS_S5U1": {
+      "name": "SPORTS_S5U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "football",
+          "zh": "足球"
+        },
+        {
+          "en": "basketball",
+          "zh": "篮球"
+        },
+        {
+          "en": "ping-pong",
+          "zh": "乒乓球"
+        },
+        {
+          "en": "badminton",
+          "zh": "羽毛球"
+        }
+      ]
+    },
+    "ABILITIES_S5U1": {
+      "name": "ABILITIES_S5U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "make a robot",
+          "zh": "做机器人",
+          "phrase": true
+        },
+        {
+          "en": "jump rope",
+          "zh": "跳绳",
+          "phrase": true
+        },
+        {
+          "en": "play the piano",
+          "zh": "弹钢琴",
+          "phrase": true
+        },
+        {
+          "en": "play chess",
+          "zh": "下棋",
+          "phrase": true
+        }
+      ]
+    },
+    "EMOTIONS_S5U2": {
+      "name": "EMOTIONS_S5U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "sad",
+          "zh": "难过"
+        },
+        {
+          "en": "worried",
+          "zh": "担心"
+        },
+        {
+          "en": "angry",
+          "zh": "生气"
+        },
+        {
+          "en": "excited",
+          "zh": "兴奋"
+        }
+      ]
+    },
+    "TOPICS_S5U2": {
+      "name": "TOPICS_S5U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "school project",
+          "zh": "学校项目",
+          "phrase": true
+        },
+        {
+          "en": "homework",
+          "zh": "作业"
+        },
+        {
+          "en": "class",
+          "zh": "班级"
+        }
+      ]
+    },
+    "SUBJECTS_S5U3": {
+      "name": "SUBJECTS_S5U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "Chinese and maths",
+          "zh": "语文和数学",
+          "phrase": true
+        },
+        {
+          "en": "maths and English",
+          "zh": "数学和英语",
+          "phrase": true
+        },
+        {
+          "en": "music and PE",
+          "zh": "音乐和体育",
+          "phrase": true
+        },
+        {
+          "en": "art and music",
+          "zh": "美术和音乐",
+          "phrase": true
+        }
+      ]
+    },
+    "SPORTS_ACTIVITIES_S5U3": {
+      "name": "SPORTS_ACTIVITIES_S5U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "play football",
+          "zh": "踢足球",
+          "phrase": true
+        },
+        {
+          "en": "play basketball",
+          "zh": "打篮球",
+          "phrase": true
+        },
+        {
+          "en": "play ping-pong",
+          "zh": "打乒乓球",
+          "phrase": true
+        },
+        {
+          "en": "play sports",
+          "zh": "做运动",
+          "phrase": true
+        }
+      ]
+    },
+    "HEALTHY_FOOD_S5U4": {
+      "name": "HEALTHY_FOOD_S5U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "healthy food",
+          "zh": "健康食品",
+          "phrase": true
+        },
+        {
+          "en": "vegetables",
+          "zh": "蔬菜"
+        },
+        {
+          "en": "fruit",
+          "zh": "水果"
+        }
+      ]
+    },
+    "BAD_HABITS_S5U4": {
+      "name": "BAD_HABITS_S5U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "play on a phone",
+          "zh": "玩手机",
+          "phrase": true
+        },
+        {
+          "en": "stay up late",
+          "zh": "熬夜",
+          "phrase": true
+        },
+        {
+          "en": "eat too much",
+          "zh": "吃太多",
+          "phrase": true
+        }
+      ]
+    },
+    "FOODS_S5U5": {
+      "name": "FOODS_S5U5",
+      "kind": "items",
+      "items": [
+        {
+          "en": "beef and rice",
+          "zh": "牛肉和米饭",
+          "phrase": true
+        },
+        {
+          "en": "chicken soup",
+          "zh": "鸡汤",
+          "phrase": true
+        },
+        {
+          "en": "a hamburger",
+          "zh": "一个汉堡",
+          "phrase": true
+        },
+        {
+          "en": "dumplings",
+          "zh": "饺子"
+        },
+        {
+          "en": "ice cream",
+          "zh": "冰淇淋",
+          "phrase": true
+        },
+        {
+          "en": "tea",
+          "zh": "茶"
+        }
+      ]
+    },
+    "NATURE_THINGS_S5U6": {
+      "name": "NATURE_THINGS_S5U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "rivers",
+          "zh": "河流"
+        },
+        {
+          "en": "mountains",
+          "zh": "山"
+        },
+        {
+          "en": "trees",
+          "zh": "树"
+        },
+        {
+          "en": "flowers",
+          "zh": "花"
+        },
+        {
+          "en": "lakes",
+          "zh": "湖泊"
+        },
+        {
+          "en": "waterfalls",
+          "zh": "瀑布"
+        }
+      ]
+    },
+    "NATURE_PLURALS_S5U6": {
+      "name": "NATURE_PLURALS_S5U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "famous mountains",
+          "zh": "著名的山",
+          "phrase": true
+        },
+        {
+          "en": "clean rivers",
+          "zh": "清澈的河流",
+          "phrase": true
+        },
+        {
+          "en": "tall trees",
+          "zh": "高大的树",
+          "phrase": true
+        }
+      ]
+    },
+    "WEEKEND_EVAL_S6U1": {
+      "name": "WEEKEND_EVAL_S6U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "great",
+          "zh": "很棒"
+        },
+        {
+          "en": "good",
+          "zh": "很好"
+        },
+        {
+          "en": "OK",
+          "zh": "还行"
+        },
+        {
+          "en": "not too bad",
+          "zh": "还不错",
+          "phrase": true
+        }
+      ]
+    },
+    "WEEKEND_ACTIONS_S6U1": {
+      "name": "WEEKEND_ACTIONS_S6U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "went to the park",
+          "zh": "去了公园",
+          "phrase": true
+        },
+        {
+          "en": "watched TV",
+          "zh": "看了电视",
+          "phrase": true
+        },
+        {
+          "en": "cleaned my room",
+          "zh": "打扫了房间",
+          "phrase": true
+        },
+        {
+          "en": "visited my grandparents",
+          "zh": "看望了祖父母",
+          "phrase": true
+        }
+      ]
+    },
+    "EVENTS_S6U2": {
+      "name": "EVENTS_S6U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "race",
+          "zh": "比赛"
+        },
+        {
+          "en": "marathon",
+          "zh": "马拉松"
+        },
+        {
+          "en": "book fair",
+          "zh": "书展",
+          "phrase": true
+        }
+      ]
+    },
+    "ACTIONS_S6U2": {
+      "name": "ACTIONS_S6U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "ran in the race",
+          "zh": "参加了跑步比赛",
+          "phrase": true
+        },
+        {
+          "en": "cheered for the runners",
+          "zh": "为选手加油",
+          "phrase": true
+        },
+        {
+          "en": "counted down",
+          "zh": "倒计时",
+          "phrase": true
+        }
+      ]
+    },
+    "ILLNESSES_S6U3": {
+      "name": "ILLNESSES_S6U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "cold",
+          "zh": "感冒"
+        },
+        {
+          "en": "fever",
+          "zh": "发烧"
+        },
+        {
+          "en": "cough",
+          "zh": "咳嗽"
+        },
+        {
+          "en": "headache",
+          "zh": "头痛"
+        }
+      ]
+    },
+    "ADVICE_S6U3": {
+      "name": "ADVICE_S6U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "stay in bed",
+          "zh": "待在床上",
+          "phrase": true
+        },
+        {
+          "en": "drink more water",
+          "zh": "多喝水",
+          "phrase": true
+        },
+        {
+          "en": "see a doctor",
+          "zh": "看医生",
+          "phrase": true
+        }
+      ]
+    },
+    "PRICES_S6U4": {
+      "name": "PRICES_S6U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "ten",
+          "zh": "十"
+        },
+        {
+          "en": "twenty",
+          "zh": "二十"
+        },
+        {
+          "en": "thirty",
+          "zh": "三十"
+        },
+        {
+          "en": "fifty",
+          "zh": "五十"
+        }
+      ]
+    },
+    "ITEMS_S6U4": {
+      "name": "ITEMS_S6U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "schoolbag",
+          "zh": "书包"
+        },
+        {
+          "en": "notebook",
+          "zh": "笔记本"
+        },
+        {
+          "en": "pencil",
+          "zh": "铅笔"
+        },
+        {
+          "en": "ruler",
+          "zh": "尺子"
+        }
+      ]
+    },
+    "CELESTIALS_S6U5": {
+      "name": "CELESTIALS_S6U5",
+      "kind": "items",
+      "items": [
+        {
+          "en": "moon",
+          "zh": "月亮"
+        },
+        {
+          "en": "sun",
+          "zh": "太阳"
+        },
+        {
+          "en": "stars",
+          "zh": "星星"
+        },
+        {
+          "en": "cloud",
+          "zh": "云"
+        },
+        {
+          "en": "earth",
+          "zh": "地球"
+        },
+        {
+          "en": "sky",
+          "zh": "天空"
+        }
+      ]
+    },
+    "CELESTIAL_ADJ_S6U5": {
+      "name": "CELESTIAL_ADJ_S6U5",
+      "kind": "items",
+      "items": [
+        {
+          "en": "bright",
+          "zh": "明亮的"
+        },
+        {
+          "en": "round",
+          "zh": "圆的"
+        },
+        {
+          "en": "blue",
+          "zh": "蓝色的"
+        },
+        {
+          "en": "far",
+          "zh": "遥远的"
+        }
+      ]
+    },
+    "RESOURCES_S6U6": {
+      "name": "RESOURCES_S6U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "water",
+          "zh": "水"
+        },
+        {
+          "en": "electricity",
+          "zh": "电"
+        },
+        {
+          "en": "energy",
+          "zh": "能源"
+        },
+        {
+          "en": "paper",
+          "zh": "纸"
+        }
+      ]
+    },
+    "APPLIANCES_S6U6": {
+      "name": "APPLIANCES_S6U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "light",
+          "zh": "灯"
+        },
+        {
+          "en": "TV",
+          "zh": "电视"
+        },
+        {
+          "en": "air conditioner",
+          "zh": "空调",
+          "phrase": true
+        }
+      ]
+    },
+    "ECO_ACTIONS_S6U6": {
+      "name": "ECO_ACTIONS_S6U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "reuse bottles",
+          "zh": "重复使用瓶子",
+          "phrase": true
+        },
+        {
+          "en": "plant trees",
+          "zh": "种树",
+          "phrase": true
+        },
+        {
+          "en": "save water",
+          "zh": "节约用水",
+          "phrase": true
+        }
+      ]
+    },
+    "ITEMS_S4B_U1": {
+      "name": "ITEMS_S4B_U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "desks and chairs",
+          "zh": "桌椅"
+        },
+        {
+          "en": "the workbooks",
+          "zh": "练习册"
+        },
+        {
+          "en": "the books",
+          "zh": "书"
+        },
+        {
+          "en": "the newspapers",
+          "zh": "报纸"
+        },
+        {
+          "en": "the chairs",
+          "zh": "椅子"
+        }
+      ]
+    },
+    "CLASSES_S4B_U1": {
+      "name": "CLASSES_S4B_U1",
+      "kind": "items",
+      "items": [
+        {
+          "en": "English class",
+          "zh": "英语课"
+        },
+        {
+          "en": "music class",
+          "zh": "音乐课"
+        },
+        {
+          "en": "art class",
+          "zh": "美术课"
+        },
+        {
+          "en": "PE class",
+          "zh": "体育课"
+        }
+      ]
+    },
+    "ROOMS_S4B_U2": {
+      "name": "ROOMS_S4B_U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "the living room",
+          "zh": "客厅"
+        },
+        {
+          "en": "the bedroom",
+          "zh": "卧室"
+        },
+        {
+          "en": "the kitchen",
+          "zh": "厨房"
+        },
+        {
+          "en": "the study",
+          "zh": "书房"
+        },
+        {
+          "en": "the bathroom",
+          "zh": "浴室"
+        }
+      ]
+    },
+    "HOME_ACTIONS_S4B_U2": {
+      "name": "HOME_ACTIONS_S4B_U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "watch TV",
+          "zh": "看电视"
+        },
+        {
+          "en": "play games",
+          "zh": "玩游戏"
+        },
+        {
+          "en": "go out",
+          "zh": "出去"
+        }
+      ]
+    },
+    "FIRST_TASKS_S4B_U2": {
+      "name": "FIRST_TASKS_S4B_U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "do your homework",
+          "zh": "做完作业",
+          "phrase": true
+        },
+        {
+          "en": "clean your room",
+          "zh": "打扫房间",
+          "phrase": true
+        },
+        {
+          "en": "wash your hands",
+          "zh": "洗手",
+          "phrase": true
+        }
+      ]
+    },
+    "MANNER_ADJ_S4B_U2": {
+      "name": "MANNER_ADJ_S4B_U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "loud",
+          "zh": "大声"
+        },
+        {
+          "en": "noisy",
+          "zh": "吵闹"
+        },
+        {
+          "en": "careless",
+          "zh": "粗心"
+        }
+      ]
+    },
+    "DANGER_ACTIONS_S4B_U2": {
+      "name": "DANGER_ACTIONS_S4B_U2",
+      "kind": "items",
+      "items": [
+        {
+          "en": "touch hot things",
+          "zh": "碰烫的东西",
+          "phrase": true
+        },
+        {
+          "en": "run in the room",
+          "zh": "在房间里跑",
+          "phrase": true
+        },
+        {
+          "en": "run on the wet floor",
+          "zh": "在湿地上跑",
+          "phrase": true
+        }
+      ]
+    },
+    "CLOCK_TIMES_S4B_U3": {
+      "name": "CLOCK_TIMES_S4B_U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "five o'clock",
+          "zh": "五点"
+        },
+        {
+          "en": "six o'clock",
+          "zh": "六点"
+        },
+        {
+          "en": "seven o'clock",
+          "zh": "七点"
+        },
+        {
+          "en": "eight o'clock",
+          "zh": "八点"
+        }
+      ]
+    },
+    "ROUTINES_S4B_U3": {
+      "name": "ROUTINES_S4B_U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "get up",
+          "zh": "起床",
+          "phrase": true
+        },
+        {
+          "en": "go to school",
+          "zh": "上学",
+          "phrase": true
+        },
+        {
+          "en": "go home",
+          "zh": "回家",
+          "phrase": true
+        },
+        {
+          "en": "go to bed",
+          "zh": "睡觉",
+          "phrase": true
+        }
+      ]
+    },
+    "MEALS_S4B_U3": {
+      "name": "MEALS_S4B_U3",
+      "kind": "items",
+      "items": [
+        {
+          "en": "lunch",
+          "zh": "午饭"
+        },
+        {
+          "en": "dinner",
+          "zh": "晚饭"
+        },
+        {
+          "en": "breakfast",
+          "zh": "早饭"
+        }
+      ]
+    },
+    "CLOTHES_S4B_U4": {
+      "name": "CLOTHES_S4B_U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "jacket",
+          "zh": "夹克"
+        },
+        {
+          "en": "skirt",
+          "zh": "裙子"
+        },
+        {
+          "en": "dress",
+          "zh": "连衣裙"
+        },
+        {
+          "en": "hat",
+          "zh": "帽子"
+        },
+        {
+          "en": "pair of shoes",
+          "zh": "一双鞋",
+          "phrase": true
+        }
+      ]
+    },
+    "SHOP_ADJ_S4B_U4": {
+      "name": "SHOP_ADJ_S4B_U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "dear",
+          "zh": "贵"
+        },
+        {
+          "en": "expensive",
+          "zh": "昂贵"
+        },
+        {
+          "en": "cheap",
+          "zh": "便宜"
+        },
+        {
+          "en": "beautiful",
+          "zh": "漂亮"
+        }
+      ]
+    },
+    "SHOPS_S4B_U4": {
+      "name": "SHOPS_S4B_U4",
+      "kind": "items",
+      "items": [
+        {
+          "en": "clothes shop",
+          "zh": "服装店",
+          "phrase": true
+        },
+        {
+          "en": "shoe shop",
+          "zh": "鞋店",
+          "phrase": true
+        },
+        {
+          "en": "supermarket",
+          "zh": "超市",
+          "phrase": true
+        }
+      ]
+    },
+    "FARM_ANIMALS_S4B_U5": {
+      "name": "FARM_ANIMALS_S4B_U5",
+      "kind": "items",
+      "items": [
+        {
+          "en": "cows",
+          "zh": "奶牛"
+        },
+        {
+          "en": "horses",
+          "zh": "马"
+        },
+        {
+          "en": "sheep",
+          "zh": "羊"
+        },
+        {
+          "en": "pigs",
+          "zh": "猪"
+        },
+        {
+          "en": "chickens",
+          "zh": "鸡"
+        },
+        {
+          "en": "bees",
+          "zh": "蜜蜂"
+        }
+      ]
+    },
+    "VEGETABLES_S4B_U5": {
+      "name": "VEGETABLES_S4B_U5",
+      "kind": "items",
+      "items": [
+        {
+          "en": "tomatoes",
+          "zh": "西红柿"
+        },
+        {
+          "en": "carrots",
+          "zh": "胡萝卜"
+        },
+        {
+          "en": "potatoes",
+          "zh": "土豆"
+        },
+        {
+          "en": "green beans",
+          "zh": "青豆"
+        }
+      ]
+    },
+    "TABLE_TASKS_S4B_U6": {
+      "name": "TABLE_TASKS_S4B_U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "feed the chickens",
+          "zh": "喂鸡",
+          "phrase": true
+        },
+        {
+          "en": "clear the table",
+          "zh": "收拾桌子",
+          "phrase": true
+        },
+        {
+          "en": "set the table",
+          "zh": "摆餐具",
+          "phrase": true
+        }
+      ]
+    },
+    "TABLEWARE_S4B_U6": {
+      "name": "TABLEWARE_S4B_U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "chopsticks",
+          "zh": "筷子"
+        },
+        {
+          "en": "a spoon",
+          "zh": "勺子"
+        },
+        {
+          "en": "a fork",
+          "zh": "叉子"
+        },
+        {
+          "en": "a bowl",
+          "zh": "碗"
+        }
+      ]
+    },
+    "FOODS_S4B_U6": {
+      "name": "FOODS_S4B_U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "salad",
+          "zh": "沙拉"
+        },
+        {
+          "en": "vegetables",
+          "zh": "蔬菜"
+        },
+        {
+          "en": "the soup",
+          "zh": "汤"
+        }
+      ]
+    },
+    "WASTE_ACTIONS_S4B_U6": {
+      "name": "WASTE_ACTIONS_S4B_U6",
+      "kind": "items",
+      "items": [
+        {
+          "en": "waste food",
+          "zh": "浪费食物",
+          "phrase": true
+        },
+        {
+          "en": "waste water",
+          "zh": "浪费水",
+          "phrase": true
+        }
+      ]
+    }
+  }
+}
