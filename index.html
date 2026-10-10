@@ -1538,7 +1538,7 @@
                         <span>我会扫地。</span>
                         <span class="demo-pattern-btn">📐 看句型提示</span>
                     </div>
-                    <div class="demo-pattern-badge">📐 主语 + can + 动词短语（家务）</div>
+                    <div class="demo-pattern-badge">📐 主语 + can + 家务</div>
                 </div>
             </div>
             <div class="stage-content" data-step="4">
@@ -2894,63 +2894,67 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  5.5 句型提示（用语法术语描述结构，不直接给完整句子）
+    //  5.5 句型提示：英文骨架 + 槽位名（如「主语 + be + 形容词」）
+    //   —— 不给完整句子，也不给槽位里该填的词；be 的各种形式统一写成 be
     // ================================================================
-    // 每个槽位 → [语法角色, 中文类别]。术语由人来定，别用槽位名硬套
-    const SLOT_GRAMMAR = {
-        '名字': ['名词', '人名'], '亲属': ['名词', '家庭成员'], '宠物': ['名词', '宠物'],
-        '动物': ['名词', '动物'], '动物复数': ['名词复数', '动物'], '水果复数': ['名词复数', '水果'],
-        '颜色': ['形容词', '颜色'], '数字': ['数词', '数字'], '时间': ['数词', '钟点'],
-        '物品复数': ['名词复数', '物品'], '物品': ['名词', '物品'], '职业': ['名词', '职业'],
-        '家务': ['动词短语', '家务'], '动作': ['动词短语', '动作'], '活动': ['动词短语', '活动'],
-        '环保动作': ['动词短语', '环保行为'], '建议': ['动词短语', '建议'],
-        '过去式': ['动词过去式', '上周末做过的事'],
-        '对象': ['名词短语', '人物或植物'], '某人': ['名词', '某人'], '谁': ['名词', '谁'],
-        '形容词': ['形容词', '描述人物'], '形容词1': ['形容词', '描述人物'], '形容词2': ['形容词', '描述人物'],
-        '大小': ['形容词', '大小'], '情绪': ['形容词', '情绪'], '评价': ['形容词', '评价'],
-        '天气': ['形容词', '天气'], '科目': ['名词', '学科'], '课程': ['名词', '课程'],
-        '地点': ['名词', '地点'], '城市': ['名词', '城市'], '衣物': ['名词', '服装'],
-        '季节': ['名词', '季节'], '星期': ['名词', '星期'], '食物': ['名词短语', '食物'],
-        '东西': ['名词', '事物'], '疾病': ['名词', '身体不适'], '天体': ['名词', '天体'],
-        '资源': ['名词', '资源'], '电器': ['名词', '电器'],
-        '景物': ['名词', '景物'], '景物复数': ['名词复数', '景物'], '自然景物': ['名词复数', '自然景物'],
-        '蔬菜复数': ['名词复数', '蔬菜'], '餐具': ['名词', '餐具']
+    const PRONOUNS = { i: 1, you: 1, he: 1, she: 1, it: 1, we: 1, they: 1, this: 1, that: 1, these: 1, those: 1 };
+    const POSSESSIVES = { my: 1, your: 1, his: 1, her: 1, our: 1, their: 1, its: 1 };
+    const AUX_OR_BE = /^(is|are|am|was|were|be|'s|'re|'m|can|could|would|should|will|may|must|do|does|did|have|has|had)$/i;
+    const BE_TOKENS = /^(is|are|am|was|were|be|'s|'re|'m)$/i;
+    const CONTRACTIONS = {
+        "i'm": '主语 + be', "it's": '主语 + be', "he's": '主语 + be', "she's": '主语 + be',
+        "that's": '主语 + be', "they're": '主语 + be', "we're": '主语 + be',
+        "what's": '疑问词 + be', "who's": '疑问词 + be', "where's": '疑问词 + be',
     };
-    const SUBJECT_WORDS = { I: '主语', He: '主语', She: '主语', It: '主语', We: '主语', They: '主语', You: '主语', There: 'There（存在句）' };
-    const BE_FORMS = { "I'm": '主语 + be', "It's": '主语 + be', "He's": '主语 + be', "She's": '主语 + be', "That's": '主语 + be', "What's": '疑问词 + be', "Who's": '疑问词 + be' };
+    const WH_WORDS = { what: '疑问词', where: '疑问词', which: '疑问词', how: '疑问词', whose: '疑问词', why: '疑问词', who: '疑问词', when: '疑问词' };
 
-    // 这个槽位在句子里是主语还是表语？只在有把握时才标 —— 标错比不标更糟
-    function slotRoleInTemplate(en, key) {
-        const tokens = en.match(/\{[^}]+\}|[A-Za-z'\-]+/g) || [];
-        const idx = tokens.findIndex(t => t === '{' + key + '}');
-        if (idx <= 0) return idx === 0 ? '主语' : '';
-        const prev = tokens[idx - 1] || '';
-        const prev2 = tokens[idx - 2] || '';
-        if (/^(is|are|am|'s)$/i.test(prev)) return '表语';
-        if (/^(a|an|the)$/i.test(prev) && /^(is|are|am|'s)$/i.test(prev2)) return '表语';
-        return '';
-    }
-
-    // 模板 → 结构骨架：中文骨架 + 语法术语（主语/表语/形容词/名词/动词短语…）。
-    // 不给英文原句 —— 原来直接把 "My name is {名字}." 摆出来，等于把答案给了大半
     function buildPatternHint(template) {
         if (template.hint) return template.hint;
         const slotKeys = Object.keys(template.slots || {});
-        const en = template.en, zh = template.zh || '';
+        const en = template.en;
         if (slotKeys.length === 0) {
             const kind = /\?\s*$/.test(en) ? '疑问句' : (/!\s*$/.test(en) ? '感叹句' : '陈述句');
             const words = (en.match(/[A-Za-z'\-]+/g) || []).length;
             return `📐 固定${kind} · ${words} 个词 · 自己回忆`;
         }
-        let out = zh;
-        slotKeys.forEach(k => {
-            if (k === 'be') return;
-            const g = SLOT_GRAMMAR[k] || ['名词', k];
-            const role = slotRoleInTemplate(en, k);
-            const label = role ? `${role}（${g[1]}）` : `${g[0]}（${g[1]}）`;
-            out = out.replace(new RegExp('\\{' + k + '\\}', 'g'), `【${label}】`);
+        // 把 {槽位} 换成占位符再切词，避免槽位名里的中文被拆开
+        const slots = {};
+        let marked = en;
+        slotKeys.forEach((k, i) => {
+            const tag = '\u0001' + i + '\u0001';
+            slots[tag] = k === 'be' ? 'be' : k;
+            marked = marked.replace(new RegExp('\\{' + k + '\\}', 'g'), ' ' + tag + ' ');
         });
-        return '📐 结构：' + out;
+        const tokens = (marked.match(/\u0001\d+\u0001|[A-Za-z'\-]+|[.,!?]/g) || [])
+            .map(t => t.replace(/[.,!?]+$/, ''))
+            .filter(Boolean);
+        const isSlot = (t) => slots[t] !== undefined;
+        // 主语段折成「主语」：代词开头只吞一个词；My name / My favourite place 这类
+        // 名词短语主语吞到第一个助动词或槽位之前
+        const out = [];
+        let i = 0;
+        const first = (tokens[0] || '').toLowerCase();
+        if (PRONOUNS[first]) {
+            out.push('主语');
+            i = 1;
+        } else if (POSSESSIVES[first]) {
+            let j = 0;
+            while (j < tokens.length && !AUX_OR_BE.test(tokens[j]) && !isSlot(tokens[j])) j++;
+            if (j === 0) j = 1;
+            out.push('主语');
+            i = j;
+        }
+        for (; i < tokens.length; i++) {
+            const t = tokens[i];
+            if (isSlot(t)) { out.push(slots[t]); continue; }
+            const low = t.toLowerCase();
+            if (CONTRACTIONS[low]) { out.push(CONTRACTIONS[low]); continue; }
+            if (BE_TOKENS.test(low)) { out.push('be'); continue; }
+            if (PRONOUNS[low]) { out.push('主语'); continue; }
+            if (WH_WORDS[low]) { out.push(WH_WORDS[low]); continue; }
+            out.push(t);
+        }
+        return '📐 ' + out.join(' + ');
     }
 
     // ================================================================
@@ -3718,24 +3722,30 @@ document.addEventListener('DOMContentLoaded', function() {
         srsMark(state.currentEn, state.currentZh, false);
     }
 
-    // 判分诊断：分类说清问题，并给"长度 + 首字母"这种线索，而不是直接把答案给出去
+    // 判分诊断：说清是"少了/多了"还是"顺序不对"。
+    // 注意：**绝不给标准答案那个词的首字母** —— 学生手里可能正拿着那个词（只是位置不对），
+    // 提示"首字母 T"会让他以为放对了（这个坑踩过一次）
     function diagnose(userWords, correctWords) {
         const count = (arr) => arr.reduce((m, w) => (m[w] = (m[w] || 0) + 1, m), {});
         const uc = count(userWords), cc = count(correctWords);
         const missing = [], extra = [];
         Object.keys(cc).forEach(w => { for (let i = 0; i < (cc[w] || 0) - (uc[w] || 0); i++) missing.push(w); });
         Object.keys(uc).forEach(w => { for (let i = 0; i < (uc[w] || 0) - (cc[w] || 0); i++) extra.push(w); });
-        const tip = (w) => w ? `${w.length} 个字母、首字母 ${w[0].toUpperCase()}` : '';
         if (missing.length || extra.length) {
             const parts = [];
-            if (missing.length) parts.push(`少了 ${missing.length} 个词（提示：${tip(missing[0])}）`);
+            if (missing.length) parts.push(`少了 ${missing.length} 个词（它在第 ${correctWords.indexOf(missing[0]) + 1} 个位置）`);
             if (extra.length) parts.push(`多了 ${extra.length} 个词（"${extra[0]}" 不在这一句里）`);
             return { kind: 'count', msg: '数量和答案对不上：' + parts.join('；') };
         }
         const idx = correctWords.findIndex((w, i) => w !== userWords[i]);
         if (idx === -1) return { kind: 'ok', msg: '' };
-        const expect = correctWords[idx];
-        return { kind: 'order', idx, msg: `词都对了，但顺序不对：第 ${idx + 1} 个位置要放一个 ${expect.length} 个字母、首字母 ${expect[0].toUpperCase()} 的词` };
+        const w = userWords[idx];
+        const should = correctWords.indexOf(w);
+        const dir = should > idx ? '应该更靠后' : '应该更靠前';
+        return {
+            kind: 'order', idx,
+            msg: `词都对了，但顺序不对：第 ${idx + 1} 个位置放错了（「${w}」${dir}）—— 点「📐 看句型提示」看看顺序`,
+        };
     }
 
     // 判分反馈：把答题区的卡片逐个标出对/错（原来只有一行文字）
@@ -4207,7 +4217,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { title: '第一步：点单词 = 放进答题区', desc: '点池里的一张卡片，它飞进上方答题区后**就留在那儿**，池里那张变灰。要取出来得再点一次答题区里的那张卡——不是点一下就自己收回去。' },
         { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。' },
         { title: '第三步：检查答案', desc: '点「✅ 检查答案」：位置对的卡片变绿，第一个错的变红并抖动，上面那行同时告诉你错在第几个位置。' },
-        { title: '第四步：句型提示（要自己点）', desc: '不确定结构？点中文旁的「📐 看句型提示」。它给的是骨架，比如「主语 + can + 动词短语（家务）」，不会把整句写给你；答对之后才显示完整句型。' },
+        { title: '第四步：句型提示（要自己点）', desc: '不确定结构？点中文旁的「📐 看句型提示」。它给的是英文骨架，比如「主语 + can + 家务」「主语 + be + 形容词」，不会把整句写给你；答对之后才显示完整句型。' },
         { title: '第五步：连错 6 次给对位卡片', desc: '同一题连错 6 次，答题区会清空并出现「🧭 对位卡片」：按 1、2、3 的顺序把词点进去，点错位置是点不动的——先把顺序走对一遍再自己排。' },
         { title: '第六步：拆分短语', desc: '「拆分短语」默认开启，像 "play sports" 这样的短语会拆成 "play" 和 "sports" 两张卡片；关掉后它作为一整张卡出现，练短语整体识别。' },
         { title: '第七步：\'s 拆分', desc: '所有以 \'s 结尾的词都会拆开：What\'s → What + \'s，Mike\'s → Mike + \'s，覆盖 is / 所有格 / us 缩写。' },
