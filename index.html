@@ -3663,7 +3663,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .map(normalizeToken)
             .filter(t => t.length > 0);
 
-        // 诊断：说清"少了/多了/顺序不对"，并给可用的线索（长度+首字母），不直接给答案
+        // 诊断：说清"少了/多了/顺序不对"，只给"第几位 / 该靠前还是靠后"这类线索，不直接给答案
         const dg = diagnose(userWords, correctWords);
         if (dg.kind === 'count') {
             Sound.wrong();
