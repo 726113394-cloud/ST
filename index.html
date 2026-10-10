@@ -2670,6 +2670,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // 录音文件到底能不能用：只要失败过一次就记账，后续直接走合成（保住手势链）
     let audioFilesUsable = null;
+    // 单词录音的候选文件名：Windows 不区分大小写、GitHub Pages(Linux) 区分。
+    // 库里存的是小写 we.mp3、专有名词 Amy.mp3，而句子里可能是 We / amy，
+    // 所以按「原样 → 全小写 → 首字母大写」依次试（本地碰巧能过、线上会 404 的坑）
+    function wordAudioCandidates(w) {
+        const out = [w, w.toLowerCase()];
+        const cap = w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+        if (out.indexOf(cap) === -1) out.push(cap);
+        return out;
+    }
     // 返回 'file' | 'words' | 'tts' | 'none'
     async function playSentence(text) {
         if (audioFilesUsable === false) {
@@ -2682,7 +2691,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const words = String(text).match(/[A-Za-z'\-]+/g) || [];
         let all = words.length > 0;
         for (const w of words) {
-            if (!await playUrl('./audio/' + encodeURIComponent(w) + '.mp3', 4000)) { all = false; break; }
+            let played = false;
+            for (const cand of wordAudioCandidates(w)) {
+                if (await playUrl('./audio/' + encodeURIComponent(cand) + '.mp3', 4000)) { played = true; break; }
+            }
+            if (!played) { all = false; break; }
             await new Promise(r => setTimeout(r, 90));
         }
         if (all) { audioFilesUsable = true; return 'words'; }
@@ -3584,8 +3597,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // 让学生点「🔊 播放句子」这个按钮（那一下就是手势）
         if (state.qmode === 'listen' && !q.review) {
             chineseHint.textContent = '（点下面「🔊 播放句子」听题）';
-            statusBadge.textContent = '🔊 点「播放句子」听一遍，再把单词排好';
-            statusBadge.className = 'status-badge';
             replayBtn.textContent = '🔊 播放句子';
         } else {
             chineseHint.textContent = q.zh;
@@ -3605,9 +3616,10 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.disabled = true;
         renderCardPool();
         renderAnswerZone();
-        statusBadge.textContent = q.review
-            ? '📖 复习题（错题本 / 间隔复习）—— 点击下方单词组句'
-            : '🔄 点击下方单词添加到句子，拖动可换位';
+        statusBadge.textContent = state.qmode === 'listen'
+            ? '🔊 点「播放句子」听一遍，再把单词顺序拼好'
+            : (q.review ? '📖 复习题（错题本 / 间隔复习）—— 点击下方单词组句'
+                        : '🔄 点击下方单词添加到句子，拖动可换位');
         statusBadge.className = 'status-badge';
         progress.textContent = `${state.currentIndex + 1}/${state.totalQuestions}`;
         updateScore();
