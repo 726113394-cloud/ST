@@ -306,7 +306,7 @@
             0 0 20px rgba(240, 160, 120, 0.4),
             inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
-    .btn-icon { min-width: 36px; text-align: center; padding: 6px 10px; }
+    .btn-icon { min-width: 40px; min-height: 40px; text-align: center; padding: 6px 10px; }
     .settings {
         padding: clamp(8px, 1.2vh, 14px) clamp(16px, 1.8vw, 26px);
         display: flex; flex-wrap: wrap; gap: 6px 14px;
@@ -358,6 +358,8 @@
         min-width: 22px;
         text-align: center;
     }
+    .unit-trigger-btn.need-pick { background: #fff3e2; border-color: #d98c6a; animation: pop 0.6s var(--ease-spring); }
+    .unit-trigger-btn.need-pick .count { background: #b05a4a; }
     .main { padding: clamp(12px, 2vh, 24px) clamp(18px, 2vw, 32px) clamp(16px, 2.4vh, 28px); position: relative; z-index: 1; }
     .info-bar {
         display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
@@ -407,102 +409,22 @@
         padding: 0 12px; border-radius: 20px;
     }
     .chinese-hint .zh { font-size: clamp(1.15rem, 0.5vw + 0.95rem, 1.55rem); }
-    /* ★ 句型提示：点击显示的切换按钮 */
     .pattern-toggle {
+        font-family: inherit; font-weight: 700; cursor: pointer;
         font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
-        background: rgba(217, 140, 106, 0.18);
-        border: 1px solid rgba(217, 140, 106, 0.30);
-        padding: 3px 14px;
-        border-radius: 30px;
-        color: #7a4a2a;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: inherit;
-        transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        user-select: none;
-        line-height: 1.4;
+        color: #7a4a2a; background: rgba(247, 184, 138, 0.2);
+        border: 1px dashed rgba(217, 140, 106, 0.6);
+        padding: 6px 14px; border-radius: 30px;
+        transition: all 0.2s ease;
     }
-    .pattern-toggle:hover {
-        background: rgba(217, 140, 106, 0.32);
-        border-color: rgba(217, 140, 106, 0.5);
-        transform: translateY(-1px);
-    }
-    .pattern-toggle:active {
-        transform: scale(0.96);
-    }
-    .pattern-toggle.on {
-        background: linear-gradient(135deg, rgba(247, 184, 138, 0.55), rgba(217, 140, 106, 0.45));
-        border-color: rgba(217, 140, 106, 0.65);
-        color: #5a3020;
-        box-shadow: 0 2px 8px rgba(217, 140, 106, 0.22);
-    }
-    .pattern-toggle .arrow {
-        display: inline-block;
-        font-size: 0.75em;
-        transition: transform 0.3s ease;
-    }
-    .pattern-toggle.on .arrow {
-        transform: rotate(180deg);
-    }
-    /* ★ 句型提示内容：默认隐藏，点击后显示 */
+    .pattern-toggle:hover { background: rgba(247, 184, 138, 0.38); transform: translateY(-1px); }
+    .pattern-toggle.on { background: rgba(217, 140, 106, 0.3); border-style: solid; }
+    .pattern-badge[hidden], .pattern-toggle[hidden] { display: none; }
     .pattern-badge {
         font-size: clamp(0.6rem, 0.15vw + 0.55rem, 0.75rem);
         background: rgba(217, 140, 106, 0.15);
-        padding: 3px 16px;
-        border-radius: 30px;
-        color: #7a4a2a;
-        font-weight: 600;
-        display: none;
-        margin-top: 2px;
-        line-height: 1.5;
-        max-width: 100%;
-        word-break: break-word;
-    }
-    .pattern-badge.show {
-        display: inline-block;
-        animation: patternReveal 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    @keyframes patternReveal {
-        from { opacity: 0; transform: translateY(-6px) scale(0.92); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    /* 高级渲染下的句型切换与显示 */
-    .app.high-end .pattern-toggle {
-        background: linear-gradient(150deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.06) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.40);
-        color: #5a3a2a;
-        backdrop-filter: blur(20px) saturate(185%);
-        -webkit-backdrop-filter: blur(20px) saturate(185%);
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.80),
-            0 3px 10px rgba(180, 130, 80, 0.06);
-    }
-    .app.high-end .pattern-toggle:hover {
-        background: linear-gradient(150deg, rgba(255,255,255,.30) 0%, rgba(255,250,244,.14) 100%);
-        border-color: rgba(255, 240, 220, 0.70);
-    }
-    .app.high-end .pattern-toggle.on {
-        background: linear-gradient(140deg,
-            rgba(255, 226, 200, 0.55) 0%,
-            rgba(255, 200, 165, 0.42) 100%);
-        border-color: rgba(255, 255, 255, 0.60);
-        color: #5a3020;
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.85),
-            0 3px 10px rgba(217, 140, 106, 0.16);
-    }
-    .app.high-end .pattern-badge {
-        background: linear-gradient(150deg,
-            rgba(255, 255, 255, 0.20) 0%,
-            rgba(255, 255, 255, 0.07) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.36);
-        color: #5a3a2a;
-        backdrop-filter: blur(18px) saturate(180%);
-        -webkit-backdrop-filter: blur(18px) saturate(180%);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+        padding: 2px 16px; border-radius: 30px;
+        color: #7a4a2a; font-weight: 600; display: inline-block; margin-top: 2px;
     }
     .status-badge {
         display: block; padding: clamp(5px, 0.7vh, 9px) 18px; border-radius: 40px;
@@ -517,6 +439,52 @@
     .status-badge.correct { background: #fce4d6; color: #7a4a2a; border-color: #e08a6a; animation: pop 0.6s var(--ease-spring); }
     .status-badge.wrong { background: #fce4d6; color: #b05a4a; border-color: #d98c6a; animation: shake 0.55s var(--ease-spring); }
     .status-badge.done { background: #fde9d0; border-color: #f7b88a; }
+    /* 连错 6 次后的「对位卡片」引导 */
+    .guide-card {
+        margin: 0 0 clamp(10px, 1.4vh, 16px);
+        padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px);
+        background: linear-gradient(135deg, #fff3e2, #ffe9d4);
+        border: 2px solid rgba(217, 140, 106, 0.55);
+        border-radius: clamp(18px, 1.8vw, 26px);
+        animation: pop 0.5s var(--ease-spring);
+    }
+    .guide-card[hidden] { display: none; }
+    .guide-title {
+        font-size: clamp(0.72rem, 0.2vw + 0.66rem, 0.9rem);
+        font-weight: 700; color: #7a4a2a; text-align: center;
+        margin-bottom: 8px;
+    }
+    .guide-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .guide-slot {
+        display: flex; align-items: center; gap: 6px;
+        padding: 6px 12px; border-radius: 14px;
+        background: #fffdf8;
+        border: 1.5px dashed rgba(220, 180, 140, 0.6);
+        font-weight: 700; color: #a08060;
+        font-size: clamp(0.72rem, 0.2vw + 0.66rem, 0.92rem);
+    }
+    .guide-slot .guide-idx {
+        font-size: 0.62rem; color: #fff; background: #c9a98c;
+        border-radius: 10px; padding: 0 7px;
+    }
+    .guide-slot.done { border-style: solid; border-color: #b8c9a0; background: #f4f8ee; color: #6a7a5a; }
+    .guide-slot.done .guide-idx { background: #8aa06a; }
+    .guide-slot.now {
+        border-style: solid; border-color: #d98c6a; background: #ffe4cc; color: #7a4a2a;
+        box-shadow: 0 2px 10px rgba(217, 140, 106, 0.3);
+        animation: demoPatternPulse 1.6s ease-in-out infinite;
+    }
+    .guide-slot.now .guide-idx { background: #d98c6a; }
+    .card-pool .token.locked { opacity: 0.4; cursor: not-allowed; }
+    /* 判分时逐个高亮：教学里说"逐个高亮"，代码里原来没有，补上 */
+    .answer-zone .token.ok {
+        border-color: #8aa06a; background: linear-gradient(135deg, #eef6e4, #e2efd4);
+        animation: pop 0.45s var(--ease-spring);
+    }
+    .answer-zone .token.bad {
+        border-color: #c96a5a; background: linear-gradient(135deg, #ffe6e0, #ffd6cc);
+        animation: shake 0.55s var(--ease-spring);
+    }
     @keyframes pop { 0% { transform: scale(0.85); opacity: 0.5; } 50% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
     @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
     .card-pool {
@@ -628,6 +596,7 @@
     }
     .action-row .btn {
         padding: clamp(7px, 1vh, 11px) clamp(20px, 2vw, 32px);
+        min-height: 46px;   /* 平板/手机上要够大，小手点得准 */
         border-radius: 40px;
         font-weight: 700;
         font-size: clamp(0.8rem, 0.25vw + 0.72rem, 1rem);
@@ -805,6 +774,23 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .unit-modal-tip {
+        padding: 8px 22px 2px;
+        font-size: 0.72rem;
+        color: #8a6a4a;
+        font-weight: 600;
+    }
+    .unit-grade-all {
+        margin-left: auto;
+        font-family: inherit; font-size: 0.68rem; font-weight: 700;
+        cursor: pointer; color: #7a4a2a;
+        background: #fffaf3; border: 1px solid rgba(220, 180, 140, 0.5);
+        padding: 3px 12px; border-radius: 14px;
+        text-transform: none; letter-spacing: 0;
+        transition: all 0.2s ease;
+    }
+    .unit-grade-all:hover { background: #fff5eb; border-color: #f7b88a; }
+    .unit-grade-all.on { background: linear-gradient(135deg, #ffe4cc, #ffd4b8); border-color: #d98c6a; }
     .unit-modal-footer {
         padding: 12px 22px;
         border-top: 1px solid rgba(220, 180, 140, 0.25);
@@ -973,52 +959,129 @@
     }
     .tutorial-stage .stage-content { display: none; }
     .tutorial-stage .stage-content.active { display: block; }
-    .demo-fly { width: 260px; height: 140px; position: relative; }
+    /* 第一步的演示：还原真实交互 —— 点一下是"放进答题区并留在那儿"，
+       取出必须再点答题区里的卡片；原来的动画演成"飞进去又自己飞回来"，是错的 */
+    .demo-fly { width: 320px; height: 170px; position: relative; }
     .demo-fly .demo-zone {
-        position: absolute; left: 10px; top: 10px;
-        width: 240px; height: 44px;
+        position: absolute; left: 20px; top: 6px;
+        width: 280px; height: 44px;
         border: 2px dashed rgba(255, 200, 160, 0.5);
         border-radius: 22px;
-        animation: demoZonePulse 4s ease-in-out infinite;
+        animation: demoZonePulse 6s ease-in-out infinite;
+    }
+    .demo-fly .demo-zone::after {
+        content: '答题区';
+        position: absolute; right: 12px; top: -1px;
+        font-size: 0.55rem; color: #b09070; font-weight: 700;
     }
     @keyframes demoZonePulse {
         0%, 25%, 70%, 100% { border-color: rgba(255, 200, 160, 0.5); box-shadow: none; }
         35%, 55% { border-color: #d98c6a; box-shadow: 0 0 18px rgba(217, 140, 106, 0.45); }
     }
+    .demo-fly .demo-pool-label {
+        position: absolute; left: 20px; top: 74px;
+        font-size: 0.55rem; color: #b09070; font-weight: 700;
+    }
+    .demo-fly .demo-slot {
+        position: absolute; top: 94px; height: 36px;
+        border: 2px dashed rgba(255, 200, 160, 0.55);
+        border-radius: 22px;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .demo-fly .demo-slot.s1 { left: 38px; width: 66px; }
+    .demo-fly .demo-slot.s2 { left: 128px; width: 48px; }
+    .demo-fly .demo-slot-ghost {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.85rem; color: #c0a68c;
+        opacity: 0;
+    }
+    .demo-fly .demo-ghost-a { animation: demoGhostA 6s ease-in-out infinite; }
+    .demo-fly .demo-ghost-b { animation: demoGhostB 6s ease-in-out infinite; }
+    @keyframes demoGhostA {
+        0%, 18%   { opacity: 0; }
+        24%, 62%  { opacity: 1; }
+        70%, 100% { opacity: 0; }
+    }
+    @keyframes demoGhostB {
+        0%, 24%   { opacity: 0; }
+        30%, 100% { opacity: 1; }
+    }
     .demo-fly .demo-token {
-        position: absolute; padding: 6px 16px; border-radius: 30px;
+        position: absolute; padding: 5px 13px; border-radius: 30px;
         background: rgba(255, 245, 235, 0.95);
         border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.9rem;
+        font-weight: 700; color: #4a2a1a; font-size: 0.85rem;
         box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
     }
     .demo-fly .demo-token.t1 {
-        left: 10px; top: 100px;
-        animation: demoFly1 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+        left: 44px; top: 99px;
+        animation: demoFly1 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
     }
     .demo-fly .demo-token.t2 {
-        left: 110px; top: 100px;
-        animation: demoFly2 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-        animation-delay: 0.15s;
+        left: 134px; top: 99px;
+        animation: demoFly2 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
     }
+    /* 0-18% 在池里 → 18-26% 飞进答题区 → 26-64% 留在答题区 → 64-72% 才飞回来（第二次点击） */
     @keyframes demoFly1 {
-        0%, 5%    { transform: translate(0, 0) scale(1); }
-        10%       { transform: translate(0, 4px) scale(0.92); }
-        28%       { transform: translate(50px, -80px) scale(1.15); }
-        36%       { transform: translate(50px, -72px) scale(0.98); }
-        42%, 58%  { transform: translate(50px, -75px) scale(1); }
-        72%       { transform: translate(0, 0) scale(0.96); }
-        82%, 100% { transform: translate(0, 0) scale(1); }
+        0%, 14%   { transform: translateY(0) scale(1); }
+        18%       { transform: translateY(2px) scale(0.94); }
+        26%, 62%  { transform: translateY(-89px) scale(1.04); }
+        64%       { transform: translateY(-85px) scale(1); }
+        72%       { transform: translateY(2px) scale(0.96); }
+        76%, 100% { transform: translateY(0) scale(1); }
     }
     @keyframes demoFly2 {
-        0%, 5%    { transform: translate(0, 0) scale(1); }
-        10%       { transform: translate(0, 4px) scale(0.92); }
-        28%       { transform: translate(20px, -80px) scale(1.15); }
-        36%       { transform: translate(20px, -72px) scale(0.98); }
-        42%, 58%  { transform: translate(20px, -75px) scale(1); }
-        72%       { transform: translate(0, 0) scale(0.96); }
-        82%, 100% { transform: translate(0, 0) scale(1); }
+        0%, 22%   { transform: translateY(0) scale(1); }
+        26%       { transform: translateY(2px) scale(0.94); }
+        34%, 100% { transform: translateY(-89px) scale(1.04); }
     }
+    /* 两行说明轮流亮起，对上动画的两个阶段 */
+    .demo-fly .demo-caption {
+        position: absolute; left: 0; top: 132px; width: 320px;
+        text-align: center; font-size: 0.62rem; font-weight: 700;
+        color: #7a4a2a; opacity: 0; line-height: 1.5;
+    }
+    .demo-fly .demo-caption.c1 { animation: demoCapA 6s ease-in-out infinite; }
+    .demo-fly .demo-caption.c2 { animation: demoCapB 6s ease-in-out infinite; }
+    @keyframes demoCapA {
+        0%, 12%   { opacity: 0; }
+        20%, 58%  { opacity: 1; }
+        64%, 100% { opacity: 0; }
+    }
+    @keyframes demoCapB {
+        0%, 68%   { opacity: 0; }
+        76%, 94%  { opacity: 1; }
+        100%      { opacity: 0; }
+    }
+    /* 第四步：句型提示按钮的样子 */
+    .demo-pattern-btn {
+        padding: 4px 12px; border-radius: 20px;
+        background: rgba(247, 184, 138, 0.25);
+        border: 1px dashed rgba(217, 140, 106, 0.6);
+        font-weight: 700; font-size: 0.62rem; color: #7a4a2a;
+        animation: demoPatternPulse 2.4s ease-in-out infinite;
+    }
+    /* 第五步：对位卡片的样子 */
+    .demo-guide { width: 300px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .demo-guide-title { font-weight: 700; font-size: 0.72rem; color: #7a4a2a; }
+    .demo-guide-row { display: flex; gap: 8px; }
+    .demo-guide-slot {
+        display: flex; align-items: center; gap: 5px;
+        padding: 6px 12px; border-radius: 14px;
+        background: #fffdf8; border: 1.5px dashed rgba(220, 180, 140, 0.6);
+        font-weight: 700; font-size: 0.75rem; color: #a08060;
+    }
+    .demo-guide-slot span { font-size: 0.58rem; color: #fff; background: #c9a98c; border-radius: 10px; padding: 0 7px; }
+    .demo-guide-slot.done { border-style: solid; border-color: #b8c9a0; background: #f4f8ee; color: #6a7a5a; }
+    .demo-guide-slot.done span { background: #8aa06a; }
+    .demo-guide-slot.now {
+        border-style: solid; border-color: #d98c6a; background: #ffe4cc; color: #7a4a2a;
+        animation: demoPatternPulse 1.6s ease-in-out infinite;
+    }
+    .demo-guide-slot.now span { background: #d98c6a; }
+    .demo-guide-slot.locked { opacity: 0.5; }
+    .demo-guide-tip { font-size: 0.58rem; color: #8a6a4a; }
     .demo-swap { width: 260px; height: 140px; position: relative; }
     .demo-swap .demo-token {
         position: absolute; padding: 6px 16px; border-radius: 30px;
@@ -1246,7 +1309,8 @@
         .settings .group { flex-wrap: wrap; justify-content: center; }
         .info-bar { flex-direction: column; align-items: stretch; text-align: center; }
         .info-bar .item { justify-content: center; }
-        .action-row .btn { padding: 6px 18px; font-size: 0.8rem; }
+        .action-row .btn { padding: 10px 18px; font-size: 0.84rem; min-height: 48px; }
+        .card-pool .token { min-height: 46px; }
         .tutorial-card { padding: 20px; border-radius: 28px; }
         .tutorial-stage { height: 150px; }
         .tutorial-header h2 { font-size: 1.1rem; }
@@ -1308,12 +1372,13 @@
         <div class="chinese-hint">
             <span class="label">中文</span>
             <span class="zh" id="chineseHint">正在加载...</span>
-            <button class="pattern-toggle" id="patternToggle" title="点击显示/隐藏句型">📐 句型 <span class="arrow">▼</span></button>
-            <span class="pattern-badge" id="patternBadge"></span>
+            <button class="pattern-toggle" id="patternToggle" type="button">📐 看句型提示</button>
+            <span class="pattern-badge" id="patternBadge" hidden></span>
         </div>
         <div class="status-badge" id="statusBadge">🎯 准备就绪</div>
         <div class="card-pool" id="cardPool"></div>
         <div class="answer-zone" id="answerZone"><span class="placeholder">👆 点击下方单词添加到此处</span></div>
+        <div class="guide-card" id="guideCard" hidden></div>
         <div class="action-row">
             <button class="btn btn-primary" id="checkBtn">✅ 检查答案</button>
             <button class="btn btn-secondary" id="nextBtn">⏩ 下一题</button>
@@ -1332,6 +1397,7 @@
             <button class="unit-modal-close" id="unitModalClose">✕</button>
         </div>
         <div class="unit-modal-body" id="unitModalBody"></div>
+        <div class="unit-modal-tip" id="unitModalTip"></div>
         <div class="unit-modal-footer">
             <button class="unit-modal-btn secondary" id="unitSelectAll">全选</button>
             <button class="unit-modal-btn secondary" id="unitDeselectAll">取消全选</button>
@@ -1363,8 +1429,17 @@
             <div class="stage-content active" data-step="0">
                 <div class="demo-fly">
                     <div class="demo-zone"></div>
-                    <div class="demo-token t1">This</div>
-                    <div class="demo-token t2">is</div>
+                    <div class="demo-pool-label">卡片池</div>
+                    <div class="demo-slot s1">
+                        <div class="demo-slot-ghost demo-ghost-a">This</div>
+                        <div class="demo-token t1">This</div>
+                    </div>
+                    <div class="demo-slot s2">
+                        <div class="demo-slot-ghost demo-ghost-b">is</div>
+                        <div class="demo-token t2">is</div>
+                    </div>
+                    <div class="demo-caption c1">① 点池里的卡片 → 飞进答题区并留在那儿<br>（池里那张会变灰）</div>
+                    <div class="demo-caption c2">② 再点答题区里的卡片 → 才会飞回池里<br>（这才是"取出"）</div>
                 </div>
             </div>
             <div class="stage-content" data-step="1">
@@ -1388,24 +1463,35 @@
                     <div class="demo-pattern-hint">
                         <span class="demo-pattern-label">中文</span>
                         <span>我会扫地。</span>
+                        <span class="demo-pattern-btn">📐 看句型提示</span>
                     </div>
-                    <div class="demo-pattern-badge">📐 句型：I can {家务}.</div>
+                    <div class="demo-pattern-badge">📐 主语 + can + 动词短语（家务）</div>
                 </div>
             </div>
             <div class="stage-content" data-step="4">
-                <div class="demo-phrase">
-                    <div class="demo-phrase-row">
-                        <div class="demo-phrase-tag">sweep the floor</div>
+                <div class="demo-guide">
+                    <div class="demo-guide-title">🧭 对位卡片（连错 6 次才出现）</div>
+                    <div class="demo-guide-row">
+                        <div class="demo-guide-slot done"><span>1</span>sweep</div>
+                        <div class="demo-guide-slot now"><span>2</span>the</div>
+                        <div class="demo-guide-slot locked"><span>3</span>floor</div>
                     </div>
-                    <div class="demo-phrase-arrow">⇅</div>
-                    <div class="demo-phrase-split-row">
-                        <span class="demo-token">sweep</span>
-                        <span class="demo-token">the</span>
-                        <span class="demo-token">floor</span>
-                    </div>
+                    <div class="demo-guide-tip">点对了才走下一个，点错的位置点不动</div>
                 </div>
             </div>
             <div class="stage-content" data-step="5">
+                <div class="demo-phrase">
+                    <div class="demo-phrase-row">
+                        <div class="demo-phrase-tag">play sports</div>
+                    </div>
+                    <div class="demo-phrase-arrow">⇅</div>
+                    <div class="demo-phrase-split-row">
+                        <span class="demo-token">play</span>
+                        <span class="demo-token">sports</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stage-content" data-step="6">
                 <div class="demo-possessive">
                     <div class="demo-possessive-row">
                         <div class="demo-possessive-tag">What's</div>
@@ -1420,7 +1506,7 @@
                     </div>
                 </div>
             </div>
-            <div class="stage-content" data-step="6">
+            <div class="stage-content" data-step="7">
                 <div class="demo-history">
                     <div class="demo-history-item">✅ 我会扫地。</div>
                     <div class="demo-history-item highlight">❌ 这是我的姐姐。</div>
@@ -1443,6 +1529,7 @@
                 <span class="dot"></span>
                 <span class="dot"></span>
                 <span class="dot"></span>
+                <span class="dot"></span>
             </div>
             <button class="btn btn-next" id="tutorialNext">下一步 →</button>
         </div>
@@ -1453,7 +1540,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
-    //  0. 词汇池 —— 严格按 PEP 教材单元划分
+    //  0. 词汇池
     // ================================================================
     const NAMES = [
         { en: "Mike Black", zh: "迈克·布莱克" }, { en: "Wu Binbin", zh: "吴斌斌" },
@@ -1524,11 +1611,12 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "police officer", zh: "警察", phrase: true }
     ];
 
-    const CHORES_S4U1 = [
+    const CHORES = [
         { en: "cook", zh: "做饭" },
         { en: "clean the room", zh: "打扫房间", phrase: true },
         { en: "sweep the floor", zh: "扫地", phrase: true },
-        { en: "make a gift", zh: "做礼物", phrase: true }
+        { en: "wash the clothes", zh: "洗衣服", phrase: true },
+        { en: "make the bed", zh: "整理床铺", phrase: true }
     ];
 
     const LOOK_AFTER_TARGETS = [
@@ -1538,175 +1626,60 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "my grandpa", zh: "我的爷爷", phrase: true }
     ];
 
-    const PERSONS_S4U2 = [
-        { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' }
-    ];
-    const PERSON_ADJ_1_S4U2 = [
-        { en: "tall", zh: "高" }, { en: "short", zh: "矮" }
-    ];
-    const PERSON_ADJ_2_S4U2 = [
-        { en: "strong", zh: "壮" }, { en: "kind", zh: "和蔼" },
-        { en: "funny", zh: "有趣" }, { en: "quiet", zh: "安静" }
-    ];
-    const SUBJECTS_S4U2 = [
-        { en: "English", zh: "英语" }, { en: "Chinese", zh: "语文" },
-        { en: "maths", zh: "数学" }
-    ];
-
-    const PLACES_S4U3 = [
-        { en: "playground", zh: "操场" }, { en: "park", zh: "公园" },
-        { en: "gym", zh: "体育馆" }, { en: "library", zh: "图书馆" },
-        { en: "garden", zh: "花园" }, { en: "museum", zh: "博物馆" },
-        { en: "hospital", zh: "医院" }, { en: "shop", zh: "商店" }
-    ];
-
-    const PERSONS_S5U1 = [
+    const PERSONS = [
         { en: "He", zh: "他", num: 's' }, { en: "She", zh: "她", num: 's' },
         { en: "My friend", zh: "我的朋友", num: 's', phrase: true },
         { en: "My best friend", zh: "我最好的朋友", num: 's', phrase: true }
     ];
-    const PERSON_ADJ_1_S5U1 = [
+    const PERSON_ADJ_1 = [
         { en: "tall", zh: "高" }, { en: "short", zh: "矮" },
         { en: "young", zh: "年轻" }, { en: "old", zh: "老" }
     ];
-    const PERSON_ADJ_2_S5U1 = [
+    const PERSON_ADJ_2 = [
         { en: "strong", zh: "壮" }, { en: "clever", zh: "聪明" },
         { en: "hard-working", zh: "勤奋", phrase: true },
-        { en: "lovely", zh: "可爱" }
+        { en: "lovely", zh: "可爱" }, { en: "kind", zh: "和蔼" },
+        { en: "funny", zh: "有趣" }
     ];
-    const SPORTS_S5U1 = [
+    const SPORTS = [
         { en: "football", zh: "足球" }, { en: "basketball", zh: "篮球" },
         { en: "ping-pong", zh: "乒乓球" }, { en: "badminton", zh: "羽毛球" }
     ];
-    const ABILITIES_S5U1 = [
+    const ABILITIES = [
         { en: "make a robot", zh: "做机器人", phrase: true },
         { en: "jump rope", zh: "跳绳", phrase: true },
         { en: "play the piano", zh: "弹钢琴", phrase: true },
-        { en: "play chess", zh: "下棋", phrase: true }
+        { en: "play chess", zh: "下棋", phrase: true },
+        { en: "speak English", zh: "说英语", phrase: true }
     ];
-
-    const EMOTIONS_S5U2 = [
-        { en: "sad", zh: "难过" }, { en: "worried", zh: "担心" },
-        { en: "angry", zh: "生气" }, { en: "excited", zh: "兴奋" }
-    ];
-    const TOPICS_S5U2 = [
-        { en: "school project", zh: "学校项目", phrase: true },
-        { en: "homework", zh: "作业" },
-        { en: "class", zh: "班级" }
-    ];
-
     const WEEKDAYS = [
         { en: "Mondays", zh: "周一" }, { en: "Tuesdays", zh: "周二" },
         { en: "Wednesdays", zh: "周三" }, { en: "Thursdays", zh: "周四" },
         { en: "Fridays", zh: "周五" }, { en: "Saturdays", zh: "周六" },
         { en: "Sundays", zh: "周日" }
     ];
-    const SUBJECTS_S5U3 = [
-        { en: "Chinese and maths", zh: "语文和数学", phrase: true },
-        { en: "maths and English", zh: "数学和英语", phrase: true },
-        { en: "music and PE", zh: "音乐和体育", phrase: true },
-        { en: "art and music", zh: "美术和音乐", phrase: true }
+    const SUBJECTS = [
+        { en: "Chinese", zh: "语文" }, { en: "maths", zh: "数学" },
+        { en: "English", zh: "英语" }, { en: "music", zh: "音乐" },
+        { en: "PE", zh: "体育" }, { en: "art", zh: "美术" }
     ];
-    const SPORTS_ACTIVITIES_S5U3 = [
+    const SPORTS_ACTIVITIES = [
         { en: "play football", zh: "踢足球", phrase: true },
         { en: "play basketball", zh: "打篮球", phrase: true },
         { en: "play ping-pong", zh: "打乒乓球", phrase: true },
         { en: "play sports", zh: "做运动", phrase: true }
     ];
-
-    const HEALTHY_FOOD_S5U4 = [
-        { en: "healthy food", zh: "健康食品", phrase: true },
-        { en: "vegetables", zh: "蔬菜" },
-        { en: "fruit", zh: "水果" }
-    ];
-    const BAD_HABITS_S5U4 = [
-        { en: "play on a phone", zh: "玩手机", phrase: true },
-        { en: "stay up late", zh: "熬夜", phrase: true },
-        { en: "eat too much", zh: "吃太多", phrase: true }
-    ];
-
-    const FOODS_S5U5 = [
+    const FOODS = [
         { en: "beef and rice", zh: "牛肉和米饭", phrase: true },
-        { en: "chicken soup", zh: "鸡汤", phrase: true },
+        { en: "some chicken soup", zh: "一些鸡汤", phrase: true },
         { en: "a hamburger", zh: "一个汉堡", phrase: true },
-        { en: "dumplings", zh: "饺子" },
-        { en: "ice cream", zh: "冰淇淋", phrase: true },
-        { en: "tea", zh: "茶" }
+        { en: "some dumplings", zh: "一些饺子", phrase: true },
+        { en: "some ice cream", zh: "一些冰淇淋", phrase: true }
     ];
-
-    const NATURE_THINGS_S5U6 = [
+    const NATURE_THINGS = [
         { en: "rivers", zh: "河流" }, { en: "mountains", zh: "山" },
         { en: "trees", zh: "树" }, { en: "flowers", zh: "花" },
         { en: "lakes", zh: "湖泊" }, { en: "waterfalls", zh: "瀑布" }
-    ];
-    const NATURE_PLURALS_S5U6 = [
-        { en: "famous mountains", zh: "著名的山", phrase: true },
-        { en: "clean rivers", zh: "清澈的河流", phrase: true },
-        { en: "tall trees", zh: "高大的树", phrase: true }
-    ];
-
-    const WEEKEND_EVAL_S6U1 = [
-        { en: "great", zh: "很棒" }, { en: "good", zh: "很好" },
-        { en: "OK", zh: "还行" }, { en: "not too bad", zh: "还不错", phrase: true }
-    ];
-    const WEEKEND_ACTIONS_S6U1 = [
-        { en: "went to the park", zh: "去了公园", phrase: true },
-        { en: "watched TV", zh: "看了电视", phrase: true },
-        { en: "cleaned my room", zh: "打扫了房间", phrase: true },
-        { en: "visited my grandparents", zh: "看望了祖父母", phrase: true }
-    ];
-
-    const EVENTS_S6U2 = [
-        { en: "race", zh: "比赛" }, { en: "marathon", zh: "马拉松" },
-        { en: "book fair", zh: "书展", phrase: true }
-    ];
-    const ACTIONS_S6U2 = [
-        { en: "ran in the race", zh: "参加了跑步比赛", phrase: true },
-        { en: "cheered for the runners", zh: "为选手加油", phrase: true },
-        { en: "counted down", zh: "倒计时", phrase: true }
-    ];
-
-    const ILLNESSES_S6U3 = [
-        { en: "cold", zh: "感冒" }, { en: "fever", zh: "发烧" },
-        { en: "cough", zh: "咳嗽" }, { en: "headache", zh: "头痛" }
-    ];
-    const ADVICE_S6U3 = [
-        { en: "stay in bed", zh: "待在床上", phrase: true },
-        { en: "drink more water", zh: "多喝水", phrase: true },
-        { en: "see a doctor", zh: "看医生", phrase: true }
-    ];
-
-    const PRICES_S6U4 = [
-        { en: "ten", zh: "十" }, { en: "twenty", zh: "二十" },
-        { en: "thirty", zh: "三十" }, { en: "fifty", zh: "五十" }
-    ];
-    const ITEMS_S6U4 = [
-        { en: "schoolbag", zh: "书包" }, { en: "notebook", zh: "笔记本" },
-        { en: "pencil", zh: "铅笔" }, { en: "ruler", zh: "尺子" }
-    ];
-
-    const CELESTIALS_S6U5 = [
-        { en: "moon", zh: "月亮" }, { en: "sun", zh: "太阳" },
-        { en: "stars", zh: "星星" }, { en: "cloud", zh: "云" },
-        { en: "earth", zh: "地球" }, { en: "sky", zh: "天空" }
-    ];
-    const CELESTIAL_ADJ_S6U5 = [
-        { en: "bright", zh: "明亮的" }, { en: "round", zh: "圆的" },
-        { en: "blue", zh: "蓝色的" }, { en: "far", zh: "遥远的" }
-    ];
-
-    const RESOURCES_S6U6 = [
-        { en: "water", zh: "水" }, { en: "electricity", zh: "电" },
-        { en: "energy", zh: "能源" }, { en: "paper", zh: "纸" }
-    ];
-    const APPLIANCES_S6U6 = [
-        { en: "light", zh: "灯" }, { en: "TV", zh: "电视" },
-        { en: "air conditioner", zh: "空调", phrase: true }
-    ];
-    const ECO_ACTIONS_S6U6 = [
-        { en: "reuse bottles", zh: "重复使用瓶子", phrase: true },
-        { en: "plant trees", zh: "种树", phrase: true },
-        { en: "save water", zh: "节约用水", phrase: true }
     ];
 
     const CITIES = [
@@ -1729,6 +1702,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const SEASONS = [
         { en: "spring", zh: "春天" }, { en: "summer", zh: "夏天" },
         { en: "autumn", zh: "秋天" }, { en: "winter", zh: "冬天" }
+    ];
+    const CELESTIALS = [
+        { en: "moon", zh: "月亮" }, { en: "sun", zh: "太阳" },
+        { en: "stars", zh: "星星" }, { en: "cloud", zh: "云" },
+        { en: "earth", zh: "地球" }, { en: "sky", zh: "天空" }
+    ];
+    const CELESTIAL_ADJ = [
+        { en: "bright", zh: "明亮的" }, { en: "round", zh: "圆的" },
+        { en: "blue", zh: "蓝色的" }, { en: "far", zh: "遥远的" }
+    ];
+    const RESOURCES = [
+        { en: "water", zh: "水" }, { en: "electricity", zh: "电" },
+        { en: "energy", zh: "能源" }, { en: "paper", zh: "纸" }
+    ];
+    const APPLIANCES = [
+        { en: "light", zh: "灯" }, { en: "TV", zh: "电视" },
+        { en: "air conditioner", zh: "空调", phrase: true }
+    ];
+    const ECO_ACTIONS = [
+        { en: "reuse bottles", zh: "重复使用瓶子", phrase: true },
+        { en: "plant trees", zh: "种树", phrase: true },
+        { en: "save water", zh: "节约用水", phrase: true }
     ];
 
     // ================================================================
@@ -1820,9 +1815,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 { en: "What's your mother's job?", zh: "你妈妈的工作是什么？", slots: {} },
                 { en: "She's a {职业}.", zh: "她是一位{职业}。", slots: { "职业": JOBS_S4U1 } },
                 { en: "He's a {职业}.", zh: "他是一位{职业}。", slots: { "职业": JOBS_S4U1 } },
-                { en: "I can {家务}.", zh: "我会{家务}。", slots: { "家务": CHORES_S4U1 } },
+                { en: "I can {家务}.", zh: "我会{家务}。", slots: { "家务": CHORES } },
                 { en: "I look after {对象}.", zh: "我照顾{对象}。", slots: { "对象": LOOK_AFTER_TARGETS } },
-                { en: "We {家务} together.", zh: "我们一起{家务}。", slots: { "家务": CHORES_S4U1 } },
+                { en: "We {家务} together.", zh: "我们一起{家务}。", slots: { "家务": CHORES } },
                 { en: "What can we do for them?", zh: "我们能为他们做点什么？", slots: {} },
                 { en: "We can do some chores.", zh: "我们可以做一些家务。", slots: {} }
             ]
@@ -1833,24 +1828,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 { en: "What's your friend's name?", zh: "你朋友的名字是什么？", slots: {} },
                 { en: "His name is {名字}.", zh: "他的名字是{名字}。", slots: { "名字": NAMES } },
                 { en: "Her name is {名字}.", zh: "她的名字是{名字}。", slots: { "名字": NAMES } },
-                { en: "{某人} {be} {形容词1} and {形容词2}.", zh: "{某人}又{形容词1}又{形容词2}。",
-                  slots: { "某人": PERSONS_S4U2, "形容词1": PERSON_ADJ_1_S4U2, "形容词2": PERSON_ADJ_2_S4U2 } },
-                { en: "{某人} {be} also {形容词}.", zh: "{某人}也很{形容词}。",
-                  slots: { "某人": PERSONS_S4U2, "形容词": PERSON_ADJ_2_S4U2 } },
+                { en: "He's {形容词1} and {形容词2}.", zh: "他又{形容词1}又{形容词2}。",
+                  slots: { "形容词1": PERSON_ADJ_1, "形容词2": PERSON_ADJ_2 } },
+                { en: "He's also {形容词}.", zh: "他也很{形容词}。", slots: { "形容词": PERSON_ADJ_2 } },
                 { en: "He has nice short hair too.", zh: "他还有一头好看的短发。", slots: {} },
-                { en: "He often helps me with {科目}.", zh: "他经常帮我{科目}。", slots: { "科目": SUBJECTS_S4U2 } },
-                { en: "Who's your best friend?", zh: "谁是你最好的朋友？", slots: {} },
-                { en: "We play games together.", zh: "我们一起玩游戏。", slots: {} },
-                { en: "We play football together.", zh: "我们一起踢足球。", slots: {} }
+                { en: "He often helps me with {科目}.", zh: "他经常帮我{科目}。", slots: { "科目": SUBJECTS } },
+                { en: "Who's your best friend?", zh: "谁是你最好的朋友？", slots: {} }
             ]
         },
         "四上U3": {
             desc: "地点与活动",
             templates: [
-                { en: "There is a {地点}.", zh: "有一个{地点}。", slots: { "地点": PLACES_S4U3 } },
+                { en: "There is a {地点}.", zh: "有一个{地点}。",
+                  slots: { "地点": [
+                      { en: "playground", zh: "操场" }, { en: "park", zh: "公园" },
+                      { en: "gym", zh: "体育馆" }, { en: "library", zh: "图书馆" },
+                      { en: "garden", zh: "花园" }] } },
                 { en: "There are many people.", zh: "有很多人。", slots: {} },
                 { en: "My favourite place is the {地点}.", zh: "我最喜欢的地方是{地点}。",
-                  slots: { "地点": PLACES_S4U3 } },
+                  slots: { "地点": [
+                      { en: "museum", zh: "博物馆" }, { en: "park", zh: "公园" },
+                      { en: "library", zh: "图书馆" }, { en: "gym", zh: "体育馆" }] } },
                 { en: "Let's do some sports.", zh: "让我们做运动吧。", slots: {} },
                 { en: "Great!", zh: "太好了！", slots: {} }
             ]
@@ -1894,20 +1892,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 { en: "What's he like?", zh: "他是什么样的人？", slots: {} },
                 { en: "What's she like?", zh: "她是什么样的人？", slots: {} },
                 { en: "{某人} {be} {形容词1} and {形容词2}.", zh: "{某人}又{形容词1}又{形容词2}。",
-                  slots: { "某人": PERSONS_S5U1, "形容词1": PERSON_ADJ_1_S5U1, "形容词2": PERSON_ADJ_2_S5U1 } },
+                  slots: { "某人": PERSONS, "形容词1": PERSON_ADJ_1, "形容词2": PERSON_ADJ_2 } },
                 { en: "Is {谁} good at {运动}?", zh: "{谁}擅长{运动}吗？",
-                  slots: { "谁": [{ en: "he", zh: "他" }, { en: "she", zh: "她" }], "运动": SPORTS_S5U1 } },
+                  slots: { "谁": [{ en: "he", zh: "他" }, { en: "she", zh: "她" }], "运动": SPORTS } },
                 { en: "{某人} {be} also {形容词}.", zh: "{某人}也很{形容词}。",
-                  slots: { "某人": PERSONS_S5U1, "形容词": PERSON_ADJ_2_S5U1 } },
-                { en: "I can {动作}.", zh: "我会{动作}。", slots: { "动作": ABILITIES_S5U1 } }
+                  slots: { "某人": PERSONS, "形容词": PERSON_ADJ_2 } },
+                { en: "I can {动作}.", zh: "我会{动作}。", slots: { "动作": ABILITIES } }
             ]
         },
         "五上U2": {
             desc: "情绪与项目",
             templates: [
                 { en: "What's the matter?", zh: "怎么了？", slots: {} },
-                { en: "I look {情绪}.", zh: "我看起来{情绪}。", slots: { "情绪": EMOTIONS_S5U2 } },
-                { en: "It's about our {东西}.", zh: "它是关于我们的{东西}。", slots: { "东西": TOPICS_S5U2 } },
+                { en: "I look {情绪}.", zh: "我看起来{情绪}。",
+                  slots: { "情绪": [
+                      { en: "sad", zh: "难过" }, { en: "worried", zh: "担心" },
+                      { en: "angry", zh: "生气" }, { en: "excited", zh: "兴奋" }] } },
+                { en: "It's about our {东西}.", zh: "它是关于我们的{东西}。",
+                  slots: { "东西": [
+                      { en: "school project", zh: "学校项目", phrase: true },
+                      { en: "homework", zh: "作业" },
+                      { en: "class", zh: "班级" }] } },
                 { en: "Why not do both?", zh: "为什么不两个都做呢？", slots: {} }
             ]
         },
@@ -1916,38 +1921,59 @@ document.addEventListener('DOMContentLoaded', function() {
             templates: [
                 { en: "What's your favourite day at school?", zh: "你最喜欢上学的哪一天？", slots: {} },
                 { en: "What do you have on {星期}?", zh: "你{星期}有什么课？", slots: { "星期": WEEKDAYS } },
-                { en: "I have {课程}.", zh: "我有{课程}课。", slots: { "课程": SUBJECTS_S5U3 } },
-                { en: "I often {活动}.", zh: "我经常{活动}。", slots: { "活动": SPORTS_ACTIVITIES_S5U3 } }
+                { en: "I have {课程}.", zh: "我有{课程}课。",
+                  slots: { "课程": [
+                      { en: "Chinese and maths", zh: "语文和数学", phrase: true },
+                      { en: "maths and English", zh: "数学和英语", phrase: true },
+                      { en: "music and PE", zh: "音乐和体育", phrase: true },
+                      { en: "art and music", zh: "美术和音乐", phrase: true }] } },
+                { en: "I often {活动}.", zh: "我经常{活动}。", slots: { "活动": SPORTS_ACTIVITIES } }
             ]
         },
         "五上U4": {
             desc: "健康与习惯",
             templates: [
                 { en: "How can we all stay healthy?", zh: "我们怎样才能保持健康？", slots: {} },
-                { en: "We should eat {食物}.", zh: "我们应该吃{食物}。", slots: { "食物": HEALTHY_FOOD_S5U4 } },
-                { en: "You shouldn't {动作}.", zh: "你不应该{动作}。", slots: { "动作": BAD_HABITS_S5U4 } }
+                { en: "We should eat {食物}.", zh: "我们应该吃{食物}。",
+                  slots: { "食物": [
+                      { en: "healthy food", zh: "健康食品", phrase: true },
+                      { en: "vegetables", zh: "蔬菜" },
+                      { en: "fruit", zh: "水果" }] } },
+                { en: "You shouldn't {动作}.", zh: "你不应该{动作}。",
+                  slots: { "动作": [
+                      { en: "play on a phone", zh: "玩手机", phrase: true },
+                      { en: "stay up late", zh: "熬夜", phrase: true },
+                      { en: "eat too much", zh: "吃太多", phrase: true }] } }
             ]
         },
         "五上U5": {
             desc: "食物与饮料",
             templates: [
                 { en: "What would you like to eat?", zh: "你想吃什么？", slots: {} },
-                { en: "I'd like {食物}.", zh: "我想要{食物}。", slots: { "食物": FOODS_S5U5 } },
-                { en: "Would you like some {食物} too?", zh: "你还想要一些{食物}吗？", slots: { "食物": FOODS_S5U5 } }
+                { en: "I'd like {食物}.", zh: "我想要{食物}。", slots: { "食物": FOODS } },
+                { en: "Would you like some {食物} too?", zh: "你还想要一些{食物}吗？",
+                  slots: { "食物": [
+                      { en: "chicken soup", zh: "鸡汤", phrase: true },
+                      { en: "dumplings", zh: "饺子" },
+                      { en: "hamburgers", zh: "汉堡" },
+                      { en: "tea", zh: "茶" }] } }
             ]
         },
         "五上U6": {
             desc: "自然公园",
             templates: [
                 { en: "There are many {自然景物} in the nature park.", zh: "自然公园里有很多{自然景物}。",
-                  slots: { "自然景物": NATURE_THINGS_S5U6 } },
+                  slots: { "自然景物": NATURE_THINGS } },
                 { en: "Is there a {景物} in the forest?", zh: "森林里有一个{景物}吗？",
                   slots: { "景物": [
                       { en: "waterfall", zh: "瀑布" }, { en: "lake", zh: "湖" },
                       { en: "river", zh: "河流" }, { en: "mountain", zh: "山" }] } },
                 { en: "Yes, there is.", zh: "是的，有。", slots: {} },
                 { en: "Are there any {景物复数} in the nature park?", zh: "自然公园里有{景物复数}吗？",
-                  slots: { "景物复数": NATURE_PLURALS_S5U6 } }
+                  slots: { "景物复数": [
+                      { en: "famous mountains", zh: "著名的山", phrase: true },
+                      { en: "clean rivers", zh: "清澈的河流", phrase: true },
+                      { en: "tall trees", zh: "高大的树", phrase: true }] } }
             ]
         },
 
@@ -1957,99 +1983,135 @@ document.addEventListener('DOMContentLoaded', function() {
                 { en: "What did you do last weekend?", zh: "你上周末做了什么？", slots: {} },
                 { en: "Where did you go last weekend?", zh: "你上周末去了哪里？", slots: {} },
                 { en: "How was your weekend?", zh: "你的周末怎么样？", slots: {} },
-                { en: "It was {评价}.", zh: "它{评价}。", slots: { "评价": WEEKEND_EVAL_S6U1 } },
-                { en: "I {过去式} last weekend.", zh: "我上周末{过去式}。", slots: { "过去式": WEEKEND_ACTIONS_S6U1 } }
+                { en: "It was {评价}.", zh: "它{评价}。",
+                  slots: { "评价": [
+                      { en: "great", zh: "很棒" }, { en: "good", zh: "很好" },
+                      { en: "OK", zh: "还行" }, { en: "not too bad", zh: "还不错", phrase: true }] } },
+                { en: "I {过去式} last weekend.", zh: "我上周末{过去式}。",
+                  slots: { "过去式": [
+                      { en: "went to the park", zh: "去了公园", phrase: true },
+                      { en: "watched TV", zh: "看了电视", phrase: true },
+                      { en: "cleaned my room", zh: "打扫了房间", phrase: true },
+                      { en: "visited my grandparents", zh: "看望了祖父母", phrase: true }] } }
             ]
         },
         "六上U2": {
             desc: "运动会与活动",
             templates: [
-                { en: "There was a {活动} yesterday.", zh: "昨天有一场{活动}。", slots: { "活动": EVENTS_S6U2 } },
-                { en: "We {动作} yesterday.", zh: "我们昨天{动作}。", slots: { "动作": ACTIONS_S6U2 } }
+                { en: "There was a {活动} yesterday.", zh: "昨天有一场{活动}。",
+                  slots: { "活动": [
+                      { en: "race", zh: "比赛" },
+                      { en: "marathon", zh: "马拉松" },
+                      { en: "book fair", zh: "书展", phrase: true }] } },
+                { en: "We {动作} yesterday.", zh: "我们昨天{动作}。",
+                  slots: { "动作": [
+                      { en: "ran in the race", zh: "参加了跑步比赛", phrase: true },
+                      { en: "cheered for the runners", zh: "为选手加油", phrase: true },
+                      { en: "counted down", zh: "倒计时", phrase: true }] } }
             ]
         },
         "六上U3": {
             desc: "生病与身体",
             templates: [
                 { en: "What's the matter?", zh: "怎么了？", slots: {} },
-                { en: "I have a {疾病}.", zh: "我{疾病}。", slots: { "疾病": ILLNESSES_S6U3 } },
-                { en: "You should {建议}.", zh: "你应该{建议}。", slots: { "建议": ADVICE_S6U3 } }
+                { en: "I have a {疾病}.", zh: "我{疾病}。",
+                  slots: { "疾病": [
+                      { en: "cold", zh: "感冒" }, { en: "fever", zh: "发烧" },
+                      { en: "cough", zh: "咳嗽" }, { en: "headache", zh: "头痛" }] } },
+                { en: "You should {建议}.", zh: "你应该{建议}。",
+                  slots: { "建议": [
+                      { en: "stay in bed", zh: "待在床上", phrase: true },
+                      { en: "drink more water", zh: "多喝水", phrase: true },
+                      { en: "see a doctor", zh: "看医生", phrase: true }] } }
             ]
         },
         "六上U4": {
             desc: "金钱与购物",
             templates: [
                 { en: "How much is it?", zh: "它多少钱？", slots: {} },
-                { en: "It's {价格} yuan.", zh: "它是{价格}元。", slots: { "价格": PRICES_S6U4 } },
-                { en: "I want to buy a {物品}.", zh: "我想买一个{物品}。", slots: { "物品": ITEMS_S6U4 } }
+                { en: "It's {价格} yuan.", zh: "它是{价格}元。",
+                  slots: { "价格": [
+                      { en: "ten", zh: "十" }, { en: "twenty", zh: "二十" },
+                      { en: "thirty", zh: "三十" }, { en: "fifty", zh: "五十" }] } },
+                { en: "I want to buy a {物品}.", zh: "我想买一个{物品}。",
+                  slots: { "物品": [
+                      { en: "schoolbag", zh: "书包" }, { en: "notebook", zh: "笔记本" },
+                      { en: "pencil", zh: "铅笔" }, { en: "ruler", zh: "尺子" }] } }
             ]
         },
         "六上U5": {
             desc: "太空与天文",
             templates: [
                 { en: "What can you see in the sky?", zh: "你在天空中能看到什么？", slots: {} },
-                { en: "I can see the {天体}.", zh: "我能看到{天体}。", slots: { "天体": CELESTIALS_S6U5 } },
+                { en: "I can see the {天体}.", zh: "我能看到{天体}。", slots: { "天体": CELESTIALS } },
                 { en: "The {天体} is {形容词}.", zh: "{天体}是{形容词}的。",
-                  slots: { "天体": CELESTIALS_S6U5, "形容词": CELESTIAL_ADJ_S6U5 } }
+                  slots: { "天体": CELESTIALS, "形容词": CELESTIAL_ADJ } }
             ]
         },
         "六上U6": {
             desc: "能源与环保",
             templates: [
-                { en: "We should save {资源}.", zh: "我们应该节约{资源}。", slots: { "资源": RESOURCES_S6U6 } },
-                { en: "Please turn off the {电器}.", zh: "请关掉{电器}。", slots: { "电器": APPLIANCES_S6U6 } },
-                { en: "We can {环保动作}.", zh: "我们可以{环保动作}。", slots: { "环保动作": ECO_ACTIONS_S6U6 } }
+                { en: "We should save {资源}.", zh: "我们应该节约{资源}。", slots: { "资源": RESOURCES } },
+                { en: "Please turn off the {电器}.", zh: "请关掉{电器}。", slots: { "电器": APPLIANCES } },
+                { en: "We can {环保动作}.", zh: "我们可以{环保动作}。", slots: { "环保动作": ECO_ACTIONS } }
             ]
         }
     };
 
+    // 已知短语
     const KNOWN_PHRASES = [
         "visited my grandparents", "cheered for the runners", "make a snowman",
         "clean the room", "clean my room", "sweep the floor", "wash the clothes",
         "make the bed", "water the flowers", "water the grass", "plant new trees",
-        "make a gift", "make a robot", "play the piano", "play ping-pong",
-        "play badminton", "play basketball", "play football", "play sports",
-        "play chess", "play games", "read books", "read a book",
-        "went to the park", "watched TV", "went to school", "go to school",
-        "go to the zoo", "go to bed", "go swimming", "go shopping",
-        "go for a walk", "go on a picnic", "go hiking", "go cycling",
-        "go home", "get up", "eat breakfast", "eat dinner",
-        "have breakfast", "have lunch", "have dinner",
-        "jump rope", "ride a bike", "take pictures", "take a picture",
-        "ice-skate", "look after", "take care of", "the Great Wall",
-        "the Red Army", "Eiffel Tower", "Terracotta Warriors",
-        "New Zealand", "New York", "count down", "counted down",
-        "book fair", "run out", "look up", "come from",
-        "science museum", "post office", "pet shop", "air conditioner",
-        "watch TV", "school project", "healthy food", "play on a phone",
-        "stay up late", "eat too much", "chicken soup", "not too bad",
-        "Chinese and maths", "maths and English", "music and PE",
-        "art and music", "famous mountains", "clean rivers", "tall trees",
-        "beef and rice", "a hamburger", "stay in bed", "drink more water",
-        "see a doctor", "reuse bottles", "plant trees", "save water",
+        "make a robot", "play the piano", "play ping-pong", "play badminton",
+        "play basketball", "play football", "play sports", "play chess", "play games",
+        "read books", "read a book", "went to the park", "watched TV",
+        "went to school", "go to school", "go to the zoo", "go to bed",
+        "go swimming", "go shopping", "go for a walk", "go on a picnic",
+        "go hiking", "go cycling", "go home", "get up",
+        "eat breakfast", "eat dinner", "have breakfast", "have lunch", "have dinner",
+        "jump rope", "speak English", "ride a bike", "take pictures", "take a picture",
+        "ice-skate", "look after", "take care of", "the Great Wall", "the Red Army",
+        "Eiffel Tower", "Terracotta Warriors", "New Zealand", "New York",
+        "count down", "counted down", "book fair", "run out", "look up", "come from",
+        "science museum", "post office", "pet shop", "air conditioner", "watch TV",
+        "school project", "healthy food", "play on a phone", "stay up late",
+        "eat too much", "chicken soup", "not too bad",
+        "Chinese and maths", "maths and English", "music and PE", "art and music",
+        "famous mountains", "clean rivers", "tall trees",
+        "beef and rice", "some chicken soup", "a hamburger", "some dumplings",
+        "some ice cream", "stay in bed", "drink more water", "see a doctor",
+        "reuse bottles", "plant trees", "save water",
         "baby sister", "red panda", "my friend", "my best friend",
-        "school bus driver", "ran in the race", "office worker",
-        "factory worker", "delivery worker", "police officer",
-        "T-shirt", "hard-working"
+        "school bus driver", "ran in the race", "office worker", "factory worker",
+        "delivery worker", "police officer", "T-shirt", "hard-working"
     ];
 
+    // ★ 专有名词集合（卡片池和答题区保持原始首字母大写）
     const PROPER_NOUNS = new Set([
+        // 人名
         'mike', 'black', 'wu', 'binbin', 'sarah', 'chen', 'jie', 'john', 'amy',
         'zhang', 'peng', 'white', 'wang', 'li',
+        // 城市/国家
         'sydney', 'beijing', 'london', 'york', 'shanghai', 'tokyo',
         'china', 'uk', 'usa', 'canada', 'australia', 'hainan',
+        // 星期
         'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
         'mondays', 'tuesdays', 'wednesdays', 'thursdays', 'fridays', 'saturdays', 'sundays',
+        // 月份
         'january', 'february', 'march', 'april', 'may', 'june',
         'july', 'august', 'september', 'october', 'november', 'december',
+        // 科目
         'chinese', 'english', 'maths', 'pe', 'art', 'music',
+        // 其他
         'i',
     ]);
 
+    // 干扰词
     const OLD_WORDS = [
         "name", "nice", "ear", "hand", "eye", "mouth", "arm", "can", "share", "smile",
         "listen", "help", "say", "friend", "good",
-        "mum", "dad", "grandma", "grandpa", "grandfather", "grandmother",
+        "mum", "dad", "grandma", "grandpa", "grandfather", "grandmother", "mother", "father",
         "me", "sister", "family", "big", "cousin", "brother", "baby", "uncle", "aunt", "small",
         "like", "dog", "pet", "cat", "fish", "bird", "rabbit", "panda", "monkey", "go", "zoo",
         "tiger", "elephant", "fox", "lion", "Miss", "cute", "animal", "giraffe", "tall", "fast",
@@ -2063,7 +2125,8 @@ document.addEventListener('DOMContentLoaded', function() {
         "robot", "jump", "rope", "piano", "chess", "front", "easy", "star", "wonderful",
         "sad", "worried", "angry", "excited", "matter", "project", "centre", "parent",
         "agree", "finish", "both", "wrong", "afraid", "laugh", "move", "yours",
-        "because", "usually", "weekend", "sometimes", "evening", "answer",
+        "Wednesday", "Tuesday", "Friday", "Monday", "Thursday", "Saturday", "Sunday",
+        "because", "usually", "weekend", "sometimes", "evening", "answer", "ping-pong",
         "night", "visit", "grandparent", "lesson", "subject",
         "stay", "should", "flu", "else", "exercise", "enough", "habit", "house", "show",
         "phone", "rest", "check", "less", "brush", "tooth", "teeth", "twice", "hour", "free",
@@ -2113,8 +2176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         shuffle() { this.play(440, 0.06, 0.1); setTimeout(() => this.play(554, 0.06, 0.1), 70); },
         remove() { this.play(420, 0.05, 0.08); setTimeout(()=>this.play(300,0.05,0.06),50); },
         start() { this.play(660, 0.06, 0.1); setTimeout(() => this.play(880, 0.06, 0.1), 70); },
-        drop() { this.play(500, 0.05, 0.09); setTimeout(()=>this.play(700,0.06,0.07),40); },
-        toggle() { this.play(720, 0.05, 0.08); setTimeout(()=>this.play(960,0.04,0.07), 40); }
+        drop() { this.play(500, 0.05, 0.09); setTimeout(()=>this.play(700,0.06,0.07),40); }
     };
     Sound.init();
 
@@ -2140,9 +2202,61 @@ document.addEventListener('DOMContentLoaded', function() {
         scoredSentences: new Set(),
         failedSentences: new Set(),
         retryMode: false,
+        attempts: 0,
+        guided: false,
+        guidedIndex: 0,
+        patternHint: '',
+        patternFull: '',
     };
 
+    // ================================================================
+    //  3.5 本地存储（键名带工具前缀；读写都包 try/catch）
+    // ================================================================
+    const LS_UNITS = 'patternBuilder.selectedUnits';
+    const LS_GLASS = 'patternBuilder.glassEnabled';
+    const LS_TUTORIAL = 'patternBuilder.tutorialShown';
+    const LS_HISTORY = 'patternBuilder.history';
+
+    function lsGet(key) {
+        try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+    function lsSet(key, value) {
+        try { localStorage.setItem(key, value); } catch (e) { /* 隐私模式 / file:// 个别环境会抛 */ }
+    }
+    // 旧键迁移：s356 系列没有工具前缀，会和同域其它工具互踩
+    (function migrateLegacyKeys() {
+        try {
+            const legacyGlass = localStorage.getItem('highEnd_s356');
+            if (legacyGlass !== null && localStorage.getItem(LS_GLASS) === null) {
+                localStorage.setItem(LS_GLASS, legacyGlass);
+                localStorage.removeItem('highEnd_s356');
+            }
+            const legacyTut = localStorage.getItem('tutorialShown_s356_v4');
+            if (legacyTut !== null) {
+                // 教学动画这轮修过（原来的演示和真实交互不一致），
+                // 所以旧键只清掉、不迁移 —— 让学生再看一次改正后的教学
+                localStorage.removeItem('tutorialShown_s356_v4');
+            }
+        } catch (e) { /* 迁移失败无所谓，从头来一遍 */ }
+    })();
+
+    // 练习历史持久化：原来只存在内存里，刷新一下「最近练习」就空了
+    function loadHistoryFromStorage() {
+        try {
+            const raw = lsGet(LS_HISTORY);
+            if (!raw) return;
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+                state.history = arr.filter(it => it && typeof it.en === 'string' && typeof it.zh === 'string');
+            }
+        } catch (e) { /* 坏数据当作没有 */ }
+    }
+    function saveHistory() {
+        lsSet(LS_HISTORY, JSON.stringify(state.history.slice(-60)));
+    }
+
     let pendingUnits = new Set();
+    const GUIDE_AFTER = 6;
     let nextItemId = 0;
     let isDragging = false;
     let dragState = null;
@@ -2156,6 +2270,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const unitCount = $('unitCount');
     const unitModalOverlay = $('unitModalOverlay');
     const unitModalBody = $('unitModalBody');
+    const unitModalTip = $('unitModalTip');
     const unitModalClose = $('unitModalClose');
     const unitSelectAll = $('unitSelectAll');
     const unitDeselectAll = $('unitDeselectAll');
@@ -2172,11 +2287,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const progress = $('progress');
     const scoreEl = $('score');
     const chineseHint = $('chineseHint');
-    const patternToggle = $('patternToggle');
     const patternBadge = $('patternBadge');
+    const patternToggle = $('patternToggle');
     const statusBadge = $('statusBadge');
     const cardPool = $('cardPool');
     const answerZone = $('answerZone');
+    const guideCard = $('guideCard');
     const historyList = $('historyList');
     const clearHistoryBtn = $('clearHistory');
     const historyBtn = $('historyBtn');
@@ -2213,23 +2329,32 @@ document.addEventListener('DOMContentLoaded', function() {
         return /^[.,!?;:]+$/.test(t);
     }
 
+    // ★ 卡片池显示形式：普通单词小写，专有名词保留原始大小写
     function toDisplayForm(word) {
         if (!word) return word;
         if (isPunctuationToken(word)) return word;
         if (word === "'s") return word;
         const lower = word.toLowerCase();
-        if (PROPER_NOUNS.has(lower)) return word;
-        return lower;
+        if (PROPER_NOUNS.has(lower)) {
+            return word; // 专有名词保留原样
+        }
+        return lower; // 普通单词 → 全小写
     }
+
+    // ★ 答题区第一个位置显示形式：普通单词首字母大写，专有名词保留原样
     function toFirstPositionForm(word) {
         if (!word) return word;
         if (isPunctuationToken(word)) return word;
         if (word === "'s") return word;
         const lower = word.toLowerCase();
-        if (PROPER_NOUNS.has(lower)) return word;
+        if (PROPER_NOUNS.has(lower)) {
+            return word; // 专有名词保留原样
+        }
+        // 首字母大写
         return lower.charAt(0).toUpperCase() + lower.slice(1);
     }
 
+    // 拆解 's
     function tokenizePhraseAware(sentence, splitPhrases) {
         let rawTokens = sentence.match(/[A-Za-z'\-]+|[.,!?;:]/g) || [];
 
@@ -2279,10 +2404,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function lower(arr) { return arr.map(w => String(w).toLowerCase()); }
-    function getDistractors(excludeLower, count = 4) {
-        const pool = OLD_WORDS.filter(w => !excludeLower.includes(w.toLowerCase()));
-        if (pool.length === 0) return [];
-        return shuffleArray([...pool]).slice(0, count);
+
+    // 当前选中单元里、所有槽位词表出现过的词
+    function buildUnitWordPool() {
+        const seen = new Set();
+        for (const unit of state.selectedUnits) {
+            const data = TEMPLATES_DATA[unit];
+            if (!data) continue;
+            data.templates.forEach(t => {
+                Object.keys(t.slots || {}).forEach(k => {
+                    (t.slots[k] || []).forEach(item => {
+                        if (item && item.en) seen.add(item.en);
+                    });
+                });
+            });
+        }
+        return [...seen];
+    }
+
+    // 这一题用到的槽位里的全部候选词（同类型近邻，做干扰词最有价值）
+    function collectSlotPool(template) {
+        const seen = new Set();
+        Object.keys(template.slots || {}).forEach(k => {
+            (template.slots[k] || []).forEach(item => {
+                if (item && item.en) seen.add(item.en);
+            });
+        });
+        return [...seen];
+    }
+
+    // 干扰词按「同槽位类型 → 同单元 → 全库」三层取。
+    // 原来直接从全局 OLD_WORDS 里抽，会出现"练第一单元却混进其它单元的单词"
+    function getDistractors(excludeLower, count = 4, slotPool = null) {
+        const used = new Set(excludeLower);
+        const picked = [];
+        const tiers = [];
+        if (slotPool && slotPool.length) tiers.push(slotPool);
+        tiers.push(buildUnitWordPool());
+        tiers.push(OLD_WORDS);
+        for (const tier of tiers) {
+            if (picked.length >= count) break;
+            for (const w of shuffleArray(tier.slice())) {
+                if (picked.length >= count) break;
+                const lw = String(w).toLowerCase();
+                if (!lw || used.has(lw)) continue;
+                used.add(lw);
+                picked.push(w);
+            }
+        }
+        return picked.slice(0, count);
     }
     function getBe(num) { return num === 'p' ? 'are' : 'is'; }
     function ease() {
@@ -2291,11 +2461,63 @@ document.addEventListener('DOMContentLoaded', function() {
             : 'cubic-bezier(0.25, 0.1, 0.25, 1)';
     }
 
-    // ★ 重置句型提示为隐藏状态
-    function resetPatternHint(templateEn) {
-        patternBadge.textContent = `📐 句型：${templateEn}`;
-        patternBadge.classList.remove('show');
-        patternToggle.classList.remove('on');
+    // ================================================================
+    //  5.5 句型提示（用语法术语描述结构，不直接给完整句子）
+    // ================================================================
+    // 每个槽位 → [语法角色, 中文类别]。术语由人来定，别用槽位名硬套
+    const SLOT_GRAMMAR = {
+        '名字': ['名词', '人名'], '亲属': ['名词', '家庭成员'], '宠物': ['名词', '宠物'],
+        '动物': ['名词', '动物'], '动物复数': ['名词复数', '动物'], '水果复数': ['名词复数', '水果'],
+        '颜色': ['形容词', '颜色'], '数字': ['数词', '数字'], '时间': ['数词', '钟点'],
+        '物品复数': ['名词复数', '物品'], '物品': ['名词', '物品'], '职业': ['名词', '职业'],
+        '家务': ['动词短语', '家务'], '动作': ['动词短语', '动作'], '活动': ['动词短语', '活动'],
+        '环保动作': ['动词短语', '环保行为'], '建议': ['动词短语', '建议'],
+        '过去式': ['动词过去式', '上周末做过的事'],
+        '对象': ['名词短语', '人物或植物'], '某人': ['名词', '某人'], '谁': ['名词', '谁'],
+        '形容词': ['形容词', '描述人物'], '形容词1': ['形容词', '描述人物'], '形容词2': ['形容词', '描述人物'],
+        '大小': ['形容词', '大小'], '情绪': ['形容词', '情绪'], '评价': ['形容词', '评价'],
+        '天气': ['形容词', '天气'], '科目': ['名词', '学科'], '课程': ['名词', '课程'],
+        '地点': ['名词', '地点'], '城市': ['名词', '城市'], '衣物': ['名词', '服装'],
+        '季节': ['名词', '季节'], '星期': ['名词', '星期'], '食物': ['名词短语', '食物'],
+        '东西': ['名词', '事物'], '疾病': ['名词', '身体不适'], '天体': ['名词', '天体'],
+        '资源': ['名词', '资源'], '电器': ['名词', '电器'],
+        '景物': ['名词', '景物'], '景物复数': ['名词复数', '景物'], '自然景物': ['名词复数', '自然景物']
+    };
+    const SUBJECT_WORDS = { I: '主语', He: '主语', She: '主语', It: '主语', We: '主语', They: '主语', You: '主语', There: 'There（存在句）' };
+    const BE_FORMS = { "I'm": '主语 + be', "It's": '主语 + be', "He's": '主语 + be', "She's": '主语 + be', "That's": '主语 + be', "What's": '疑问词 + be', "Who's": '疑问词 + be' };
+
+    // 这个槽位在句子里是主语还是表语？只在有把握时才标 —— 标错比不标更糟
+    function slotRoleInTemplate(en, key) {
+        const tokens = en.match(/\{[^}]+\}|[A-Za-z'\-]+/g) || [];
+        const idx = tokens.findIndex(t => t === '{' + key + '}');
+        if (idx <= 0) return idx === 0 ? '主语' : '';
+        const prev = tokens[idx - 1] || '';
+        const prev2 = tokens[idx - 2] || '';
+        if (/^(is|are|am|'s)$/i.test(prev)) return '表语';
+        if (/^(a|an|the)$/i.test(prev) && /^(is|are|am|'s)$/i.test(prev2)) return '表语';
+        return '';
+    }
+
+    // 模板 → 结构骨架：中文骨架 + 语法术语（主语/表语/形容词/名词/动词短语…）。
+    // 不给英文原句 —— 原来直接把 "My name is {名字}." 摆出来，等于把答案给了大半
+    function buildPatternHint(template) {
+        if (template.hint) return template.hint;
+        const slotKeys = Object.keys(template.slots || {});
+        const en = template.en, zh = template.zh || '';
+        if (slotKeys.length === 0) {
+            const kind = /\?\s*$/.test(en) ? '疑问句' : (/!\s*$/.test(en) ? '感叹句' : '陈述句');
+            const words = (en.match(/[A-Za-z'\-]+/g) || []).length;
+            return `📐 固定${kind} · ${words} 个词 · 自己回忆`;
+        }
+        let out = zh;
+        slotKeys.forEach(k => {
+            if (k === 'be') return;
+            const g = SLOT_GRAMMAR[k] || ['名词', k];
+            const role = slotRoleInTemplate(en, k);
+            const label = role ? `${role}（${g[1]}）` : `${g[0]}（${g[1]}）`;
+            out = out.replace(new RegExp('\\{' + k + '\\}', 'g'), `【${label}】`);
+        });
+        return '📐 结构：' + out;
     }
 
     // ================================================================
@@ -2343,6 +2565,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 en, zh,
                 patternDesc: template.unitDesc,
                 templateEn: template.en,
+                hint: buildPatternHint(template),
+                slotPool: collectSlotPool(template),
                 correctWords: tokenizePhraseAware(en, state.splitPhrases),
             };
         }
@@ -2485,7 +2709,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  8. 渲染卡片池
+    //  8. 渲染卡片池 ★ 使用 toDisplayForm 处理大小写
     // ================================================================
     function renderCardPool() {
         const oldRects = new Map();
@@ -2498,10 +2722,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div');
             div.className = 'token';
             div.dataset.poolIdx = idx;
-            div.textContent = toDisplayForm(word);
+            div.textContent = toDisplayForm(word);  // ★ 应用显示形式
             if (state.usedIndices.includes(idx)) {
                 div.classList.add('used');
             } else {
+                if (state.guided) {
+                    const need = guidedWords()[state.guidedIndex];
+                    if (need && normalizeToken(word) !== normalizeToken(need)) div.classList.add('locked');
+                }
                 div.addEventListener('click', () => addToAnswer(idx, word, div));
                 if (state.highEnd) applyTilt(div);
             }
@@ -2534,7 +2762,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  9. 渲染答案区
+    //  9. 渲染答案区 ★ 第一个位置首字母大写，其他位置小写
     // ================================================================
     function renderAnswerZone(opts = {}) {
         const { sourceRect = null, newItemId = null } = opts;
@@ -2551,6 +2779,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div');
             div.className = 'token';
             div.dataset.id = item.id;
+            // ★ 通过位置决定大小写
             const display = idx === 0 ? toFirstPositionForm(item.word) : toDisplayForm(item.word);
             div.textContent = display;
             const orderSpan = document.createElement('span');
@@ -2628,16 +2857,72 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     //  10. 添加 / 移除 / 换位
     // ================================================================
+    // ================================================================
+    //  10.5 连错 6 次 → 对位卡片引导
+    // ================================================================
+    function guidedWords() {
+        return state.correctWords.filter(t => !isPunctuationToken(t));
+    }
+    function renderGuideCard() {
+        if (!state.guided) { guideCard.hidden = true; guideCard.innerHTML = ''; return; }
+        const words = guidedWords();
+        guideCard.hidden = false;
+        let html = '<div class="guide-title">🧭 对位卡片 · 按编号顺序，一个个点进上面的方框</div><div class="guide-row">';
+        words.forEach((w, i) => {
+            const done = i < state.guidedIndex;
+            const now = i === state.guidedIndex;
+            html += `<div class="guide-slot${done ? ' done' : ''}${now ? ' now' : ''}">
+                <span class="guide-idx">${i + 1}</span>
+                <span class="guide-word">${toDisplayForm(w)}</span>
+            </div>`;
+        });
+        html += '</div>';
+        guideCard.innerHTML = html;
+    }
+    function enterGuidedMode() {
+        state.guided = true;
+        state.guidedIndex = 0;
+        // 把答题区清空，让学生按顺序重新点一遍（而不是带着乱序继续）
+        state.answerItems = [];
+        state.usedIndices = [];
+        renderCardPool();
+        renderAnswerZone();
+        renderGuideCard();
+        statusBadge.textContent = `🧭 连错 ${GUIDE_AFTER} 次了 —— 这次按「对位卡片」的顺序点，点对了会走下一个`;
+        statusBadge.className = 'status-badge';
+        Sound.shuffle();
+    }
+    function exitGuidedMode() {
+        if (!state.guided) return;
+        state.guided = false;
+        state.guidedIndex = 0;
+        renderGuideCard();
+    }
+
     function addToAnswer(poolIndex, word, sourceEl) {
         if (state.isAnswered) return;
         if (state.usedIndices.includes(poolIndex)) return;
+        if (state.guided && normalizeToken(word) !== normalizeToken(guidedWords()[state.guidedIndex] || '')) {
+            statusBadge.textContent = '🧭 对位模式：请按「对位卡片」上的顺序点下一个单词';
+            statusBadge.className = 'status-badge';
+            Sound.wrong();
+            return;
+        }
         const sourceRect = sourceEl ? sourceEl.getBoundingClientRect() : null;
         const newId = ++nextItemId;
         state.answerItems.push({ id: newId, word, poolIndex });
         state.usedIndices.push(poolIndex);
         Sound.click();
+        if (state.guided) {
+            state.guidedIndex++;
+            if (state.guidedIndex >= guidedWords().length) {
+                statusBadge.textContent = '🧭 对位完成！点「✅ 检查答案」收尾';
+                statusBadge.className = 'status-badge';
+            }
+        }
         renderCardPool();
         renderAnswerZone({ sourceRect, newItemId: newId });
+        if (state.guided) renderGuideCard();
     }
     function removeFromAnswer(itemId) {
         if (state.isAnswered) return;
@@ -2778,8 +3063,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadQuestion() {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
         state.retryMode = false;
+        state.attempts = 0;
+        exitGuidedMode();
         if (state.selectedUnits.size === 0) {
-            Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
+            showUnitPrompt();
+            return;
         }
         const q = generateQuestion();
         if (!q) {
@@ -2791,13 +3079,14 @@ document.addEventListener('DOMContentLoaded', function() {
         state.currentZh = q.zh;
         state.correctWords = q.correctWords;
         chineseHint.textContent = q.zh;
-        // ★ 句型提示改为点击显示，默认隐藏
-        resetPatternHint(q.templateEn);
+        state.patternHint = q.hint;
+        state.patternFull = `✅ 完整句型：${q.templateEn}`;
+        resetPatternHint();
 
         let allWords = q.correctWords.slice();
         if (state.moreOldWords) {
             const excludeLower = lower(q.correctWords);
-            const distractors = getDistractors(excludeLower, 4);
+            const distractors = getDistractors(excludeLower, 4, q.slotPool);
             distractors.forEach(d => allWords.push(d));
         }
         state.shuffledWords = shuffleArray(allWords);
@@ -2817,13 +3106,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadHistoricalQuestion(item) {
         if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
         state.retryMode = true;
+        state.attempts = 0;
+        exitGuidedMode();
         state.currentEn = item.en;
         state.currentZh = item.zh;
         state.correctWords = tokenizePhraseAware(item.en, state.splitPhrases);
         chineseHint.textContent = item.zh;
-        // ★ 复习模式句型提示：显示复习模式说明，默认隐藏
-        resetPatternHint('复习旧句子');
-
+        state.patternHint = '';
+        state.patternFull = '';
+        resetPatternHint();
         let allWords = state.correctWords.slice();
         if (state.moreOldWords) {
             const excludeLower = lower(state.correctWords);
@@ -2859,9 +3150,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(t => t.length > 0);
 
         if (userWords.length !== correctWords.length) {
-            statusBadge.textContent = `❌ 单词数量不对（你放了 ${userWords.length} 个，需要 ${correctWords.length} 个）`;
-            statusBadge.className = 'status-badge wrong';
             Sound.wrong();
+            noteWrongAttempt(`❌ 单词数量不对（你放了 ${userWords.length} 个，需要 ${correctWords.length} 个）`);
             return;
         }
 
@@ -2872,6 +3162,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (wrongIdx === -1) {
             state.isAnswered = true;
+            markAnswerFeedback(-1);
             const key = state.currentEn;
             const alreadyScored = state.scoredSentences.has(key);
             const previouslyFailed = state.failedSentences.has(key);
@@ -2883,6 +3174,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusBadge.textContent = '✅ 完全正确！ +2分（即将进入下一题）';
             }
             statusBadge.className = 'status-badge correct';
+            revealFullPattern();
             Sound.correct();
             state.history.push({ en: state.currentEn, zh: state.currentZh, correct: true });
             updateHistoryUI();
@@ -2894,13 +3186,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (state.isAnswered) nextQuestion();
             }, state.highEnd ? 1200 : 950);
         } else {
+            markAnswerFeedback(wrongIdx);
             state.failedSentences.add(state.currentEn);
-            statusBadge.textContent = `❌ 第 ${wrongIdx + 1} 个单词位置错误，再试试！（此句之后不计分）`;
-            statusBadge.className = 'status-badge wrong';
             Sound.wrong();
-            state.history.push({ en: state.currentEn, zh: state.currentZh, correct: false });
-            updateHistoryUI();
+            const last = state.history[state.history.length - 1];
+            if (!last || last.en !== state.currentEn) {
+                state.history.push({ en: state.currentEn, zh: state.currentZh, correct: false });
+                updateHistoryUI();
+            }
+            noteWrongAttempt(`❌ 第 ${wrongIdx + 1} 个单词位置错误，再试试！（此句之后不计分）`);
         }
+    }
+
+    // 判分反馈：把答题区的卡片逐个标出对/错（原来只有一行文字）
+    function markAnswerFeedback(wrongIdx) {
+        const els = [...answerZone.querySelectorAll('.token[data-id]')];
+        let cmp = 0;
+        els.forEach((el, i) => {
+            const item = state.answerItems.find(it => it.id === parseInt(el.dataset.id, 10));
+            if (!item) return;
+            const t = normalizeToken(item.word);
+            if (!t || isPunctuationToken(item.word)) return;   // 标点不参与比对
+            if (wrongIdx === -1 || cmp < wrongIdx) el.classList.add('ok');
+            else if (cmp === wrongIdx) el.classList.add('bad');
+            cmp++;
+        });
+    }
+
+    // 每一次判错都要计数：连错到 GUIDE_AFTER 次就给对位卡片
+    function noteWrongAttempt(message) {
+        state.attempts++;
+        if (state.attempts >= GUIDE_AFTER) {
+            enterGuidedMode();
+            return;
+        }
+        const left = GUIDE_AFTER - state.attempts;
+        statusBadge.textContent = message + (left <= 2 ? `（再错 ${left} 次就给你对位卡片）` : '');
+        statusBadge.className = 'status-badge wrong';
     }
 
     function nextQuestion() {
@@ -2947,13 +3269,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetGame() {
         state.currentIndex = 0;
         state.score = 0;
-        state.history = [];
         state.scoredSentences = new Set();
         state.failedSentences = new Set();
         state.retryMode = false;
         updateHistoryUI();
         if (state.selectedUnits.size === 0) {
-            Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
+            showUnitPrompt();
+            return;
         }
         loadQuestion();
         statusBadge.textContent = '🎯 点击下方单词开始';
@@ -2970,7 +3292,33 @@ document.addEventListener('DOMContentLoaded', function() {
         ], { duration: state.highEnd ? 560 : 360, easing: ease() });
     }
 
+    // ---- 句型提示：默认收起，点按钮才展开；答对后才给完整句型 ----
+    function resetPatternHint() {
+        patternBadge.textContent = '';
+        patternBadge.hidden = true;
+        patternToggle.hidden = false;
+        patternToggle.classList.remove('on');
+        patternToggle.textContent = '📐 看句型提示';
+    }
+    function togglePatternHint() {
+        if (!state.patternHint) return;
+        const willShow = patternBadge.hidden;
+        patternBadge.textContent = willShow ? state.patternHint : '';
+        patternBadge.hidden = !willShow;
+        patternToggle.classList.toggle('on', willShow);
+        patternToggle.textContent = willShow ? '📐 收起提示' : '📐 看句型提示';
+        Sound.shuffle();
+    }
+    function revealFullPattern() {
+        if (!state.patternFull) return;
+        patternBadge.textContent = state.patternFull;
+        patternBadge.hidden = false;
+        patternToggle.classList.add('on');
+        patternToggle.textContent = '📐 收起提示';
+    }
+
     function updateHistoryUI() {
+        saveHistory();
         historyList.innerHTML = '';
         const items = state.history.slice(-12).reverse();
         items.forEach(item => {
@@ -2987,7 +3335,47 @@ document.addEventListener('DOMContentLoaded', function() {
     //  13. 单元选择
     // ================================================================
     function updateUnitTriggerLabel() {
-        unitCount.textContent = state.selectedUnits.size;
+        const n = state.selectedUnits.size;
+        unitCount.textContent = n;
+        unitTriggerBtn.classList.toggle('need-pick', n === 0);
+    }
+
+    function readSavedUnits() {
+        try {
+            const raw = lsGet(LS_UNITS);
+            if (!raw) return [];
+            const arr = JSON.parse(raw);
+            return Array.isArray(arr) ? arr.filter(u => TEMPLATES_DATA[u]) : [];
+        } catch (e) { return []; }
+    }
+    function saveSelectedUnits() {
+        lsSet(LS_UNITS, JSON.stringify([...state.selectedUnits]));
+    }
+
+    // 没选单元时的空状态。绝不自动兜底成全选——那正是
+    //「选了第一单元却出现其它单元」这个投诉的成因
+    function showUnitPrompt() {
+        if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
+        state.attempts = 0;
+        exitGuidedMode();
+        state.currentEn = '';
+        state.currentZh = '';
+        state.correctWords = [];
+        state.shuffledWords = [];
+        state.answerItems = [];
+        state.usedIndices = [];
+        chineseHint.textContent = '请先选择要练习的单元';
+        patternBadge.hidden = true;
+        patternToggle.hidden = true;
+        patternToggle.classList.remove('on');
+        cardPool.innerHTML = '';
+        answerZone.innerHTML = '<span class="placeholder">👆 点左上角「📚 选择单元」开始</span>';
+        checkBtn.disabled = true;
+        nextBtn.disabled = true;
+        progress.textContent = '0/0';
+        updateScore();
+        statusBadge.textContent = '📚 还没有选单元 —— 点「📚 选择单元」，点一下就是选中它';
+        statusBadge.className = 'status-badge';
     }
 
     function renderUnitModal() {
@@ -3005,8 +3393,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '';
         gradeOrder.forEach(grade => {
             if (!groups[grade]) return;
+            const allOn = groups[grade].every(u => pendingUnits.has(u));
             html += `<div class="unit-grade-group">
-                <div class="unit-grade-label">${gradeNames[grade]}</div>
+                <div class="unit-grade-label">${gradeNames[grade]}
+                    <button class="unit-grade-all ${allOn ? 'on' : ''}" data-grade="${grade}">${allOn ? '本册取消' : '本册全选'}</button>
+                </div>
                 <div class="unit-grid">`;
             groups[grade].forEach(u => {
                 const data = TEMPLATES_DATA[u];
@@ -3020,17 +3411,29 @@ document.addEventListener('DOMContentLoaded', function() {
             html += `</div></div>`;
         });
         unitModalBody.innerHTML = html;
+        unitModalTip.textContent = pendingUnits.size === 0
+            ? '还没有选中任何单元：点一下单元卡片就是选中它，可以多选。'
+            : `已选中 ${pendingUnits.size} 个单元 —— 点一下选中，再点一下取消。`;
+
+        unitModalBody.querySelectorAll('.unit-grade-all').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const units = groups[btn.dataset.grade] || [];
+                const allOn = units.every(u => pendingUnits.has(u));
+                units.forEach(u => allOn ? pendingUnits.delete(u) : pendingUnits.add(u));
+                renderUnitModal();
+            });
+        });
 
         unitModalBody.querySelectorAll('.unit-item').forEach(item => {
             item.addEventListener('click', () => {
                 const unit = item.dataset.unit;
                 if (pendingUnits.has(unit)) {
                     pendingUnits.delete(unit);
-                    item.classList.remove('selected');
                 } else {
                     pendingUnits.add(unit);
-                    item.classList.add('selected');
                 }
+                renderUnitModal();   // 重渲染，否则底部"已选中 N 个"和本册按钮会停在旧状态
             });
         });
     }
@@ -3063,6 +3466,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         state.selectedUnits = new Set(pendingUnits);
+        saveSelectedUnits();
         updateUnitTriggerLabel();
         closeUnitModal();
         resetGame();
@@ -3095,16 +3499,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ================================================================
-    //  15. 句型提示切换
-    // ================================================================
-    patternToggle.addEventListener('click', function() {
-        patternBadge.classList.toggle('show');
-        this.classList.toggle('on');
-        Sound.toggle();
-    });
-
-    // ================================================================
-    //  16. 其它事件绑定
+    //  15. 其它事件绑定
     // ================================================================
     moreOldWordsCheck.addEventListener('change', function() {
         state.moreOldWords = this.checked;
@@ -3153,16 +3548,20 @@ document.addEventListener('DOMContentLoaded', function() {
     resetProgressBtn.addEventListener('click', function() {
         if (confirm('重置所有进度和分数？')) {
             state.totalQuestions = 20;
+            state.history = [];
+            updateHistoryUI();
             resetGame();
         }
     });
+
+    patternToggle.addEventListener('click', togglePatternHint);
 
     glassToggle.addEventListener('click', function() {
         state.highEnd = !state.highEnd;
         appEl.classList.toggle('high-end', state.highEnd);
         glassToggle.classList.toggle('on', state.highEnd);
         modeTag.textContent = state.highEnd ? '液态玻璃' : '流畅版';
-        localStorage.setItem('highEnd_s356', state.highEnd ? '1' : '0');
+        lsSet(LS_GLASS, state.highEnd ? '1' : '0');
         if (!state.highEnd) resetPanelTilt();
         if (state.shuffledWords.length > 0) {
             renderCardPool();
@@ -3171,7 +3570,12 @@ document.addEventListener('DOMContentLoaded', function() {
         Sound.shuffle();
     });
 
-    if (localStorage.getItem('highEnd_s356') === '1') {
+    // 低配设备（4 核以内 / 内存 4G 以内 / 系统开了"减少动效"）不自动恢复高级渲染
+    const LOW_SPEC = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
+        || (navigator.deviceMemory && navigator.deviceMemory <= 4)
+        || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    if (!LOW_SPEC && lsGet(LS_GLASS) === '1') {
         state.highEnd = true;
         appEl.classList.add('high-end');
         glassToggle.classList.add('on');
@@ -3179,16 +3583,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  17. 教学弹窗
+    //  16. 教学弹窗
     // ================================================================
     const tutorialSteps = [
-        { title: '第一步：点击单词', desc: '点击下方单词卡片，它会飞入上方答题区停留片刻后返回，循环演示"放入-拿出"的过程。' },
-        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。循环演示拿起-放下。' },
-        { title: '第三步：检查答案', desc: '排列完成后点击「检查答案」，系统会逐个高亮判断正误。答对会自动进入下一题。' },
-        { title: '第四步：句型提示', desc: '不确定句子结构？点击中文旁的「📐 句型」按钮，即可查看本题的句型模板，再点一次收起。' },
-        { title: '第五步：拆分短语', desc: '「拆分短语」默认开启，像 "sweep the floor" 这样的短语会拆成独立单词卡片。' },
-        { title: '第六步：\'s 拆分', desc: '所有以 \'s 结尾的词都会拆开：What\'s → What + \'s，Mike\'s → Mike + \'s，覆盖 is / 所有格 / us 缩写。' },
-        { title: '第七步：重新练习', desc: '想练习之前见过的句子？点击底部「最近练习」中任意一条中文，就能重新排列那句话。' }
+        { title: '第一步：点单词 = 放进答题区', desc: '点池里的一张卡片，它飞进上方答题区后**就留在那儿**，池里那张变灰。要取出来得再点一次答题区里的那张卡——不是点一下就自己收回去。' },
+        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。' },
+        { title: '第三步：检查答案', desc: '点「✅ 检查答案」：位置对的卡片变绿，第一个错的变红并抖动，上面那行同时告诉你错在第几个位置。' },
+        { title: '第四步：句型提示（要自己点）', desc: '不确定结构？点中文旁的「📐 看句型提示」。它给的是骨架，比如「主语 + can + 动词短语（家务）」，不会把整句写给你；答对之后才显示完整句型。' },
+        { title: '第五步：连错 6 次给对位卡片', desc: '同一题连错 6 次，答题区会清空并出现「🧭 对位卡片」：按 1、2、3 的顺序把词点进去，点错位置是点不动的——先把顺序走对一遍再自己排。' },
+        { title: '第六步：拆分短语', desc: '「拆分短语」默认开启，像 "play sports" 这样的短语会拆成 "play" 和 "sports" 两张卡片；关掉后它作为一整张卡出现，练短语整体识别。' },
+        { title: '第七步：\'s 拆分', desc: '所有以 \'s 结尾的词都会拆开：What\'s → What + \'s，Mike\'s → Mike + \'s，覆盖 is / 所有格 / us 缩写。' },
+        { title: '第八步：重新练习', desc: '底部「最近练习」会记下做过的句子（关掉网页再打开也还在），点任意一条中文就能重做那句话。' }
     ];
     let tutorialIndex = 0;
 
@@ -3216,15 +3621,15 @@ document.addEventListener('DOMContentLoaded', function() {
     tutorialOverlay.addEventListener('click', (e) => {
         if (e.target === tutorialOverlay) closeTutorial();
     });
-    if (!localStorage.getItem('tutorialShown_s356_v6')) {
+    if (!lsGet(LS_TUTORIAL)) {
         setTimeout(() => {
             openTutorial();
-            localStorage.setItem('tutorialShown_s356_v6', '1');
+            lsSet(LS_TUTORIAL, '1');
         }, 600);
     }
 
     // ================================================================
-    //  18. 清理
+    //  17. 清理
     // ================================================================
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && dragState) {
@@ -3244,22 +3649,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ================================================================
-    //  19. 启动
+    //  18. 启动
     // ================================================================
     setupBigCardGlow();
     setupPanelTilt();
 
-    Object.keys(TEMPLATES_DATA).forEach(u => state.selectedUnits.add(u));
+    readSavedUnits().forEach(u => state.selectedUnits.add(u));
     updateUnitTriggerLabel();
 
     splitPhrasesCheck.checked = true;
     state.splitPhrases = true;
 
-    loadQuestion();
-    statusBadge.textContent = '🎯 点击下方单词开始';
-    statusBadge.className = 'status-badge';
+    loadHistoryFromStorage();
+    updateHistoryUI();
 
-    console.log('🧩 句型建筑师 · 已启动（句型提示点击显示）');
+    if (state.selectedUnits.size === 0) {
+        showUnitPrompt();
+    } else {
+        loadQuestion();
+        statusBadge.textContent = '🎯 点击下方单词开始';
+        statusBadge.className = 'status-badge';
+    }
+
+    console.log('🧩 句型建筑师 · 已启动（卡片池小写 + 位置识别首字母大写）');
 });
 </script>
 </body>
