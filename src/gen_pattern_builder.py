@@ -135,8 +135,6 @@ def render_templates(tpl_data):
             body = 'en: %s, zh: %s' % (js_str(t['en']), js_str(t['zh']))
             if t.get('hint'):
                 body += ', hint: %s' % js_str(t['hint'])
-            if t.get('swap'):
-                body += ', swap: { en: %s, zh: %s }' % (js_str(t['swap']['en']), js_str(t['swap']['zh']))
             slots = render_slots(t.get('slots') or {}, ' ' * 20)
             if '\n' in slots:
                 out.append('                { %s, slots: %s },' % (body, slots))

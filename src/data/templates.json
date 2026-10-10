@@ -111,10 +111,6 @@
           "zh": "那是你的{亲属}吗？",
           "slots": {
             "亲属": "RELATIVES"
-          },
-          "swap": {
-            "en": "That is your {亲属}.",
-            "zh": "那是你的{亲属}。"
           }
         },
         {
@@ -122,10 +118,6 @@
           "zh": "这是你的{亲属}吗？",
           "slots": {
             "亲属": "RELATIVES"
-          },
-          "swap": {
-            "en": "This is your {亲属}.",
-            "zh": "这是你的{亲属}。"
           }
         },
         {
@@ -154,10 +146,6 @@
           "zh": "你有一只{宠物}吗？",
           "slots": {
             "宠物": "PETS"
-          },
-          "swap": {
-            "en": "You have a {宠物}.",
-            "zh": "你有一只{宠物}。"
           }
         },
         {
@@ -215,10 +203,6 @@
           "zh": "你喜欢{水果复数}吗？",
           "slots": {
             "水果复数": "FRUITS_PLURAL"
-          },
-          "swap": {
-            "en": "You like {水果复数}.",
-            "zh": "你喜欢{水果复数}。"
           }
         },
         {
@@ -250,10 +234,6 @@
                 "zh": "动物园"
               }
             ]
-          },
-          "swap": {
-            "en": "You like the {地点}.",
-            "zh": "你喜欢{地点}。"
           }
         },
         {
@@ -638,11 +618,7 @@
         {
           "en": "Can I wear this new shirt today?",
           "zh": "今天我能穿这件新衬衫吗？",
-          "slots": {},
-          "swap": {
-            "en": "I can wear this new shirt today.",
-            "zh": "我今天能穿这件新衬衫。"
-          }
+          "slots": {}
         },
         {
           "en": "Yes, but wear a coat too.",
@@ -700,10 +676,6 @@
               }
             ],
             "运动": "SPORTS_S5U1"
-          },
-          "swap": {
-            "en": "{谁} is good at {运动}.",
-            "zh": "{谁}擅长{运动}。"
           }
         },
         {
@@ -863,10 +835,6 @@
                 "zh": "山"
               }
             ]
-          },
-          "swap": {
-            "en": "There is a {景物} in the forest.",
-            "zh": "森林里有一个{景物}。"
           }
         },
         {
@@ -879,10 +847,6 @@
           "zh": "自然公园里有{景物复数}吗？",
           "slots": {
             "景物复数": "NATURE_PLURALS_S5U6"
-          },
-          "swap": {
-            "en": "There are some {景物复数} in the nature park.",
-            "zh": "自然公园里有一些{景物复数}。"
           }
         }
       ]
@@ -1133,10 +1097,6 @@
           "zh": "{地点}安全吗？",
           "slots": {
             "地点": "ROOMS_S4B_U2"
-          },
-          "swap": {
-            "en": "The {地点} is safe.",
-            "zh": "{地点}是安全的。"
           }
         }
       ]
@@ -1266,10 +1226,6 @@
           "zh": "这些是{蔬菜复数}吗？",
           "slots": {
             "蔬菜复数": "VEGETABLES_S4B_U5"
-          },
-          "swap": {
-            "en": "These are {蔬菜复数}.",
-            "zh": "这些是{蔬菜复数}。"
           }
         },
         {
@@ -1282,10 +1238,6 @@
           "zh": "你有{动物复数}吗？",
           "slots": {
             "动物复数": "FARM_ANIMALS_S4B_U5"
-          },
-          "swap": {
-            "en": "I have some {动物复数}.",
-            "zh": "我有一些{动物复数}。"
           }
         }
       ]

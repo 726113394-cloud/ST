@@ -1412,7 +1412,6 @@
             <select id="modeSelect" class="mode-select">
                 <option value="build">看中文组句</option>
                 <option value="listen">听音组句</option>
-                <option value="swap">疑问句→陈述句</option>
             </select>
         </div>
         <div class="group">
@@ -1917,9 +1916,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { en: "save water", zh: "节约用水", phrase: true },
     ];
     const ITEMS_S4B_U1 = [
-        { en: "desks and chairs", zh: "桌椅" }, { en: "the workbooks", zh: "练习册" },
-        { en: "the books", zh: "书" }, { en: "the newspapers", zh: "报纸" },
-        { en: "the chairs", zh: "椅子" },
+        { en: "desks and chairs", zh: "桌椅" }, { en: "the books", zh: "书" },
+        { en: "the newspapers", zh: "报纸" }, { en: "the chairs", zh: "椅子" },
     ];
     const CLASSES_S4B_U1 = [
         { en: "English class", zh: "英语课" }, { en: "music class", zh: "音乐课" },
@@ -2020,8 +2018,8 @@ document.addEventListener('DOMContentLoaded', function() {
             desc: "家庭与家人",
             templates: [
                 { en: "This is my {亲属}.", zh: "这是我的{亲属}。", slots: { "亲属": RELATIVES } },
-                { en: "Is that your {亲属}?", zh: "那是你的{亲属}吗？", swap: { en: "That is your {亲属}.", zh: "那是你的{亲属}。" }, slots: { "亲属": RELATIVES } },
-                { en: "Is this your {亲属}?", zh: "这是你的{亲属}吗？", swap: { en: "This is your {亲属}.", zh: "这是你的{亲属}。" }, slots: { "亲属": RELATIVES } },
+                { en: "Is that your {亲属}?", zh: "那是你的{亲属}吗？", slots: { "亲属": RELATIVES } },
+                { en: "Is this your {亲属}?", zh: "这是你的{亲属}吗？", slots: { "亲属": RELATIVES } },
                 { en: "I have a {大小} family.", zh: "我有一个{大小}的家庭。", slots: {
                     "大小": [
                         { en: "big", zh: "大" }, { en: "small", zh: "小" },
@@ -2032,7 +2030,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "三上U3": {
             desc: "宠物与动物",
             templates: [
-                { en: "Do you have a {宠物}?", zh: "你有一只{宠物}吗？", swap: { en: "You have a {宠物}.", zh: "你有一只{宠物}。" }, slots: { "宠物": PETS } },
+                { en: "Do you have a {宠物}?", zh: "你有一只{宠物}吗？", slots: { "宠物": PETS } },
                 { en: "I have a {宠物}.", zh: "我有一只{宠物}。", slots: { "宠物": PETS } },
                 { en: "Let's go to the {地点}!", zh: "让我们去{地点}吧！", slots: {
                     "地点": [
@@ -2047,9 +2045,9 @@ document.addEventListener('DOMContentLoaded', function() {
         "三上U4": {
             desc: "水果与农场",
             templates: [
-                { en: "Do you like {水果复数}?", zh: "你喜欢{水果复数}吗？", swap: { en: "You like {水果复数}.", zh: "你喜欢{水果复数}。" }, slots: { "水果复数": FRUITS_PLURAL } },
+                { en: "Do you like {水果复数}?", zh: "你喜欢{水果复数}吗？", slots: { "水果复数": FRUITS_PLURAL } },
                 { en: "I don't like {水果复数}.", zh: "我不喜欢{水果复数}。", slots: { "水果复数": FRUITS_PLURAL } },
-                { en: "Do you like the {地点}?", zh: "你喜欢{地点}吗？", swap: { en: "You like the {地点}.", zh: "你喜欢{地点}。" }, slots: {
+                { en: "Do you like the {地点}?", zh: "你喜欢{地点}吗？", slots: {
                     "地点": [
                         { en: "farm", zh: "农场" }, { en: "garden", zh: "花园" }, { en: "park", zh: "公园" },
                         { en: "zoo", zh: "动物园" },
@@ -2156,7 +2154,7 @@ document.addEventListener('DOMContentLoaded', function() {
             templates: [
                 { en: "Whose {衣物} is this?", zh: "这是谁的{衣物}？", slots: { "衣物": CLOTHES } },
                 { en: "It's your dad's.", zh: "这是你爸爸的。", slots: {} },
-                { en: "Can I wear this new shirt today?", zh: "今天我能穿这件新衬衫吗？", swap: { en: "I can wear this new shirt today.", zh: "我今天能穿这件新衬衫。" }, slots: {} },
+                { en: "Can I wear this new shirt today?", zh: "今天我能穿这件新衬衫吗？", slots: {} },
                 { en: "Yes, but wear a coat too.", zh: "可以，但也要穿件外套。", slots: {} },
                 { en: "Which season do you like?", zh: "你喜欢哪个季节？", slots: {} },
                 { en: "I like {季节}.", zh: "我喜欢{季节}。", slots: { "季节": SEASONS } }
@@ -2183,7 +2181,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { en: "Be careful. Don't {动作}.", zh: "小心。不要{动作}。", slots: { "动作": DANGER_ACTIONS_S4B_U2 } },
                 { en: "Where is the {地点}?", zh: "{地点}在哪里？", slots: { "地点": ROOMS_S4B_U2 } },
                 { en: "It's in the {地点}.", zh: "它在{地点}里。", slots: { "地点": ROOMS_S4B_U2 } },
-                { en: "Is the {地点} safe?", zh: "{地点}安全吗？", swap: { en: "The {地点} is safe.", zh: "{地点}是安全的。" }, slots: { "地点": ROOMS_S4B_U2 } }
+                { en: "Is the {地点} safe?", zh: "{地点}安全吗？", slots: { "地点": ROOMS_S4B_U2 } }
             ]
         },
         "四下U3": {
@@ -2216,9 +2214,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 { en: "I have a lot of {动物复数}.", zh: "我有很多{动物复数}。", slots: { "动物复数": FARM_ANIMALS_S4B_U5 } },
                 { en: "What are these?", zh: "这些是什么？", slots: {} },
                 { en: "They're {蔬菜复数}.", zh: "它们是{蔬菜复数}。", slots: { "蔬菜复数": VEGETABLES_S4B_U5 } },
-                { en: "Are these {蔬菜复数}?", zh: "这些是{蔬菜复数}吗？", swap: { en: "These are {蔬菜复数}.", zh: "这些是{蔬菜复数}。" }, slots: { "蔬菜复数": VEGETABLES_S4B_U5 } },
+                { en: "Are these {蔬菜复数}?", zh: "这些是{蔬菜复数}吗？", slots: { "蔬菜复数": VEGETABLES_S4B_U5 } },
                 { en: "How fresh!", zh: "真新鲜啊！", slots: {} },
-                { en: "Do you have any {动物复数}?", zh: "你有{动物复数}吗？", swap: { en: "I have some {动物复数}.", zh: "我有一些{动物复数}。" }, slots: { "动物复数": FARM_ANIMALS_S4B_U5 } }
+                { en: "Do you have any {动物复数}?", zh: "你有{动物复数}吗？", slots: { "动物复数": FARM_ANIMALS_S4B_U5 } }
             ]
         },
         "四下U6": {
@@ -2238,7 +2236,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { en: "What's he like?", zh: "他是什么样的人？", slots: {} },
                 { en: "What's she like?", zh: "她是什么样的人？", slots: {} },
                 { en: "{某人} {be} {形容词1} and {形容词2}.", zh: "{某人}又{形容词1}又{形容词2}。", slots: { "某人": PERSONS_S5U1, "形容词1": PERSON_ADJ_1_S5U1, "形容词2": PERSON_ADJ_2_S5U1 } },
-                { en: "Is {谁} good at {运动}?", zh: "{谁}擅长{运动}吗？", swap: { en: "{谁} is good at {运动}.", zh: "{谁}擅长{运动}。" }, slots: {
+                { en: "Is {谁} good at {运动}?", zh: "{谁}擅长{运动}吗？", slots: {
                     "谁": [
                         { en: "he", zh: "他" }, { en: "she", zh: "她" },
                     ],
@@ -2286,14 +2284,14 @@ document.addEventListener('DOMContentLoaded', function() {
             desc: "自然公园",
             templates: [
                 { en: "There are many {自然景物} in the nature park.", zh: "自然公园里有很多{自然景物}。", slots: { "自然景物": NATURE_THINGS_S5U6 } },
-                { en: "Is there a {景物} in the forest?", zh: "森林里有一个{景物}吗？", swap: { en: "There is a {景物} in the forest.", zh: "森林里有一个{景物}。" }, slots: {
+                { en: "Is there a {景物} in the forest?", zh: "森林里有一个{景物}吗？", slots: {
                     "景物": [
                         { en: "waterfall", zh: "瀑布" }, { en: "lake", zh: "湖" },
                         { en: "river", zh: "河流" }, { en: "mountain", zh: "山" },
                     ],
                 } },
                 { en: "Yes, there is.", zh: "是的，有。", slots: {} },
-                { en: "Are there any {景物复数} in the nature park?", zh: "自然公园里有{景物复数}吗？", swap: { en: "There are some {景物复数} in the nature park.", zh: "自然公园里有一些{景物复数}。" }, slots: { "景物复数": NATURE_PLURALS_S5U6 } }
+                { en: "Are there any {景物复数} in the nature park?", zh: "自然公园里有{景物复数}吗？", slots: { "景物复数": NATURE_PLURALS_S5U6 } }
             ]
         },
         "六上U1": {
@@ -2497,8 +2495,7 @@ document.addEventListener('DOMContentLoaded', function() {
         guidedIndex: 0,
         patternHint: '',
         patternFull: '',
-        qmode: 'build',        // build=看中文组句 / listen=听音组句 / swap=疑问句→陈述句
-        promptEn: '',          // 换句式时的源疑问句
+        qmode: 'build',        // build=看中文组句 / listen=听音组句
         reviewMode: false,     // 本题是否来自间隔复习队列
         srs: {},
     };
@@ -2652,28 +2649,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     function speakSentence(text) {
-        if (!('speechSynthesis' in window)) return false;
-        try {
-            speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(String(text));
-            u.lang = 'en-US';
-            u.rate = 0.9;
-            speechSynthesis.speak(u);
-            return true;
-        } catch (e) { return false; }
+        // 手机（尤其 iOS）要求 speak() 发生在用户手势的直接调用链里：
+        // 所以这里在 await 之前就同步调用，并用 onstart 判定到底有没有真的播出来
+        return new Promise(resolve => {
+            if (!('speechSynthesis' in window) || !window.SpeechSynthesisUtterance) { resolve(false); return; }
+            let done = false;
+            const ok = () => { if (!done) { done = true; resolve(true); } };
+            const no = () => { if (!done) { done = true; resolve(false); } };
+            try {
+                speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(String(text));
+                u.lang = 'en-US';
+                u.rate = 0.9;
+                u.onstart = ok;
+                u.onerror = no;
+                speechSynthesis.speak(u);
+                setTimeout(no, 1800);   // 没有手势时不会触发 start
+            } catch (e) { no(); }
+        });
     }
+    // 录音文件到底能不能用：只要失败过一次就记账，后续直接走合成（保住手势链）
+    let audioFilesUsable = null;
     // 返回 'file' | 'words' | 'tts' | 'none'
     async function playSentence(text) {
-        if (await playUrl('./audio/' + encodeURIComponent(sentenceFileName(text)))) return 'file';
+        if (audioFilesUsable === false) {
+            return (await speakSentence(text)) ? 'tts' : 'none';
+        }
+        if (await playUrl('./audio/' + encodeURIComponent(sentenceFileName(text)))) {
+            audioFilesUsable = true;
+            return 'file';
+        }
         const words = String(text).match(/[A-Za-z'\-]+/g) || [];
-        let all = true;
+        let all = words.length > 0;
         for (const w of words) {
             if (!await playUrl('./audio/' + encodeURIComponent(w) + '.mp3', 4000)) { all = false; break; }
             await new Promise(r => setTimeout(r, 90));
         }
-        if (all && words.length) return 'words';
-        if (speakSentence(text)) return 'tts';
-        return 'none';
+        if (all) { audioFilesUsable = true; return 'words'; }
+        audioFilesUsable = false;
+        return (await speakSentence(text)) ? 'tts' : 'none';
     }
 
     let pendingUnits = new Set();
@@ -2984,10 +2998,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = TEMPLATES_DATA[unit];
             if (data) pool = pool.concat(data.templates.map(t => ({ ...t, unitDesc: data.desc })));
         }
-        // 换句式题型只出「有对照陈述句」的疑问句模板
-        if (state.qmode === 'swap') pool = pool.filter(t => t.swap);
         if (pool.length === 0) return null;
-
         for (let attempt = 0; attempt < 30; attempt++) {
             const template = pool[Math.floor(Math.random() * pool.length)];
             const slotKeys = Object.keys(template.slots);
@@ -3025,21 +3036,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return out;
             };
 
-            const isSwap = state.qmode === 'swap' && template.swap;
-            const rawTarget = isSwap ? template.swap : template;
-            let en = fillEn(rawTarget.en);
-            let zh = fillZh(rawTarget.zh);
-            const promptEn = isSwap ? fillEn(template.en) : '';
+            let en = fillEn(template.en);
+            let zh = fillZh(template.zh);
             if (!/[.?!]$/.test(en)) en += '.';
             if (!/[。？！]$/.test(zh)) zh += '。';
 
             return {
                 en, zh,
-                promptEn,
-                srcZh: isSwap ? fillZh(template.zh) : '',
                 patternDesc: template.unitDesc,
                 templateEn: template.en,
-                hint: buildPatternHint({ en: rawTarget.en, zh: rawTarget.zh, slots: template.slots, hint: rawTarget.hint }),
+                hint: buildPatternHint(template),
                 slotPool: collectSlotPool(template),
                 correctWords: tokenizePhraseAware(en, state.splitPhrases),
             };
@@ -3547,7 +3553,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (state.reviewQueue && state.reviewQueue.length) {
             const rv = state.reviewQueue.shift();
             applyQuestion({
-                en: rv.en, zh: rv.zh || '', promptEn: '', review: true,
+                en: rv.en, zh: rv.zh || '', review: true,
                 hint: '', templateEn: '',
                 correctWords: tokenizePhraseAware(rv.en, state.splitPhrases),
                 slotPool: null,
@@ -3566,7 +3572,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function applyQuestion(q) {
         state.currentEn = q.en;
         state.currentZh = q.zh;
-        state.promptEn = q.promptEn || '';
         state.reviewMode = !!q.review;
         state.srsMarked = false;
         state.correctWords = q.correctWords;
@@ -3575,17 +3580,13 @@ document.addEventListener('DOMContentLoaded', function() {
         resetPatternHint();
         renderPromptNote();
 
-        // 听音组句：不显示中文，先放音
+        // 听音组句：不显示中文；**不自动播放** —— 手机只认点击触发的声音，
+        // 让学生点「🔊 播放句子」这个按钮（那一下就是手势）
         if (state.qmode === 'listen' && !q.review) {
-            chineseHint.textContent = '（听录音）';
-            playSentence(q.en).then(how => {
-                if (how === 'tts') {
-                    statusBadge.textContent = '🔊 语音合成朗读（没有找到真人录音）—— 把录音放进 audio 文件夹就会自动用真人录音';
-                    statusBadge.className = 'status-badge';
-                }
-            });
-        } else if (state.qmode === 'swap' && q.promptEn) {
-            chineseHint.textContent = q.srcZh || q.zh;
+            chineseHint.textContent = '（点下面「🔊 播放句子」听题）';
+            statusBadge.textContent = '🔊 点「播放句子」听一遍，再把单词排好';
+            statusBadge.className = 'status-badge';
+            replayBtn.textContent = '🔊 播放句子';
         } else {
             chineseHint.textContent = q.zh;
         }
@@ -3612,19 +3613,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateScore();
     }
 
-    // 题干提示行：换句式 / 听音才出现
+    // 题干提示行：只有听音模式才出现
     function renderPromptNote() {
-        const mode = state.qmode;
-        if (mode === 'listen') {
+        if (state.qmode === 'listen') {
             promptNote.hidden = false;
             promptNoteText.textContent = '🔊 听句子，把单词顺序拼出来';
             replayBtn.hidden = false;
-            return;
-        }
-        if (mode === 'swap' && state.promptEn) {
-            promptNote.hidden = false;
-            promptNoteText.innerHTML = '❓ 疑问句：<span class="pn-src">' + escapeHtml(state.promptEn) + '</span> → 请拼出对应的陈述句';
-            replayBtn.hidden = true;
             return;
         }
         promptNote.hidden = true;
@@ -3707,7 +3701,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             statusBadge.className = 'status-badge correct';
             srsMark(state.currentEn, state.currentZh, true);
-            if (state.qmode === 'listen' || state.qmode === 'swap') chineseHint.textContent = state.currentZh;
+            if (state.qmode === 'listen') chineseHint.textContent = state.currentZh;
             revealFullPattern();
             Sound.correct();
             state.history.push({ en: state.currentEn, zh: state.currentZh, correct: true });
@@ -3847,8 +3841,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         loadQuestion();
-        statusBadge.textContent = '🎯 点击下方单词开始';
-        statusBadge.className = 'status-badge';
+        if (state.qmode !== 'listen') {
+            statusBadge.textContent = '🎯 点击下方单词开始';
+            statusBadge.className = 'status-badge';
+        }
         Sound.start();
     }
 
@@ -3929,7 +3925,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 applyQuestion({
                     en: el.dataset.en,
                     zh: (state.srs[el.dataset.en] || {}).zh || '',
-                    promptEn: '', review: true, hint: '', templateEn: '',
+                    review: true, hint: '', templateEn: '',
                     correctWords: tokenizePhraseAware(el.dataset.en, state.splitPhrases),
                     slotPool: null,
                 });
@@ -4182,8 +4178,24 @@ document.addEventListener('DOMContentLoaded', function() {
         resetGame();
     });
     replayBtn.addEventListener('click', function() {
-        if (state.currentEn) playSentence(state.currentEn);
+        if (!state.currentEn) return;
         Sound.click();
+        playSentence(state.currentEn).then(how => {
+            if (how === 'none') {
+                // 播不出来就别把学生卡在这儿：把中文给出来，题照样能做
+                chineseHint.textContent = state.currentZh;
+                statusBadge.textContent = '⚠️ 这台设备放不出声音（本目录没有录音，浏览器又拦了语音合成）—— 已显示中文，先按句意排';
+                statusBadge.className = 'status-badge wrong';
+            } else if (how === 'tts') {
+                statusBadge.textContent = '🔊 语音合成朗读（本目录没有真人录音）—— 点「再听一遍」可重放';
+                statusBadge.className = 'status-badge';
+                replayBtn.textContent = '🔊 再听一遍';
+            } else {
+                statusBadge.textContent = '🔊 播放中（' + (how === 'file' ? '整句录音' : '逐词录音') + '）';
+                statusBadge.className = 'status-badge';
+                replayBtn.textContent = '🔊 再听一遍';
+            }
+        });
     });
     wrongBtn.addEventListener('click', openWrongModal);
     wrongClose.addEventListener('click', function() { wrongModalOverlay.classList.remove('show'); });
@@ -4311,7 +4323,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadSrs();
     state.reviewQueue = [];
     const savedMode = lsGet(LS_MODE);
-    if (savedMode && ['build', 'listen', 'swap'].indexOf(savedMode) >= 0) {
+    if (savedMode && ['build', 'listen'].indexOf(savedMode) >= 0) {
         state.qmode = savedMode;
         modeSelect.value = savedMode;
     } else {
