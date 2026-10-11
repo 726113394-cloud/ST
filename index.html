@@ -1055,19 +1055,21 @@
         0%, 24%   { opacity: 0; }
         30%, 100% { opacity: 1; }
     }
+    /* 卡片就贴在卡槽里（卡槽是它的定位父级，用 inset:0 对齐），
+       飞进答题区的位移由动画的 translateY 负责 —— 用绝对坐标写死会算错基准 */
     .demo-fly .demo-token {
-        position: absolute; padding: 5px 13px; border-radius: 30px;
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 30px;
         background: rgba(255, 245, 235, 0.95);
         border: 2px solid rgba(255, 200, 160, 0.5);
         font-weight: 700; color: #4a2a1a; font-size: 0.85rem;
         box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
     }
     .demo-fly .demo-token.t1 {
-        left: 44px; top: 99px;
         animation: demoFly1 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
     }
     .demo-fly .demo-token.t2 {
-        left: 134px; top: 99px;
         animation: demoFly2 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
     }
     /* 0-18% 在池里 → 18-26% 飞进答题区 → 26-64% 留在答题区 → 64-72% 才飞回来（第二次点击） */
