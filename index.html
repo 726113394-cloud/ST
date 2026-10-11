@@ -3221,7 +3221,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 if (state.guided) {
                     const need = guidedWords()[state.guidedIndex];
-                    if (need && normalizeToken(word) !== normalizeToken(need)) div.classList.add('locked');
+                    if (need && cmpKeyOf(word) !== cmpKeyOf(need)) div.classList.add('locked');
                 }
                 div.addEventListener('click', () => addToAnswer(idx, word, div));
                 if (state.highEnd) applyTilt(div);
@@ -3353,8 +3353,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     //  10.5 连错 6 次 → 对位卡片引导
     // ================================================================
+    // 比对用的归一化：标点保留原字符，其余小写去符号
+    function cmpKeyOf(t) {
+        return isPunctuationToken(t) ? String(t) : normalizeToken(t);
+    }
+
+    // 对位卡片也带标点：标点同样要按顺序点进去
     function guidedWords() {
-        return state.correctWords.filter(t => !isPunctuationToken(t));
+        return state.correctWords.slice();
     }
     function renderGuideCard() {
         if (!state.guided) { guideCard.hidden = true; guideCard.innerHTML = ''; return; }
@@ -3395,7 +3401,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function addToAnswer(poolIndex, word, sourceEl) {
         if (state.isAnswered) return;
         if (state.usedIndices.includes(poolIndex)) return;
-        if (state.guided && normalizeToken(word) !== normalizeToken(guidedWords()[state.guidedIndex] || '')) {
+        if (state.guided && cmpKeyOf(word) !== cmpKeyOf(guidedWords()[state.guidedIndex] || '')) {
             statusBadge.textContent = '🧭 对位模式：请按「对位卡片」上的顺序点下一个单词';
             statusBadge.className = 'status-badge';
             Sound.wrong();
@@ -3676,16 +3682,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkAnswer() {
         if (state.isAnswered) return;
 
-        const userWords = state.answerItems
-            .map(it => it.word)
-            .filter(t => !isPunctuationToken(t))
-            .map(normalizeToken)
-            .filter(t => t.length > 0);
+        // 标点也参与判分：比对用的归一化——标点保留原字符，其余小写去符号
+        const cmpKey = (t) => isPunctuationToken(t) ? String(t) : normalizeToken(t);
 
-        const correctWords = state.correctWords
-            .filter(t => !isPunctuationToken(t))
-            .map(normalizeToken)
-            .filter(t => t.length > 0);
+        const userWords = state.answerItems.map(it => cmpKey(it.word)).filter(t => t.length > 0);
+        const correctWords = state.correctWords.map(t => cmpKey(t)).filter(t => t.length > 0);
 
         // 诊断：说清"少了/多了/顺序不对"，只给"第几位 / 该靠前还是靠后"这类线索，不直接给答案
         const dg = diagnose(userWords, correctWords);
@@ -3757,8 +3758,16 @@ document.addEventListener('DOMContentLoaded', function() {
         Object.keys(uc).forEach(w => { for (let i = 0; i < (uc[w] || 0) - (cc[w] || 0); i++) extra.push(w); });
         if (missing.length || extra.length) {
             const parts = [];
-            if (missing.length) parts.push(`少了 ${missing.length} 个词（它在第 ${correctWords.indexOf(missing[0]) + 1} 个位置）`);
-            if (extra.length) parts.push(`多了 ${extra.length} 个词（"${extra[0]}" 不在这一句里）`);
+            if (missing.length) {
+                const p = missing[0];
+                const what = isPunctuationToken(p) ? '1 个标点（' + p + '）' : missing.length + ' 个词';
+                parts.push(`少了 ${what}（它在第 ${correctWords.indexOf(p) + 1} 个位置）`);
+            }
+            if (extra.length) {
+                const p = extra[0];
+                const what = isPunctuationToken(p) ? `标点「${p}」` : `"${p}"`;
+                parts.push(`多了 ${extra.length} 个：${what} 不在这一句里`);
+            }
             return { kind: 'count', msg: '数量和答案对不上：' + parts.join('；') };
         }
         const idx = correctWords.findIndex((w, i) => w !== userWords[i]);
@@ -3766,21 +3775,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const w = userWords[idx];
         const should = correctWords.indexOf(w);
         const dir = should > idx ? '应该更靠后' : '应该更靠前';
+        const isPunct = isPunctuationToken(w);
         return {
             kind: 'order', idx,
-            msg: `词都对了，但顺序不对：第 ${idx + 1} 个位置放错了（「${w}」${dir}）—— 点「📐 看句型提示」看看顺序`,
+            msg: isPunct
+                ? `标点「${w}」的位置不对：它应该在最后（现在在第 ${idx + 1} 个）`
+                : `词都对了，但顺序不对：第 ${idx + 1} 个位置放错了（「${w}」${dir}）—— 点「📐 看句型提示」看看顺序`,
         };
     }
 
-    // 判分反馈：把答题区的卡片逐个标出对/错（原来只有一行文字）
+    // 判分反馈：把答题区的卡片逐个标出对/错（标点也算，同 checkAnswer 的口径）
     function markAnswerFeedback(wrongIdx) {
         const els = [...answerZone.querySelectorAll('.token[data-id]')];
         let cmp = 0;
-        els.forEach((el, i) => {
+        els.forEach((el) => {
             const item = state.answerItems.find(it => it.id === parseInt(el.dataset.id, 10));
             if (!item) return;
-            const t = normalizeToken(item.word);
-            if (!t || isPunctuationToken(item.word)) return;   // 标点不参与比对
+            const t = isPunctuationToken(item.word) ? String(item.word) : normalizeToken(item.word);
+            if (!t) return;
             if (wrongIdx === -1 || cmp < wrongIdx) el.classList.add('ok');
             else if (cmp === wrongIdx) el.classList.add('bad');
             cmp++;
@@ -4258,7 +4270,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tutorialSteps = [
         { title: '第一步：点单词 = 放进答题区', desc: '点池里的一张卡片，它飞进上方答题区后**就留在那儿**，池里那张变灰。要取出来得再点一次答题区里的那张卡——不是点一下就自己收回去。' },
         { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。' },
-        { title: '第三步：检查答案', desc: '点「✅ 检查答案」：位置对的卡片变绿，第一个错的变红并抖动，上面那行同时告诉你错在第几个位置。' },
+        { title: '第三步：检查答案', desc: '点「✅ 检查答案」：位置对的卡片变绿，第一个错的变红并抖动，上面那行同时告诉你错在第几个位置。**标点也算分** —— 句号、问号要放到正确的位置上。' },
         { title: '第四步：句型提示（要自己点）', desc: '不确定结构？点中文旁的「📐 看句型提示」。它给的是英文骨架，比如「主语 + can + 家务」「主语 + be + 形容词」，不会把整句写给你；答对之后才显示完整句型。' },
         { title: '第五步：连错 6 次给对位卡片', desc: '同一题连错 6 次，答题区会清空并出现「🧭 对位卡片」：按 1、2、3 的顺序把词点进去，点错位置是点不动的——先把顺序走对一遍再自己排。' },
         { title: '第六步：拆分短语', desc: '「拆分短语」默认开启，像 "play sports" 这样的短语会拆成 "play" 和 "sports" 两张卡片；关掉后它作为一整张卡出现，练短语整体识别。' },
