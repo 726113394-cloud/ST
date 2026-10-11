@@ -1799,15 +1799,15 @@
           "zh": "桌椅"
         },
         {
-          "en": "the books",
+          "en": "books",
           "zh": "书"
         },
         {
-          "en": "the newspapers",
+          "en": "newspapers",
           "zh": "报纸"
         },
         {
-          "en": "the chairs",
+          "en": "chairs",
           "zh": "椅子"
         }
       ]
@@ -1839,23 +1839,23 @@
       "kind": "items",
       "items": [
         {
-          "en": "the living room",
+          "en": "living room",
           "zh": "客厅"
         },
         {
-          "en": "the bedroom",
+          "en": "bedroom",
           "zh": "卧室"
         },
         {
-          "en": "the kitchen",
+          "en": "kitchen",
           "zh": "厨房"
         },
         {
-          "en": "the study",
+          "en": "study",
           "zh": "书房"
         },
         {
-          "en": "the bathroom",
+          "en": "bathroom",
           "zh": "浴室"
         }
       ]
@@ -2182,7 +2182,7 @@
           "zh": "蔬菜"
         },
         {
-          "en": "the soup",
+          "en": "soup",
           "zh": "汤"
         }
       ]
