@@ -3722,11 +3722,8 @@ document.addEventListener('DOMContentLoaded', function() {
             updateHistoryUI();
             checkBtn.disabled = true;
             nextBtn.disabled = false;
-            if (autoNextTimer) clearTimeout(autoNextTimer);
-            autoNextTimer = setTimeout(() => {
-                autoNextTimer = null;
-                if (state.isAnswered) nextQuestion();
-            }, state.highEnd ? 1200 : 950);
+            if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
+            playAnswerThenAdvance();
         } else {
             markAnswerFeedback(wrongIdx);
             state.failedSentences.add(state.currentEn);
@@ -3746,6 +3743,38 @@ document.addEventListener('DOMContentLoaded', function() {
         if (state.srsMarked) return;
         state.srsMarked = true;
         srsMark(state.currentEn, state.currentZh, false);
+    }
+
+    // 答对后把这句话读一遍（磨耳朵），**读完再自动进下一题** ——
+    // 原来不管放音、固定 950ms 就跳题，会把录音掐断；也不用担心手机拦，
+    // 因为「检查答案」那一下点击就是用户手势
+    async function playAnswerThenAdvance() {
+        // 「看中文组句」模式下提示行本来是收起的，这里要把它打开才露出「再听一遍」
+        if (state.qmode !== 'listen') {
+            promptNote.hidden = false;
+            promptNoteText.textContent = '✅ 答对啦 —— 再听一遍这句话';
+        }
+        replayBtn.hidden = false;
+        replayBtn.textContent = '🔊 再听一遍';
+        const how = await playSentence(state.currentEn);
+        let wait = state.highEnd ? 1200 : 950;
+        if (how === 'file') {
+            const el = getAudioEl();
+            if (el.duration && isFinite(el.duration)) {
+                wait = Math.min(Math.max(0, (el.duration - el.currentTime) * 1000) + 450, 7000);
+            } else {
+                wait = 2000;
+            }
+            statusBadge.textContent = statusBadge.textContent.replace('（即将进入下一题）', '（听完自动进入下一题）');
+        } else if (how === 'words' || how === 'tts') {
+            wait = 2600;
+            statusBadge.textContent = statusBadge.textContent.replace('（即将进入下一题）', '（听完自动进入下一题）');
+        }
+        if (autoNextTimer) clearTimeout(autoNextTimer);
+        autoNextTimer = setTimeout(() => {
+            autoNextTimer = null;
+            if (state.isAnswered) nextQuestion();
+        }, wait);
     }
 
     // 判分诊断：说清是"少了/多了"还是"顺序不对"。
@@ -4271,7 +4300,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tutorialSteps = [
         { title: '第一步：点单词 = 放进答题区', desc: '点池里的一张卡片，它飞进上方答题区后**就留在那儿**，池里那张变灰。要取出来得再点一次答题区里的那张卡——不是点一下就自己收回去。' },
         { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。' },
-        { title: '第三步：检查答案', desc: '点「✅ 检查答案」：位置对的卡片变绿，第一个错的变红并抖动，上面那行同时告诉你错在第几个位置。**标点也算分** —— 句号、问号要放到正确的位置上。' },
+        { title: '第三步：检查答案', desc: '点「✅ 检查答案」：位置对的卡片变绿，第一个错的变红并抖动，上面那行同时告诉你错在第几个位置。**标点也算分** —— 句号、问号要放到正确的位置上。答对后会自动把整句读一遍（磨耳朵），听完才进入下一题，想再听就点「🔊 再听一遍」。' },
         { title: '第四步：句型提示（要自己点）', desc: '不确定结构？点中文旁的「📐 看句型提示」。它给的是英文骨架，比如「主语 + can + 家务」「主语 + be + 形容词」，不会把整句写给你；答对之后才显示完整句型。' },
         { title: '第五步：连错 6 次给对位卡片', desc: '同一题连错 6 次，答题区会清空并出现「🧭 对位卡片」：按 1、2、3 的顺序把词点进去，点错位置是点不动的——先把顺序走对一遍再自己排。' },
         { title: '第六步：拆分短语', desc: '「拆分短语」默认开启，像 "play sports" 这样的短语会拆成 "play" 和 "sports" 两张卡片；关掉后它作为一整张卡出现，练短语整体识别。' },
