@@ -510,6 +510,21 @@
     }
     .prompt-note[hidden] { display: none; }
     .prompt-note .pn-src { color: #b05a4a; }
+    /* 播放句子是听音组句里的主操作，做成醒目的大按钮（别做成小药丸） */
+    .prompt-note { flex-direction: column; gap: 10px; padding: 14px 16px; }
+    .prompt-note .pn-text { font-size: clamp(0.85rem, 0.3vw + 0.75rem, 1.05rem); }
+    .btn-play {
+        font-family: inherit; font-weight: 800; cursor: pointer;
+        font-size: clamp(0.95rem, 0.4vw + 0.85rem, 1.2rem);
+        color: #fff; border: none; border-radius: 44px;
+        padding: 12px 34px; min-height: 52px; min-width: min(260px, 80vw);
+        background: linear-gradient(135deg, #f7b88a, #d98c6a);
+        box-shadow: 0 6px 18px rgba(217, 140, 106, 0.32);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-play:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(217, 140, 106, 0.38); }
+    .btn-play:active { transform: scale(0.96); }
+    .btn-play[hidden] { display: none; }
     /* 错题本 */
     .wrong-modal-card { max-width: min(560px, 92vw); }
     .wrong-list {
@@ -1409,6 +1424,10 @@
             <label for="splitPhrasesCheck">🔤 拆分短语</label>
             <input type="checkbox" id="splitPhrasesCheck" checked />
         </div>
+        <div class="group switch">
+            <label for="autoReadCheck">🔊 答对朗读</label>
+            <input type="checkbox" id="autoReadCheck" checked />
+        </div>
         <div class="group">
             <label for="modeSelect">🎯 题型</label>
             <select id="modeSelect" class="mode-select">
@@ -1434,7 +1453,7 @@
         </div>
         <div class="prompt-note" id="promptNote" hidden>
             <span class="pn-text" id="promptNoteText"></span>
-            <button class="pattern-toggle" id="replayBtn" type="button" hidden>🔊 再听一遍</button>
+            <button class="btn-play" id="replayBtn" type="button" hidden>🔊 播放句子</button>
         </div>
         <div class="status-badge" id="statusBadge">🎯 准备就绪</div>
         <div class="card-pool" id="cardPool"></div>
@@ -2497,6 +2516,7 @@ document.addEventListener('DOMContentLoaded', function() {
         patternHint: '',
         patternFull: '',
         qmode: 'build',        // build=看中文组句 / listen=听音组句
+        autoRead: true,        // 答对后是否朗读整句（磨耳朵）
         reviewMode: false,     // 本题是否来自间隔复习队列
         srs: {},
     };
@@ -2553,6 +2573,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     const LS_SRS = 'patternBuilder.srs';
     const LS_MODE = 'patternBuilder.qmode';
+    const LS_AUTOREAD = 'patternBuilder.autoRead';
     const SRS_STEPS = [1, 8, 24, 72, 168];   // 小时：1h → 8h → 1d → 3d → 7d
 
     function loadSrs() {
@@ -2743,6 +2764,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const answerZone = $('answerZone');
     const guideCard = $('guideCard');
     const modeSelect = $('modeSelect');
+    const autoReadCheck = $('autoReadCheck');
     const promptNote = $('promptNote');
     const promptNoteText = $('promptNoteText');
     const replayBtn = $('replayBtn');
@@ -3574,7 +3596,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const rv = state.reviewQueue.shift();
             applyQuestion({
                 en: rv.en, zh: rv.zh || '', review: true,
-                hint: '', templateEn: '',
+                hint: buildPatternHint({ en: rv.en, zh: rv.zh || '', slots: {} }),
+                templateEn: '',
                 correctWords: tokenizePhraseAware(rv.en, state.splitPhrases),
                 slotPool: null,
             });
@@ -3723,7 +3746,14 @@ document.addEventListener('DOMContentLoaded', function() {
             checkBtn.disabled = true;
             nextBtn.disabled = false;
             if (autoNextTimer) { clearTimeout(autoNextTimer); autoNextTimer = null; }
-            playAnswerThenAdvance();
+            if (state.autoRead) {
+                playAnswerThenAdvance();
+            } else {
+                autoNextTimer = setTimeout(() => {
+                    autoNextTimer = null;
+                    if (state.isAnswered) nextQuestion();
+                }, state.highEnd ? 1200 : 950);
+            }
         } else {
             markAnswerFeedback(wrongIdx);
             state.failedSentences.add(state.currentEn);
@@ -3788,15 +3818,20 @@ document.addEventListener('DOMContentLoaded', function() {
         Object.keys(uc).forEach(w => { for (let i = 0; i < (uc[w] || 0) - (cc[w] || 0); i++) extra.push(w); });
         if (missing.length || extra.length) {
             const parts = [];
+            const split = (arr) => [arr.filter(t => !isPunctuationToken(t)), arr.filter(t => isPunctuationToken(t))];
             if (missing.length) {
-                const p = missing[0];
-                const what = isPunctuationToken(p) ? '1 个标点（' + p + '）' : missing.length + ' 个词';
-                parts.push(`少了 ${what}（它在第 ${correctWords.indexOf(p) + 1} 个位置）`);
+                const [mw, mp] = split(missing);
+                const bits = [];
+                if (mw.length) bits.push(mw.length + ' 个词');
+                if (mp.length) bits.push(mp.length + ' 个标点（' + mp.join(' ') + '）');
+                parts.push(`少了 ${bits.join(' + ')}（它在第 ${correctWords.indexOf(missing[0]) + 1} 个位置）`);
             }
             if (extra.length) {
-                const p = extra[0];
-                const what = isPunctuationToken(p) ? `标点「${p}」` : `"${p}"`;
-                parts.push(`多了 ${extra.length} 个：${what} 不在这一句里`);
+                const [ew, ep] = split(extra);
+                const bits = [];
+                if (ew.length) bits.push(ew.length + ' 个词（"' + ew[0] + '" 不在这一句里）');
+                if (ep.length) bits.push(ep.length + ' 个标点（' + ep.join(' ') + ' 不该出现）');
+                parts.push(`多了 ${bits.join(' + ')}`);
             }
             return { kind: 'count', msg: '数量和答案对不上：' + parts.join('；') };
         }
@@ -3920,7 +3955,18 @@ document.addEventListener('DOMContentLoaded', function() {
         patternToggle.textContent = '📐 看句型提示';
     }
     function togglePatternHint() {
-        if (!state.patternHint) return;
+        if (!state.patternHint) {
+            // 别让按钮"点了没反应"：明确说一句
+            patternToggle.textContent = '📐 这句没有句型提示';
+            patternToggle.classList.add('on');
+            setTimeout(() => {
+                if (!state.patternHint) {
+                    patternToggle.textContent = '📐 看句型提示';
+                    patternToggle.classList.remove('on');
+                }
+            }, 1400);
+            return;
+        }
         const willShow = patternBadge.hidden;
         patternBadge.textContent = willShow ? state.patternHint : '';
         patternBadge.hidden = !willShow;
@@ -3979,7 +4025,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 applyQuestion({
                     en: el.dataset.en,
                     zh: (state.srs[el.dataset.en] || {}).zh || '',
-                    review: true, hint: '', templateEn: '',
+                    review: true,
+                    hint: buildPatternHint({ en: el.dataset.en, zh: '', slots: {} }),
+                    templateEn: '',
                     correctWords: tokenizePhraseAware(el.dataset.en, state.splitPhrases),
                     slotPool: null,
                 });
@@ -4231,6 +4279,14 @@ document.addEventListener('DOMContentLoaded', function() {
         lsSet(LS_MODE, state.qmode);
         resetGame();
     });
+    autoReadCheck.addEventListener('change', function() {
+        state.autoRead = this.checked;
+        lsSet(LS_AUTOREAD, state.autoRead ? '1' : '0');
+        statusBadge.textContent = state.autoRead
+            ? '🔊 答对后会朗读整句（磨耳朵）'
+            : '🔇 答对后不朗读；想听可以点「🔊 再听一遍」或切到听音组句';
+        statusBadge.className = 'status-badge';
+    });
     replayBtn.addEventListener('click', function() {
         if (!state.currentEn) return;
         Sound.click();
@@ -4383,6 +4439,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         state.qmode = 'build';
     }
+    state.autoRead = lsGet(LS_AUTOREAD) !== '0';
+    autoReadCheck.checked = state.autoRead;
 
     if (state.selectedUnits.size === 0) {
         showUnitPrompt();
