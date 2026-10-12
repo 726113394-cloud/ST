@@ -2916,6 +2916,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupBigCardGlow() {
         document.addEventListener('pointermove', (e) => {
             if (!state.highEnd) return;
+            if (isDragging) return;      // 拖动中别做每帧 getBoundingClientRect（强制回流）
             glowPointer = { x: e.clientX, y: e.clientY };
             if (glowRaf !== null) return;
             glowRaf = requestAnimationFrame(() => {
@@ -3203,11 +3204,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     //  11. 拖动
     // ================================================================
-    function getInsertBeforeId(clientX, draggingId) {
+    // ⚠️ 必须同时看 X 和 Y。以前只看 X：真实句子在手机上会折成好几行，
+    //    手指还在第 2 行，却会算出第 1 行的落点 → 目标反复翻 → 每次都全量重建答题区。
+    // ⚠️ 判"同一行"用 offsetTop，**不能用 getBoundingClientRect().top**：
+    //    拖动时卡片带 transform:scale，rect 会被改掉（本技能在别的工具踩过这个坑）。
+    function getInsertBeforeId(clientX, clientY, draggingId) {
         const tokens = [...answerZone.querySelectorAll('.token[data-id]')];
+        let rowTop = null;
+        if (clientY != null) {
+            let near = null, best = Infinity;
+            for (const el of tokens) {
+                const r = el.getBoundingClientRect();
+                const d = Math.abs(r.top + r.height / 2 - clientY);
+                if (d < best) { best = d; near = el; }
+            }
+            if (near) rowTop = near.offsetTop;
+        }
         for (const el of tokens) {
             const id = parseInt(el.dataset.id);
             if (id === draggingId) continue;
+            if (rowTop !== null && el.offsetTop !== rowTop) continue;   // 只看手指所在那一行
             const rect = el.getBoundingClientRect();
             if (clientX < rect.left + rect.width / 2) return id;
         }
@@ -3243,13 +3259,51 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!dragState) return;
         dragState.ghost.style.left = (pointerX - dragState.offsetX) + 'px';
         dragState.ghost.style.top = (pointerY - dragState.offsetY) + 'px';
-        const beforeId = getInsertBeforeId(pointerX, dragState.itemId);
+        const beforeId = getInsertBeforeId(pointerX, pointerY, dragState.itemId);
         if (beforeId !== dragState.targetBeforeId) {
             dragState.targetBeforeId = beforeId;
             reorderItems(dragState.itemId, beforeId);
             Sound.drop();
-            renderAnswerZone();
+            syncAnswerOrder();      // ← 只挪节点，绝不在这里全量重建（见下面的说明）
         }
+    }
+    // 拖动中的"弹性挤开"：只把被拖那张的节点挪到新位置，其余卡片用 FLIP 补一段动画。
+    // ⚠️⚠️ 这里**不能**调 renderAnswerZone()：它 answerZone.innerHTML = '' 会把
+    //     **正在拖的那张卡**也销毁重建 —— 触摸指针的隐式捕获就在那张卡上，
+    //     元素被销毁后指针流会断（pointerup 收不到），拖动永远结束不了；
+    //     而且一次拖动里会重建七八次（实测 7 次），纯粹白烧性能。
+    const DRAG_REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function syncAnswerOrder() {
+        const draggedEl = answerZone.querySelector(`.token[data-id="${dragState.itemId}"]`);
+        if (!draggedEl) { renderAnswerZone(); return; }
+        const tokens = [...answerZone.querySelectorAll('.token[data-id]')];
+        const before = new Map(tokens.map(el => [el, el.getBoundingClientRect()]));
+        const refEl = dragState.targetBeforeId == null
+            ? null
+            : answerZone.querySelector(`.token[data-id="${dragState.targetBeforeId}"]`);
+        if (refEl) answerZone.insertBefore(draggedEl, refEl);
+        else answerZone.appendChild(draggedEl);
+        // 重新编号 + 首词首字母大写（和 renderAnswerZone 的规则一致）
+        [...answerZone.querySelectorAll('.token[data-id]')].forEach((el, i) => {
+            const o = el.querySelector('.order');
+            if (o) o.textContent = i + 1;
+            if (el === draggedEl) return;
+            const item = state.answerItems.find(it => it.id === parseInt(el.dataset.id));
+            const node = el.firstChild;
+            if (item && node && node.nodeType === 3) {
+                node.nodeValue = i === 0 ? toFirstPositionForm(item.word) : toDisplayForm(item.word);
+            }
+        });
+        // FLIP：只给"没被拖的那几张"补动画（被拖的那张由 ghost 顶着）
+        if (DRAG_REDUCED) return;
+        tokens.forEach(el => {
+            if (el === draggedEl) return;
+            const a = before.get(el), b = el.getBoundingClientRect();
+            const dx = a.left - b.left, dy = a.top - b.top;
+            if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+            el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
+                       { duration: 240, easing: 'cubic-bezier(.22,1,.36,1)' });
+        });
     }
     function endRealDrag(clientX, clientY) {
         if (!dragState) return;
@@ -3297,9 +3351,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.removeEventListener('pointermove', onMove);
                 document.removeEventListener('pointerup', onEnd);
                 document.removeEventListener('pointercancel', onEnd);
-                if (didDrag) endRealDrag(ev.clientX, ev.clientY);
-                else removeFromAnswer(itemId);
-                isDragging = false;
+                // ⚠️⚠️ 收尾必须在 finally 里。以前 `isDragging = false` 写在
+                //    endRealDrag() **之后**：中间任何异常（Sound / 渲染 / 数据越界）
+                //    都会让它永远停在 true，而本函数开头的守卫
+                //    `if (state.isAnswered || dragState || isDragging) return;`
+                //    会把之后**所有**拖动都挡掉 —— 卡片再也拖不动，只能刷新页面，
+                //    刷新就丢练习进度。这就是老师报的"卡住卡片"。
+                try {
+                    if (didDrag) endRealDrag(ev.clientX, ev.clientY);
+                    else removeFromAnswer(itemId);
+                } finally {
+                    isDragging = false;
+                    const stuck = !!dragState;                // 走到这里还留着 = 上面抛过异常
+                    if (dragState) {
+                        try { dragState.ghost.remove(); } catch (e) {}
+                        dragState = null;
+                    }
+                    // 正常路径 endRealDrag() 自己会 render，这里只补异常路径那一次
+                    if (stuck) { try { renderAnswerZone(); } catch (e) {} }
+                }
             };
             document.addEventListener('pointermove', onMove);
             document.addEventListener('pointerup', onEnd);
