@@ -961,434 +961,265 @@
         color: #fff;
     }
     .confirm-btn.primary:hover { transform: translateY(-1px); }
-    .tutorial-overlay {
-        position: fixed; inset: 0;
-        background: rgba(60, 30, 20, 0.35);
-        backdrop-filter: blur(14px) saturate(150%);
-        -webkit-backdrop-filter: blur(14px) saturate(150%);
-        z-index: 20000;
-        display: none; align-items: center; justify-content: center;
-        padding: 20px;
-        animation: overlayFadeIn 0.4s var(--ease-spring);
-    }
-    .tutorial-overlay.show { display: flex; }
-    .tutorial-card {
-        position: relative;
-        background: rgba(255, 250, 240, 0.95);
-        border-radius: 36px;
-        padding: 28px 32px;
-        max-width: 520px; width: 100%;
-        border: 1px solid rgba(255, 220, 180, 0.8);
-        box-shadow:
-            0 40px 100px rgba(180, 130, 80, 0.35),
-            0 20px 40px rgba(180, 130, 80, 0.18),
-            inset 0 2px 0 rgba(255, 255, 255, 0.9);
-        animation: cardPop 0.6s var(--ease-spring);
-        overflow: hidden;
-    }
-    .tutorial-card::before {
-        content: '';
-        position: absolute; top: 0; left: 0; right: 0; height: 60px;
-        background: linear-gradient(180deg, rgba(255, 220, 190, 0.4), transparent);
-        pointer-events: none;
-    }
-    .tutorial-header {
-        display: flex; align-items: center; gap: 10px;
-        margin-bottom: 20px; position: relative;
-    }
-    .tutorial-header h2 { font-size: 1.25rem; font-weight: 800; color: #7a4a2a; }
-    .tutorial-header .badge {
-        background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff; padding: 2px 12px; border-radius: 30px;
-        font-size: 0.6rem; font-weight: 700;
-    }
-    .tutorial-close {
-        margin-left: auto;
-        background: rgba(255, 235, 215, 0.7);
-        border: 1px solid rgba(255, 200, 160, 0.4);
-        border-radius: 50%; width: 32px; height: 32px;
-        font-size: 1rem; cursor: pointer; color: #7a4a2a;
-        display: flex; align-items: center; justify-content: center;
-        transition: all 0.25s var(--ease-spring);
-    }
-    .tutorial-close:hover { background: #f7b88a; color: #fff; transform: rotate(90deg); }
-    .tutorial-stage {
-        height: 180px;
-        background: linear-gradient(145deg, rgba(255, 240, 220, 0.6), rgba(255, 225, 200, 0.4));
-        border-radius: 24px; margin-bottom: 20px;
-        position: relative; overflow: hidden;
-        border: 1px solid rgba(255, 220, 180, 0.4);
-        display: flex; align-items: center; justify-content: center;
-    }
-    .tutorial-stage .stage-content { display: none; }
-    .tutorial-stage .stage-content.active { display: block; }
-    /* 第一步的演示：还原真实交互 —— 点一下是"放进答题区并留在那儿"，
-       取出必须再点答题区里的卡片；原来的动画演成"飞进去又自己飞回来"，是错的 */
-    .demo-fly { width: 320px; height: 170px; position: relative; }
-    .demo-fly .demo-zone {
-        position: absolute; left: 20px; top: 6px;
-        width: 280px; height: 44px;
-        border: 2px dashed rgba(255, 200, 160, 0.5);
-        border-radius: 22px;
-        animation: demoZonePulse 6s ease-in-out infinite;
-    }
-    .demo-fly .demo-zone::after {
-        content: '答题区';
-        position: absolute; right: 12px; top: -1px;
-        font-size: 0.55rem; color: #b09070; font-weight: 700;
-    }
-    @keyframes demoZonePulse {
-        0%, 25%, 70%, 100% { border-color: rgba(255, 200, 160, 0.5); box-shadow: none; }
-        35%, 55% { border-color: #d98c6a; box-shadow: 0 0 18px rgba(217, 140, 106, 0.45); }
-    }
-    .demo-fly .demo-pool-label {
-        position: absolute; left: 20px; top: 74px;
-        font-size: 0.55rem; color: #b09070; font-weight: 700;
-    }
-    .demo-fly .demo-slot {
-        position: absolute; top: 94px; height: 36px;
-        border: 2px dashed rgba(255, 200, 160, 0.55);
-        border-radius: 22px;
-        display: flex; align-items: center; justify-content: center;
-    }
-    .demo-fly .demo-slot.s1 { left: 38px; width: 66px; }
-    .demo-fly .demo-slot.s2 { left: 128px; width: 48px; }
-    .demo-fly .demo-slot-ghost {
-        position: absolute; inset: 0;
-        display: flex; align-items: center; justify-content: center;
-        font-weight: 700; font-size: 0.85rem; color: #c0a68c;
-        opacity: 0;
-    }
-    .demo-fly .demo-ghost-a { animation: demoGhostA 6s ease-in-out infinite; }
-    .demo-fly .demo-ghost-b { animation: demoGhostB 6s ease-in-out infinite; }
-    @keyframes demoGhostA {
-        0%, 18%   { opacity: 0; }
-        24%, 62%  { opacity: 1; }
-        70%, 100% { opacity: 0; }
-    }
-    @keyframes demoGhostB {
-        0%, 24%   { opacity: 0; }
-        30%, 100% { opacity: 1; }
-    }
-    /* 卡片就贴在卡槽里（卡槽是它的定位父级，用 inset:0 对齐），
-       飞进答题区的位移由动画的 translateY 负责 —— 用绝对坐标写死会算错基准 */
-    .demo-fly .demo-token {
-        position: absolute; inset: 0;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 30px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.85rem;
-        box-shadow: 0 4px 12px rgba(217, 140, 106, 0.15);
-    }
-    .demo-fly .demo-token.t1 {
-        animation: demoFly1 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-    }
-    .demo-fly .demo-token.t2 {
-        animation: demoFly2 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-    }
-    /* 0-18% 在池里 → 18-26% 飞进答题区 → 26-64% 留在答题区 → 64-72% 才飞回来（第二次点击） */
-    @keyframes demoFly1 {
-        0%, 14%   { transform: translateY(0) scale(1); }
-        18%       { transform: translateY(2px) scale(0.94); }
-        26%, 62%  { transform: translateY(-89px) scale(1.04); }
-        64%       { transform: translateY(-85px) scale(1); }
-        72%       { transform: translateY(2px) scale(0.96); }
-        76%, 100% { transform: translateY(0) scale(1); }
-    }
-    @keyframes demoFly2 {
-        0%, 22%   { transform: translateY(0) scale(1); }
-        26%       { transform: translateY(2px) scale(0.94); }
-        34%, 100% { transform: translateY(-89px) scale(1.04); }
-    }
-    /* 两行说明轮流亮起，对上动画的两个阶段 */
-    .demo-fly .demo-caption {
-        position: absolute; left: 0; top: 132px; width: 320px;
-        text-align: center; font-size: 0.62rem; font-weight: 700;
-        color: #7a4a2a; opacity: 0; line-height: 1.5;
-    }
-    .demo-fly .demo-caption.c1 { animation: demoCapA 6s ease-in-out infinite; }
-    .demo-fly .demo-caption.c2 { animation: demoCapB 6s ease-in-out infinite; }
-    @keyframes demoCapA {
-        0%, 12%   { opacity: 0; }
-        20%, 58%  { opacity: 1; }
-        64%, 100% { opacity: 0; }
-    }
-    @keyframes demoCapB {
-        0%, 68%   { opacity: 0; }
-        76%, 94%  { opacity: 1; }
-        100%      { opacity: 0; }
-    }
-    /* 第四步：句型提示按钮的样子 */
-    .demo-pattern-btn {
-        padding: 4px 12px; border-radius: 20px;
-        background: rgba(247, 184, 138, 0.25);
-        border: 1px dashed rgba(217, 140, 106, 0.6);
-        font-weight: 700; font-size: 0.62rem; color: #7a4a2a;
-        animation: demoPatternPulse 2.4s ease-in-out infinite;
-    }
-    /* 第五步：对位卡片的样子 */
-    .demo-guide { width: 300px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .demo-guide-title { font-weight: 700; font-size: 0.72rem; color: #7a4a2a; }
-    .demo-guide-row { display: flex; gap: 8px; }
-    .demo-guide-slot {
-        display: flex; align-items: center; gap: 5px;
-        padding: 6px 12px; border-radius: 14px;
-        background: #fffdf8; border: 1.5px dashed rgba(220, 180, 140, 0.6);
-        font-weight: 700; font-size: 0.75rem; color: #a08060;
-    }
-    .demo-guide-slot span { font-size: 0.58rem; color: #fff; background: #c9a98c; border-radius: 10px; padding: 0 7px; }
-    .demo-guide-slot.done { border-style: solid; border-color: #b8c9a0; background: #f4f8ee; color: #6a7a5a; }
-    .demo-guide-slot.done span { background: #8aa06a; }
-    .demo-guide-slot.now {
-        border-style: solid; border-color: #d98c6a; background: #ffe4cc; color: #7a4a2a;
-        animation: demoPatternPulse 1.6s ease-in-out infinite;
-    }
-    .demo-guide-slot.now span { background: #d98c6a; }
-    .demo-guide-slot.locked { opacity: 0.5; }
-    .demo-guide-tip { font-size: 0.58rem; color: #8a6a4a; }
-    .demo-swap { width: 260px; height: 140px; position: relative; }
-    .demo-swap .demo-token {
-        position: absolute; padding: 6px 16px; border-radius: 30px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.9rem; top: 50px;
-    }
-    .demo-swap .demo-token.a {
-        left: 30px;
-        animation: demoSwapA 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-    }
-    .demo-swap .demo-token.b {
-        left: 140px;
-        animation: demoSwapB 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-    }
-    @keyframes demoSwapA {
-        0%, 5%    { transform: translateX(0) translateY(0) scale(1); z-index: 2; box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
-        12%       { transform: translateX(0) translateY(-10px) scale(1.1) rotate(-4deg); z-index: 3; box-shadow: 0 12px 24px rgba(217,140,106,0.35); }
-        26%       { transform: translateX(50px) translateY(-16px) scale(1.12) rotate(-6deg); z-index: 3; box-shadow: 0 14px 28px rgba(217,140,106,0.4); }
-        38%       { transform: translateX(105px) translateY(0) scale(1.02) rotate(0deg); z-index: 3; box-shadow: 0 8px 18px rgba(217,140,106,0.25); }
-        46%, 60%  { transform: translateX(110px) translateY(0) scale(1); z-index: 2; box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
-        70%       { transform: translateX(110px) translateY(-10px) scale(1.1) rotate(4deg); z-index: 3; box-shadow: 0 12px 24px rgba(217,140,106,0.35); }
-        85%       { transform: translateX(20px) translateY(-16px) scale(1.1) rotate(3deg); z-index: 3; box-shadow: 0 12px 24px rgba(217,140,106,0.35); }
-        95%, 100% { transform: translateX(0) translateY(0) scale(1); z-index: 2; box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
-    }
-    @keyframes demoSwapB {
-        0%, 5%    { transform: translateX(0) translateY(0) scale(1); }
-        12%       { transform: translateX(0) translateY(-6px) scale(0.97); }
-        26%       { transform: translateX(-35px) translateY(-8px) scale(0.95); }
-        38%       { transform: translateX(-105px) translateY(0) scale(1.02); }
-        46%, 60%  { transform: translateX(-110px) translateY(0) scale(1); }
-        70%       { transform: translateX(-110px) translateY(-6px) scale(0.97); }
-        85%       { transform: translateX(-30px) translateY(-8px) scale(0.98); }
-        95%, 100% { transform: translateX(0) translateY(0) scale(1); }
-    }
-    .demo-check {
-        width: 260px; height: 140px;
-        display: flex; align-items: center; justify-content: center;
-        flex-direction: column; gap: 12px;
-    }
-    .demo-check .demo-token-row { display: flex; gap: 6px; }
-    .demo-check .demo-token {
-        padding: 6px 14px; border-radius: 30px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.85rem;
-    }
-    .demo-check .demo-token.highlight {
-        animation: demoCheckStagger 3.6s ease-in-out infinite;
-    }
-    .demo-check .demo-token.highlight:nth-child(1) { animation-delay: 0s; }
-    .demo-check .demo-token.highlight:nth-child(2) { animation-delay: 0.35s; }
-    .demo-check .demo-token.highlight:nth-child(3) { animation-delay: 0.7s; }
-    .demo-check .demo-check-mark {
-        font-size: 2rem; opacity: 0;
-        animation: demoCheckMark 3.6s ease-in-out infinite;
-    }
-    @keyframes demoCheckStagger {
-        0%, 8%   { background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); transform: scale(1); }
-        18%, 72% { background: rgba(200, 240, 210, 0.95); border-color: #66bb6a; transform: scale(1.05); }
-        82%, 100%{ background: rgba(255, 245, 235, 0.95); border-color: rgba(255, 200, 160, 0.5); transform: scale(1); }
-    }
-    @keyframes demoCheckMark {
-        0%, 55%  { opacity: 0; transform: scale(0.4); }
-        68%, 85% { opacity: 1; transform: scale(1); }
-        95%, 100%{ opacity: 0; transform: scale(0.9); }
-    }
-    .demo-pattern { width: 260px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .demo-pattern-hint {
-        display: flex; align-items: center; gap: 8px;
-        padding: 8px 16px; border-radius: 24px;
-        background: rgba(255, 245, 235, 0.92);
-        border: 1px solid rgba(255, 200, 160, 0.4);
-        font-weight: 700; color: #4a2a1a; font-size: 0.82rem;
-    }
-    .demo-pattern-label {
-        font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;
-        color: #8a6a4a; background: rgba(247, 184, 138, 0.18);
-        padding: 2px 8px; border-radius: 20px;
-    }
-    .demo-pattern-badge {
-        padding: 6px 16px; border-radius: 24px;
-        background: linear-gradient(135deg, rgba(247, 184, 138, 0.42), rgba(217, 140, 106, 0.36));
-        border: 1px solid rgba(247, 184, 138, 0.55);
-        color: #6a3a20; font-weight: 700; font-size: 0.72rem;
-        animation: demoPatternPulse 2.4s ease-in-out infinite;
-    }
-    @keyframes demoPatternPulse {
-        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(247, 184, 138, 0.5); }
-        50%      { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(247, 184, 138, 0); }
-    }
-    .demo-phrase {
-        width: 260px; display: flex; flex-direction: column; align-items: center; gap: 10px;
-    }
-    .demo-phrase-row { display: flex; gap: 6px; align-items: center; }
-    .demo-phrase-tag {
-        padding: 5px 14px; border-radius: 20px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.8rem;
-        animation: demoPhraseGlow 4.5s ease-in-out infinite;
-    }
-    @keyframes demoPhraseGlow {
-        0%, 8%    { background: rgba(255, 245, 235, 0.95); transform: scale(1); box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
-        18%, 32%  { background: rgba(255, 200, 160, 0.55); border-color: #d98c6a; transform: scale(1.08); box-shadow: 0 8px 20px rgba(217,140,106,0.3); }
-        45%, 100% { background: rgba(255, 245, 235, 0.95); transform: scale(1); box-shadow: 0 4px 12px rgba(217,140,106,0.15); }
-    }
-    .demo-phrase-arrow {
-        font-size: 1.2rem; color: #d98c6a;
-        animation: demoArrowPulse 2.4s ease-in-out infinite;
-    }
-    @keyframes demoArrowPulse {
-        0%, 100% { opacity: 0.4; transform: scale(1); }
-        50%      { opacity: 1; transform: scale(1.2); }
-    }
-    .demo-phrase-split-row { display: flex; gap: 4px; }
-    .demo-phrase-split-row .demo-token {
-        padding: 4px 10px; border-radius: 16px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 1.5px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.72rem;
-        animation: demoPhraseSplitIn 4.5s ease-in-out infinite;
-    }
-    .demo-phrase-split-row .demo-token:nth-child(1) { animation-delay: 0s; }
-    .demo-phrase-split-row .demo-token:nth-child(2) { animation-delay: 0.15s; }
-    @keyframes demoPhraseSplitIn {
-        0%, 35%   { opacity: 0.25; transform: translateY(6px) scale(0.85); background: rgba(255, 245, 235, 0.5); }
-        50%, 100% { opacity: 1; transform: translateY(0) scale(1); background: rgba(255, 245, 235, 0.95); }
-    }
-    .demo-possessive { width: 260px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .demo-possessive-row { display: flex; gap: 6px; align-items: center; }
-    .demo-possessive-tag {
-        padding: 5px 12px; border-radius: 18px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 2px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.78rem;
-        animation: demoPossessiveGlow 5s ease-in-out infinite;
-    }
-    .demo-possessive-tag:nth-child(1) { animation-delay: 0s; }
-    .demo-possessive-tag:nth-child(2) { animation-delay: 0.2s; }
-    @keyframes demoPossessiveGlow {
-        0%, 8%    { background: rgba(255, 245, 235, 0.95); transform: scale(1); }
-        18%, 32%  { background: rgba(255, 200, 160, 0.55); border-color: #d98c6a; transform: scale(1.06); }
-        45%, 100% { background: rgba(255, 245, 235, 0.95); transform: scale(1); }
-    }
-    .demo-possessive-arrow {
-        font-size: 1.1rem; color: #d98c6a;
-        animation: demoArrowPulse 2.4s ease-in-out infinite;
-    }
-    .demo-possessive-split-row { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; }
-    .demo-possessive-split-row .demo-token {
-        padding: 4px 9px; border-radius: 14px;
-        background: rgba(255, 245, 235, 0.95);
-        border: 1.5px solid rgba(255, 200, 160, 0.5);
-        font-weight: 700; color: #4a2a1a; font-size: 0.68rem;
-        animation: demoPossessiveSplitIn 5s ease-in-out infinite;
-    }
-    .demo-possessive-split-row .demo-token:nth-child(1) { animation-delay: 0s; }
-    .demo-possessive-split-row .demo-token:nth-child(2) { animation-delay: 0.12s; }
-    .demo-possessive-split-row .demo-token:nth-child(3) { animation-delay: 0.24s; }
-    .demo-possessive-split-row .demo-token:nth-child(4) { animation-delay: 0.36s; }
-    @keyframes demoPossessiveSplitIn {
-        0%, 35%   { opacity: 0.25; transform: translateY(6px) scale(0.85); background: rgba(255, 245, 235, 0.5); }
-        50%, 100% { opacity: 1; transform: translateY(0) scale(1); background: rgba(255, 245, 235, 0.95); }
-    }
-    .demo-history { width: 260px; display: flex; flex-direction: column; gap: 6px; position: relative; }
-    .demo-history-item {
-        padding: 6px 14px; border-radius: 24px;
-        background: rgba(255, 245, 235, 0.82);
-        border: 1px solid rgba(255, 200, 160, 0.32);
-        font-weight: 600; color: #4a2a1a; font-size: 0.78rem; text-align: center;
-    }
-    .demo-history-item.highlight { animation: demoHistoryClick 3.2s ease-in-out infinite; }
-    @keyframes demoHistoryClick {
-        0%, 18%   { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
-        38%, 62%  { transform: scale(1.06); background: rgba(247, 184, 138, 0.45); border-color: #d98c6a; box-shadow: 0 4px 14px rgba(217,140,106,0.2); }
-        82%, 100% { transform: scale(1); background: rgba(255, 245, 235, 0.82); border-color: rgba(255, 200, 160, 0.32); }
-    }
-    .demo-history-cursor {
-        position: absolute; font-size: 1.1rem; right: 26px; top: 50%;
-        animation: demoCursorMove 3.2s ease-in-out infinite; pointer-events: none;
-    }
-    @keyframes demoCursorMove {
-        0%, 12%  { opacity: 0; transform: translate(20px, -50%) scale(1) rotate(0); }
-        28%      { opacity: 1; transform: translate(4px, -50%) scale(1.22) rotate(-18deg); }
-        42%, 62% { opacity: 1; transform: translate(0, -50%) scale(0.82) rotate(0); }
-        78%, 100%{ opacity: 0; transform: translate(20px, -50%) scale(1) rotate(0); }
-    }
-    .tutorial-text { text-align: center; min-height: 80px; padding: 0 4px; }
-    .tutorial-text h3 { font-size: 1.15rem; font-weight: 800; color: #7a4a2a; margin-bottom: 8px; }
-    .tutorial-text p { font-size: 0.9rem; color: #6a4a3a; line-height: 1.6; }
-    .tutorial-nav {
-        display: flex; gap: 8px; justify-content: space-between; align-items: center;
-        margin-top: 20px;
-    }
-    .tutorial-nav .dots { display: flex; gap: 6px; }
-    .tutorial-nav .dot {
-        width: 8px; height: 8px; border-radius: 50%;
-        background: rgba(217, 140, 106, 0.3);
-        transition: all 0.3s var(--ease-spring);
-    }
-    .tutorial-nav .dot.active { background: #d98c6a; transform: scale(1.3); }
-    .tutorial-nav .btn {
-        padding: 8px 22px; border-radius: 30px;
-        font-weight: 700; font-size: 0.85rem;
-        border: none; cursor: pointer; font-family: inherit;
-        transition: all 0.3s var(--ease-spring);
-    }
-    .tutorial-nav .btn-skip {
-        background: rgba(255, 235, 215, 0.6);
-        color: #7a4a2a;
-        border: 1px solid rgba(255, 200, 160, 0.4);
-    }
-    .tutorial-nav .btn-skip:hover:not(:disabled) { background: #fff9f0; transform: translateY(-2px); }
-    .tutorial-nav .btn-skip:disabled { opacity: 0.4; cursor: not-allowed; }
-    .tutorial-nav .btn-next {
-        background: linear-gradient(135deg, #f7b88a, #d98c6a);
-        color: #fff;
-        box-shadow: 0 4px 16px rgba(217, 140, 106, 0.3);
-    }
-    .tutorial-nav .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217, 140, 106, 0.4); }
-    @media (max-width: 720px) {
-        .header { flex-direction: column; align-items: stretch; gap: 6px; }
-        .settings { flex-direction: column; align-items: stretch; gap: 6px; }
-        .settings .group { flex-wrap: wrap; justify-content: center; }
-        .info-bar { flex-direction: column; align-items: stretch; text-align: center; }
-        .info-bar .item { justify-content: center; }
-        .action-row .btn { padding: 10px 18px; font-size: 0.84rem; min-height: 48px; }
-        .card-pool .token { min-height: 46px; }
-        .tutorial-card { padding: 20px; border-radius: 28px; }
-        .tutorial-stage { height: 150px; }
-        .tutorial-header h2 { font-size: 1.1rem; }
-        .unit-modal-card { max-width: 96vw; }
-        .unit-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
-    }
-    @media (max-width: 480px) {
-        .app { border-radius: 28px; }
-        .main { padding: 10px 12px; }
-        .tutorial-card { padding: 16px; border-radius: 24px; }
-        .tutorial-stage { height: 130px; }
-        .unit-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+/* ============================================================
+   内置教学 · 全屏版
+   设计：整页接管。动画舞台居中占满，讲解浮在边上
+         —— PC 悬浮在右侧，手机落成底部卡片。
+   要点：1) 静态 HTML 写成「动作做完」的样子，动画只负责重放过程，
+            于是系统开了「减少动效」时看到的是结果态而不是半截动作。
+         2) 关键帧的 100% 都停在结果态。
+         3) 覆盖层不透明、不用 backdrop-filter（原来这里有一层 blur，
+            整屏接管之后既看不出效果又要每次重绘重算）。
+   ============================================================ */
+.tutorial-overlay{
+  position:fixed; inset:0; z-index:20000; display:none; flex-direction:column;
+  background:linear-gradient(145deg,#fce4d6 0%,#fde9d0 42%,#fef6e0 100%);
+  color:#7a4a2a; overflow:hidden;
+}
+.tutorial-overlay.show{ display:flex; }
+
+/* ---------- 顶部进度 ---------- */
+.tut-top{
+  flex:none; display:flex; align-items:center; gap:clamp(10px,1.6vw,18px);
+  padding:calc(clamp(10px,1.8vh,18px) + env(safe-area-inset-top,0px)) clamp(14px,3vw,38px) 0;
+  z-index:3;
+}
+.tut-stepno{
+  font-size:clamp(12px,1vw,14.5px); font-weight:800; color:#a8785a; white-space:nowrap;
+}
+.tut-bar{
+  flex:1 1 auto; height:9px; border-radius:99px; overflow:hidden;
+  background:rgba(247,184,138,.22); border:1px solid rgba(247,184,138,.35);
+}
+.tut-bar i{
+  display:block; height:100%; width:0; border-radius:99px;
+  background:linear-gradient(90deg,#f7b88a,#d98c6a);
+  transition:width .4s cubic-bezier(.4,0,.2,1);
+}
+.tut-skip{
+  flex:none; min-height:44px; padding:0 clamp(14px,1.6vw,20px); border-radius:99px;
+  font:inherit; font-size:clamp(13px,1vw,14.5px); font-weight:800; cursor:pointer;
+  color:#7a4a2a; background:rgba(255,235,215,.85); border:1px solid rgba(255,200,160,.6);
+  transition:background .2s,transform .2s;
+}
+.tut-skip:hover{ background:#f7b88a; color:#fff; transform:translateY(-1px); }
+
+/* ---------- 舞台 ---------- */
+.tut-stage{
+  flex:1 1 auto; min-height:0; display:flex; align-items:center; justify-content:center;
+  padding:clamp(8px,1.6vh,20px) clamp(14px,3vw,44px);
+}
+.tut-scene{
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(12px,3vh,40px); width:100%; height:100%; max-width:min(940px,100%);
+}
+.tut-scene.on{ display:flex; }
+.tut-cap{
+  font-size:clamp(12.5px,1.35vw,20px); font-weight:800; color:#a8785a; text-align:center;
+  background:rgba(255,255,255,.55); border:1px solid rgba(247,184,138,.4);
+  padding:.5em 1em; border-radius:99px;
+}
+.tut-row{ display:flex; flex-wrap:wrap; gap:clamp(8px,1.7vw,26px); justify-content:center; align-items:center; }
+
+/* 词卡（模拟真实卡片） */
+.w{
+  display:inline-flex; align-items:center; justify-content:center; position:relative;
+  font-size:clamp(14px,2.1vw,32px); font-weight:800; line-height:1;
+  padding:.6em .95em; border-radius:clamp(10px,1.1vw,20px);
+  color:#7a4a2a; background:linear-gradient(145deg,#fffdf8,#fff3e4);
+  border:1.5px solid rgba(247,184,138,.55);
+  box-shadow:0 3px 0 rgba(217,140,106,.18);
+}
+.w.used{ opacity:.32; }
+.w.zh{ background:linear-gradient(145deg,#fff8f0,#ffeedd); }
+.w.ok{ border-color:#5cb87a; background:linear-gradient(145deg,#eefbf1,#ddf5e4); color:#2f7a4a; }
+.w.no{ border-color:#e0726d; background:linear-gradient(145deg,#fdeeed,#fadbd9); color:#a8403a; }
+
+/* 答题区 */
+.zone{
+  display:flex; flex-wrap:wrap; gap:clamp(8px,1.4vw,20px); justify-content:center; align-items:center;
+  min-width:min(560px,86%); padding:clamp(12px,2vh,26px) clamp(14px,2vw,30px);
+  border-radius:clamp(16px,1.8vw,28px); border:2.5px dashed rgba(247,184,138,.65);
+  background:rgba(255,255,255,.42);
+}
+
+/* 第 1 步：飞入 */
+.flyin{ animation:tutFlyIn 3.2s cubic-bezier(.4,0,.2,1) both; }
+@keyframes tutFlyIn{
+  0%{ transform:translateY(clamp(70px,14vh,150px)) scale(.9); }
+  26%,100%{ transform:translateY(0) scale(1); }
+}
+.poolguy{ animation:tutGrey 3.2s ease both; }
+@keyframes tutGrey{
+  0%,22%{ opacity:1; }
+  34%,100%{ opacity:.32; }
+}
+
+/* 第 2 步：换位 */
+.swapA{ animation:tutSwapA 3.4s cubic-bezier(.34,1.3,.64,1) both; }
+.swapB{ animation:tutSwapB 3.4s cubic-bezier(.34,1.3,.64,1) both; }
+@keyframes tutSwapA{ 0%,8%{ transform:translateX(0); } 40%,100%{ transform:translateX(calc(100% + clamp(8px,1.7vw,26px))); } }
+@keyframes tutSwapB{ 0%,8%{ transform:translateX(0); } 40%{ transform:translateX(calc(-100% - clamp(8px,1.7vw,26px))); } 100%{ transform:translateX(calc(-100% - clamp(8px,1.7vw,26px))); } }
+
+/* 第 3 步：打勾打叉 */
+.w .mk{
+  position:absolute; right:-.45em; top:-.45em; width:1.5em; height:1.5em; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:clamp(11px,1.1vw,19px); color:#fff; font-weight:900;
+}
+.w .mk.ok{ background:#5cb87a; animation:tutMark .6s cubic-bezier(.34,1.5,.64,1) .5s both; }
+.w .mk.no{ background:#e0726d; animation:tutMark .6s cubic-bezier(.34,1.5,.64,1) 1.1s both; }
+@keyframes tutMark{
+  0%{ transform:scale(0); opacity:0; }
+  60%{ transform:scale(1.25); opacity:1; }
+  100%{ transform:scale(1); opacity:1; }
+}
+.shake{ animation:tutShake 3.4s ease-in-out both; }
+@keyframes tutShake{
+  0%,32%{ transform:translateX(0); }
+  40%{ transform:translateX(-10px); } 48%{ transform:translateX(10px); }
+  56%{ transform:translateX(-7px); } 64%{ transform:translateX(6px); }
+  72%,100%{ transform:translateX(0); }
+}
+
+/* 第 4 步：句型提示 */
+.hintbar{
+  display:flex; align-items:center; gap:clamp(8px,1.2vw,18px);
+  font-size:clamp(13px,1.7vw,26px); font-weight:900;
+  padding:.55em 1.1em; border-radius:clamp(12px,1.2vw,22px);
+  color:#7a4a2a; background:rgba(255,255,255,.72);
+  border:2px solid rgba(247,184,138,.7);
+  animation:tutHint 3.6s cubic-bezier(.4,0,.2,1) both;
+}
+.hintbar b{ color:#c2703f; }
+@keyframes tutHint{
+  0%{ transform:scale(.86); opacity:.2; clip-path:inset(0 100% 0 0); }
+  30%,100%{ transform:scale(1); opacity:1; clip-path:inset(0 0 0 0); }
+}
+
+/* 第 5 步：诊断文案 */
+.diag{ display:flex; flex-direction:column; gap:clamp(8px,1.4vh,16px); align-items:center; }
+.diag span{
+  font-size:clamp(13px,1.5vw,24px); font-weight:800; color:#8a5a3a;
+  background:rgba(255,255,255,.7); border:1.5px solid rgba(247,184,138,.5);
+  padding:.45em 1em; border-radius:99px;
+}
+.diag span:nth-child(1){ animation:tutPop .65s cubic-bezier(.34,1.5,.64,1) .25s both; }
+.diag span:nth-child(2){ animation:tutPop .65s cubic-bezier(.34,1.5,.64,1) .75s both; }
+.diag span:nth-child(3){ animation:tutPop .65s cubic-bezier(.34,1.5,.64,1) 1.25s both; }
+@keyframes tutPop{
+  0%{ transform:scale(.7) translateY(10px); opacity:0; }
+  60%{ transform:scale(1.05) translateY(-2px); opacity:1; }
+  100%{ transform:scale(1) translateY(0); opacity:1; }
+}
+
+/* 第 6 步：对位卡片 */
+.compass{
+  display:flex; flex-direction:column; align-items:center; gap:clamp(10px,1.6vh,20px);
+  padding:clamp(14px,2vh,26px) clamp(16px,2.2vw,34px); border-radius:clamp(16px,1.8vw,28px);
+  background:linear-gradient(145deg,rgba(255,255,255,.85),rgba(255,244,228,.75));
+  border:2px solid rgba(217,140,106,.5);
+  animation:tutCompass 3.6s cubic-bezier(.34,1.3,.64,1) both;
+}
+@keyframes tutCompass{
+  0%{ transform:translateY(26px) scale(.9); opacity:0; }
+  26%,100%{ transform:translateY(0) scale(1); opacity:1; }
+}
+.compass .orders{ font-size:clamp(12.5px,1.2vw,20px); font-weight:800; color:#a8785a; }
+.compass .nums{ display:flex; gap:clamp(8px,1.4vw,20px); }
+
+/* 第 7 步：短语拆分 */
+.phrase{ display:flex; flex-direction:column; gap:clamp(10px,2vh,22px); align-items:center; }
+.phrase .whole{ animation:tutWhole 3.8s ease both; }
+@keyframes tutWhole{ 0%,30%{ opacity:1; } 46%,100%{ opacity:.22; } }
+.phrase .parts{ display:flex; gap:clamp(8px,1.4vw,20px); }
+.phrase .parts .w{ animation:tutPop .7s cubic-bezier(.34,1.5,.64,1) 1.5s both; }
+.arrow{
+  width:clamp(70px,10vw,180px); height:clamp(2px,.3vw,4px); border-radius:9px;
+  background:linear-gradient(90deg,rgba(247,184,138,0),#d98c6a,rgba(247,184,138,0));
+  animation:tutArrow 3.8s ease both;
+}
+@keyframes tutArrow{ 0%,34%{ opacity:0; transform:scaleX(.4); } 50%,100%{ opacity:.9; transform:scaleX(1); } }
+
+/* 第 8 步：最近练习 / 间隔复习 */
+.timeline{ display:flex; gap:clamp(6px,1.2vw,18px); align-items:center; flex-wrap:wrap; justify-content:center; }
+.timeline .tk{
+  font-size:clamp(12px,1.2vw,20px); font-weight:800; color:#a8785a;
+  padding:.4em .9em; border-radius:99px; background:rgba(255,255,255,.6);
+  border:1.5px solid rgba(247,184,138,.4);
+}
+.timeline .tk.on{
+  color:#fff; background:linear-gradient(135deg,#f7b88a,#d98c6a); border-color:transparent;
+  animation:tutTick 4s ease-in-out both;
+}
+@keyframes tutTick{ 0%{ transform:scale(1);} 12%{ transform:scale(1.16);} 26%,100%{ transform:scale(1);} }
+.timeline .tk.on:nth-child(3){ animation-delay:.9s; }
+.timeline .tk.on:nth-child(5){ animation-delay:1.8s; }
+.timeline .tk.on:nth-child(7){ animation-delay:2.7s; }
+
+/* ---------- 讲解浮层 ---------- */
+.tut-panel{
+  flex:none; z-index:4;
+  background:rgba(255,250,240,.97);
+  border:1px solid rgba(255,220,180,.85);
+  box-shadow:0 -8px 30px rgba(180,130,80,.22), inset 0 2px 0 rgba(255,255,255,.9);
+  border-radius:30px 30px 0 0;
+  padding:clamp(14px,2vh,22px) clamp(16px,3vw,26px)
+          calc(clamp(14px,2vh,22px) + env(safe-area-inset-bottom,0px));
+  max-height:46vh; overflow-y:auto;
+}
+.tut-ico{ font-size:clamp(24px,2.6vw,36px); line-height:1; margin-bottom:.25em; }
+.tut-h{ font-size:clamp(17px,1.75vw,24px); font-weight:900; margin:0 0 .35em; color:#7a4a2a; }
+.tut-p{ margin:0 0 .9em; font-size:clamp(14px,1.15vw,17px); line-height:1.85; font-weight:600; color:#8a5a3a; }
+.tut-p b{ color:#c2703f; font-weight:900; }
+.tut-nav{ display:flex; align-items:center; gap:clamp(8px,1vw,14px); }
+.tut-btn{
+  flex:1 1 0; min-height:52px; border-radius:99px; cursor:pointer; font-family:inherit;
+  font-size:clamp(14px,1.15vw,17px); font-weight:800; color:#7a4a2a;
+  background:rgba(255,235,215,.85); border:1px solid rgba(255,200,160,.6);
+  transition:background .2s,transform .2s,box-shadow .2s;
+}
+.tut-btn:hover:not(:disabled){ background:#f7d6bc; transform:translateY(-1px); }
+.tut-btn:disabled{ opacity:.35; cursor:not-allowed; }
+.tut-btn.primary{
+  background:linear-gradient(135deg,#f7b88a,#d98c6a); border-color:transparent; color:#fff;
+  box-shadow:0 4px 0 rgba(180,110,70,.35);
+}
+.tut-dots{ display:flex; gap:7px; justify-content:center; align-items:center; margin-top:12px; }
+.tut-dots i{
+  width:8px; height:8px; border-radius:50%; background:rgba(247,184,138,.4); cursor:pointer;
+  transition:width .28s cubic-bezier(.4,0,.2,1),background .28s;
+}
+.tut-dots i.on{ width:24px; border-radius:5px; background:linear-gradient(135deg,#f7b88a,#d98c6a); }
+
+/* 系统开了「减少动效」时：全局 *{animation-duration:.01ms} 只压时长、压不掉延迟，
+   带 animation-delay 的元素（打勾 .5s、短语拆块 1.5s、时间轴 2.7s）会先空一段。
+   这里把延迟一并清零 —— 关键帧的 100% 都是结果态，所以会直接落在正确画面上。 */
+@media (prefers-reduced-motion: reduce){
+  .tutorial-overlay *, .tutorial-overlay *::before, .tutorial-overlay *::after{
+    animation-delay:0ms !important; animation-duration:.01ms !important;
+  }
+}
+
+/* ---------- PC：讲解浮到右侧，舞台占满居中 ---------- */
+@media (min-width:900px){
+  /* 舞台仍是 flex 列里那一格（撑满剩余高度），讲解层绝对定位浮在右边缘。
+     ⚠️ 别把 .tutorial-overlay 改成 display:block —— 舞台会失去 flex:1 而塌掉。 */
+  .tut-stage{ padding-right:min(390px,32vw); padding-left:clamp(20px,4vw,60px); }
+  .tut-panel{
+    position:absolute; right:clamp(18px,2.6vw,42px); top:50%; transform:translateY(-50%);
+    width:min(370px,31vw); max-height:min(76vh,660px);
+    border-radius:32px; box-shadow:0 24px 60px rgba(180,130,80,.3), inset 0 2px 0 rgba(255,255,255,.9);
+  }
+  .tut-top{ position:absolute; left:0; right:0; top:0; }
+}
+
+/* ---------- 手机：讲解落底部 ---------- */
+@media (max-width:899px){
+  .tut-panel{ max-height:44vh; }
+  .tut-nav .tut-btn{ min-height:54px; }
+  .zone{ min-width:0; width:100%; }
+}
     @media (min-width: 1100px) {
         .main { padding: 28px 40px 36px; }
         .header { padding: 20px 36px; }
@@ -1511,121 +1342,27 @@
     </div>
 </div>
 
-<div class="tutorial-overlay" id="tutorialOverlay">
-    <div class="tutorial-card">
-        <div class="tutorial-header">
-            <h2>🎓 玩法教学</h2>
-            <span class="badge">30 秒学会</span>
-            <button class="tutorial-close" id="tutorialClose">✕</button>
+<!-- ============================================================
+     内置教学 · 全屏版（🎓 按钮进 / 首次自动弹一次）
+     ============================================================ -->
+<div class="tutorial-overlay" id="tutorialOverlay" role="dialog" aria-modal="true" aria-label="玩法教学">
+    <div class="tut-top">
+        <div class="tut-stepno" id="tutStepNo">第 1 步 / 共 8 步</div>
+        <div class="tut-bar"><i id="tutBar"></i></div>
+        <button class="tut-skip" id="tutSkip">跳过 ✕</button>
+    </div>
+
+    <div class="tut-stage" id="tutStage"></div>
+
+    <div class="tut-panel">
+        <div class="tut-ico" id="tutIco">👆</div>
+        <h3 class="tut-h" id="tutTitle">点单词，飞进答题区</h3>
+        <p class="tut-p" id="tutDesc"></p>
+        <div class="tut-nav">
+            <button class="tut-btn" id="tutPrev" data-label="← 上一步">← 上一步</button>
+            <button class="tut-btn primary" id="tutNext" data-label="下一步 →">下一步 →</button>
         </div>
-        <div class="tutorial-stage">
-            <div class="stage-content active" data-step="0">
-                <div class="demo-fly">
-                    <div class="demo-zone"></div>
-                    <div class="demo-pool-label">卡片池</div>
-                    <div class="demo-slot s1">
-                        <div class="demo-slot-ghost demo-ghost-a">This</div>
-                        <div class="demo-token t1">This</div>
-                    </div>
-                    <div class="demo-slot s2">
-                        <div class="demo-slot-ghost demo-ghost-b">is</div>
-                        <div class="demo-token t2">is</div>
-                    </div>
-                    <div class="demo-caption c1">① 点池里的卡片 → 飞进答题区并留在那儿<br>（池里那张会变灰）</div>
-                    <div class="demo-caption c2">② 再点答题区里的卡片 → 才会飞回池里<br>（这才是"取出"）</div>
-                </div>
-            </div>
-            <div class="stage-content" data-step="1">
-                <div class="demo-swap">
-                    <div class="demo-token a">sweep</div>
-                    <div class="demo-token b">floor</div>
-                </div>
-            </div>
-            <div class="stage-content" data-step="2">
-                <div class="demo-check">
-                    <div class="demo-token-row">
-                        <div class="demo-token highlight">I</div>
-                        <div class="demo-token highlight">can</div>
-                        <div class="demo-token highlight">sweep</div>
-                    </div>
-                    <div class="demo-check-mark">✅</div>
-                </div>
-            </div>
-            <div class="stage-content" data-step="3">
-                <div class="demo-pattern">
-                    <div class="demo-pattern-hint">
-                        <span class="demo-pattern-label">中文</span>
-                        <span>我会扫地。</span>
-                        <span class="demo-pattern-btn">📐 看句型提示</span>
-                    </div>
-                    <div class="demo-pattern-badge">📐 主语 + can + 家务</div>
-                </div>
-            </div>
-            <div class="stage-content" data-step="4">
-                <div class="demo-guide">
-                    <div class="demo-guide-title">🧭 对位卡片（连错 6 次才出现）</div>
-                    <div class="demo-guide-row">
-                        <div class="demo-guide-slot done"><span>1</span>sweep</div>
-                        <div class="demo-guide-slot now"><span>2</span>the</div>
-                        <div class="demo-guide-slot locked"><span>3</span>floor</div>
-                    </div>
-                    <div class="demo-guide-tip">点对了才走下一个，点错的位置点不动</div>
-                </div>
-            </div>
-            <div class="stage-content" data-step="5">
-                <div class="demo-phrase">
-                    <div class="demo-phrase-row">
-                        <div class="demo-phrase-tag">play sports</div>
-                    </div>
-                    <div class="demo-phrase-arrow">⇅</div>
-                    <div class="demo-phrase-split-row">
-                        <span class="demo-token">play</span>
-                        <span class="demo-token">sports</span>
-                    </div>
-                </div>
-            </div>
-            <div class="stage-content" data-step="6">
-                <div class="demo-possessive">
-                    <div class="demo-possessive-row">
-                        <div class="demo-possessive-tag">What's</div>
-                        <div class="demo-possessive-tag">Mike's</div>
-                    </div>
-                    <div class="demo-possessive-arrow">⇅</div>
-                    <div class="demo-possessive-split-row">
-                        <span class="demo-token">What</span>
-                        <span class="demo-token">'s</span>
-                        <span class="demo-token">Mike</span>
-                        <span class="demo-token">'s</span>
-                    </div>
-                </div>
-            </div>
-            <div class="stage-content" data-step="7">
-                <div class="demo-history">
-                    <div class="demo-history-item">✅ 我会扫地。</div>
-                    <div class="demo-history-item highlight">❌ 这是我的姐姐。</div>
-                    <div class="demo-history-item">✅ 你好，我是吴斌斌。</div>
-                    <div class="demo-history-cursor">👆</div>
-                </div>
-            </div>
-        </div>
-        <div class="tutorial-text">
-            <h3 id="tutorialTitle">第一步：点单词 = 放进答题区</h3>
-            <p id="tutorialDesc">点池里的一张卡片，它飞进上方答题区后就留在那儿，池里那张变灰。要取出来得再点一次答题区里的那张卡。</p>
-        </div>
-        <div class="tutorial-nav">
-            <button class="btn btn-skip" id="tutorialPrev">上一步</button>
-            <div class="dots" id="tutorialDots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-            <button class="btn btn-next" id="tutorialNext">下一步 →</button>
-        </div>
+        <div class="tut-dots" id="tutDots"></div>
     </div>
 </div>
 
@@ -2781,15 +2518,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetProgressBtn = $('resetProgress');
     const glassToggle = $('glassToggle');
     const modeTag = $('modeTag');
-    const tutorialBtn = $('tutorialBtn');
-    const tutorialOverlay = $('tutorialOverlay');
-    const tutorialClose = $('tutorialClose');
-    const tutorialNext = $('tutorialNext');
-    const tutorialPrev = $('tutorialPrev');
-    const tutorialTitle = $('tutorialTitle');
-    const tutorialDesc = $('tutorialDesc');
-    const tutorialDots = $('tutorialDots').querySelectorAll('.dot');
-    const stageContents = document.querySelectorAll('.stage-content');
     const appEl = $('app');
 
     // ================================================================
@@ -4353,47 +4081,142 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     //  16. 教学弹窗
     // ================================================================
-    const tutorialSteps = [
-        { title: '第一步：点单词 = 放进答题区', desc: '点池里的一张卡片，它飞进上方答题区后**就留在那儿**，池里那张变灰。要取出来得再点一次答题区里的那张卡——不是点一下就自己收回去。' },
-        { title: '第二步：拖动换位', desc: '在答题区内按住任意单词左右拖动，其余单词会被弹性「挤」到旁边。' },
-        { title: '第三步：检查答案', desc: '点「✅ 检查答案」：位置对的卡片变绿，第一个错的变红并抖动，上面那行同时告诉你错在第几个位置。**标点也算分** —— 句号、问号要放到正确的位置上。答对后会自动把整句读一遍（磨耳朵），听完才进入下一题，想再听就点「🔊 再听一遍」。' },
-        { title: '第四步：句型提示（要自己点）', desc: '不确定结构？点中文旁的「📐 看句型提示」。它给的是英文骨架，比如「主语 + can + 家务」「主语 + be + 形容词」，不会把整句写给你；答对之后才显示完整句型。' },
-        { title: '第五步：连错 6 次给对位卡片', desc: '同一题连错 6 次，答题区会清空并出现「🧭 对位卡片」：按 1、2、3 的顺序把词点进去，点错位置是点不动的——先把顺序走对一遍再自己排。' },
-        { title: '第六步：拆分短语', desc: '「拆分短语」默认开启，像 "play sports" 这样的短语会拆成 "play" 和 "sports" 两张卡片；关掉后它作为一整张卡出现，练短语整体识别。' },
-        { title: '第七步：\'s 拆分', desc: '所有以 \'s 结尾的词都会拆开：What\'s → What + \'s，Mike\'s → Mike + \'s，覆盖 is / 所有格 / us 缩写。' },
-        { title: '第八步：重新练习', desc: '底部「最近练习」会记下做过的句子（关掉网页再打开也还在），点任意一条中文就能重做那句话。' }
+    // ================================================================
+    //  16. 内置教学 · 全屏版
+    // ================================================================
+    var tutW = function (t, cls) { return '<span class="w' + (cls ? ' ' + cls : '') + '">' + t + '</span>'; };
+
+    /* 每一幕的「结果态」：HTML 直接写成动作做完的样子，动画只重放过程。
+       这样系统开了「减少动效」时看到的是结果，不是半截动作。 */
+    var TUT_SCENES = [
+        /* 0 点单词飞进答题区 */
+        '<div class="zone">' + tutW('I', 'flyin') + tutW('can', 'flyin') + '</div>' +
+        '<div class="tut-row">' + tutW('sweep', 'zh') + tutW('the', 'zh') + tutW('floor', 'used poolguy') + '</div>' +
+        '<div class="tut-cap">点池里一张卡 → 它飞进答题区并留在那儿，池里那张变灰</div>',
+
+        /* 1 换位置 */
+        '<div class="zone">' + tutW('can', 'swapB') + tutW('I', 'swapA') + '</div>' +
+        '<div class="tut-cap">在答题区里按住单词左右拖，其余单词会被挤到旁边</div>',
+
+        /* 2 检查 */
+        '<div class="zone">' + tutW('I', 'ok') + '<span class="mk ok" style="position:relative;right:0;top:0;">✓</span>' +
+            tutW('can', 'ok') + '<span class="mk ok" style="position:relative;right:0;top:0;">✓</span>' +
+            tutW('sweep', 'no shake') + '<span class="mk no" style="position:relative;right:0;top:0;">✗</span>' + '</div>' +
+        '<div class="tut-cap">位置对的变绿，第一个错的变红并抖动——错在第几个也会告诉你</div>',
+
+        /* 3 句型提示 */
+        '<div class="hintbar">📐 句型提示：<b>主语 + can + 动作</b></div>' +
+        '<div class="tut-cap">给的是英文骨架，不是答案；答对之后才显示完整句型</div>',
+
+        /* 4 判分诊断 */
+        '<div class="diag">' +
+            '<span>少了 1 个词</span>' +
+            '<span>还漏了 1 个标点（ . ）</span>' +
+            '<span>「sweep」应该更靠前一点</span>' +
+        '</div>' +
+        '<div class="tut-cap">错了告诉你差在哪，但不会直接把答案递给你</div>',
+
+        /* 5 对位卡片 */
+        '<div class="compass">' +
+            '<div class="orders">🧭 对位卡片：按顺序点</div>' +
+            '<div class="nums">' + tutW('1') + tutW('2') + tutW('3') + '</div>' +
+            '<div class="orders">点错位置是点不动的</div>' +
+        '</div>' +
+        '<div class="tut-cap">同一题连错 6 次才会出现，先把顺序走对一遍</div>',
+
+        /* 6 短语拆分 */
+        '<div class="phrase">' +
+            '<div class="whole">' + tutW('sweep the floor') + '</div>' +
+            '<div class="arrow"></div>' +
+            '<div class="parts">' + tutW('sweep') + tutW('the') + tutW('floor') + '</div>' +
+        '</div>' +
+        '<div class="tut-cap">「拆分短语」开着就拆成单张，关掉则作为一整张卡出现</div>',
+
+        /* 7 最近练习 / 间隔复习 */
+        '<div class="timeline">' +
+            '<span class="tk on">刚错了</span><span class="tk">10 分钟</span>' +
+            '<span class="tk on">1 小时</span><span class="tk">8 小时</span>' +
+            '<span class="tk on">1 天</span><span class="tk">3 天</span>' +
+        '</div>' +
+        '<div class="tut-cap">答错的会进错题本，按间隔自动排回来练</div>'
     ];
-    let tutorialIndex = 0;
 
-    function updateTutorialStep(idx) {
-        tutorialIndex = idx;
-        tutorialTitle.textContent = tutorialSteps[idx].title;
-        tutorialDesc.textContent = tutorialSteps[idx].desc;
-        stageContents.forEach((el, i) => el.classList.toggle('active', i === idx));
-        tutorialDots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        tutorialNext.textContent = idx === tutorialSteps.length - 1 ? '开始游戏 🚀' : '下一步 →';
-        tutorialPrev.disabled = (idx === 0);
-    }
-    function openTutorial() { tutorialOverlay.classList.add('show'); updateTutorialStep(0); }
-    function closeTutorial() { tutorialOverlay.classList.remove('show'); }
+    var TUT_STEPS = [
+        { ico: '👆', h: '点单词，飞进答题区', p: '点下方池子里的一张卡，它就<b>飞进上面的答题区并留在那儿</b>，池里那张变灰。<b>要取出来，得再点一次答题区里的那张卡</b>——不是点一下就自己收回去。' },
+        { ico: '↔️', h: '在答题区里换位置', p: '按住答题区里的任意单词<b>左右拖动</b>，其余单词会被弹性「挤」到旁边。排错了不用取出来重放，拖一下就行。' },
+        { ico: '✅', h: '点检查，看排得对不对', p: '位置对的卡片变<b>绿</b>，第一个错的变<b>红并抖动</b>，上面那行同时告诉你错在第几个位置。<b>标点也算分</b>——句号、问号要放到对的位置。' },
+        { ico: '📐', h: '卡住了就看句型提示', p: '点中文旁的「📐 看句型提示」。它给的是<b>英文骨架</b>（比如「主语 + can + 家务」），不会把整句写给你；<b>答对之后</b>才显示完整句型。' },
+        { ico: '🔍', h: '错了会说清差在哪', p: '判分只给线索：「少了 1 个词」「还漏了 1 个标点」「这个词该更靠前」。<b>不会直接给答案</b>——它就在你手边，给了你反而看不出自己错在哪。' },
+        { ico: '🧭', h: '连错六次给对位卡片', p: '同一题连错 6 次，答题区会清空并出现<b>「🧭 对位卡片」</b>：按 1、2、3 的顺序把词点进去，点错位置是点不动的——先把顺序走对一遍，再自己排。' },
+        { ico: '✂️', h: '短语可拆可整', p: '「拆分短语」默认<b>开启</b>：像 "sweep the floor" 会拆成三张卡；关掉后它作为<b>一整张卡</b>出现，练短语整体识别。' },
+        { ico: '📚', h: '做过的句子能重练', p: '答错的会进<b>错题本</b>，按 10 分钟 → 1 小时 → 8 小时 → 1 天 → 3 天 → 7 天的间隔自动排回来。底部的「最近练习」也一直留着，<b>点任意一条中文就能重做那句话</b>。' }
+    ];
 
-    tutorialBtn.addEventListener('click', openTutorial);
-    tutorialClose.addEventListener('click', closeTutorial);
-    tutorialPrev.addEventListener('click', () => {
-        if (tutorialIndex > 0) updateTutorialStep(tutorialIndex - 1);
-    });
-    tutorialNext.addEventListener('click', () => {
-        if (tutorialIndex >= tutorialSteps.length - 1) closeTutorial();
-        else updateTutorialStep(tutorialIndex + 1);
-    });
-    tutorialOverlay.addEventListener('click', (e) => {
-        if (e.target === tutorialOverlay) closeTutorial();
-    });
-    if (!lsGet(LS_TUTORIAL)) {
-        setTimeout(() => {
-            openTutorial();
-            lsSet(LS_TUTORIAL, '1');
-        }, 600);
+    var tutIdx = 0;
+    var tutRoot = document.getElementById('tutorialOverlay');
+    if (tutRoot) {
+        var tutStageEl = document.getElementById('tutStage');
+        var tutElIco = document.getElementById('tutIco');
+        var tutElH = document.getElementById('tutTitle');
+        var tutElP = document.getElementById('tutDesc');
+        var tutElNo = document.getElementById('tutStepNo');
+        var tutElBar = document.getElementById('tutBar');
+        var tutDotsEl = document.getElementById('tutDots');
+        var tutPrevBtn = document.getElementById('tutPrev');
+        var tutNextBtn = document.getElementById('tutNext');
+        var tutSkipBtn = document.getElementById('tutSkip');
+
+        var tutDraw = function () {
+            var s = TUT_STEPS[tutIdx];
+            tutElIco.textContent = s.ico;
+            tutElH.textContent = s.h;
+            tutElP.innerHTML = s.p;
+            tutElNo.textContent = '第 ' + (tutIdx + 1) + ' 步 / 共 ' + TUT_STEPS.length + ' 步';
+            tutElBar.style.width = ((tutIdx + 1) / TUT_STEPS.length * 100) + '%';
+            /* 重新插入这一幕，让动画从头重放 */
+            tutStageEl.innerHTML = '<div class="tut-scene on">' + (TUT_SCENES[tutIdx] || '') + '</div>';
+            tutDotsEl.innerHTML = '';
+            TUT_STEPS.forEach(function (_, i) {
+                var d = document.createElement('i');
+                if (i === tutIdx) d.className = 'on';
+                d.addEventListener('click', function () { tutIdx = i; tutDraw(); });
+                tutDotsEl.appendChild(d);
+            });
+            tutPrevBtn.disabled = (tutIdx === 0);
+            tutNextBtn.textContent = (tutIdx === TUT_STEPS.length - 1) ? '开始游戏 🚀' : '下一步 →';
+        };
+        var tutOpen = function () {
+            tutIdx = 0;
+            tutDraw();
+            tutRoot.classList.add('show');
+            try { lsSet(LS_TUTORIAL, '1'); } catch (e) {}
+        };
+        var tutClose = function () {
+            tutRoot.classList.remove('show');
+            tutStageEl.innerHTML = '';
+        };
+
+        tutNextBtn.addEventListener('click', function () {
+            if (tutIdx >= TUT_STEPS.length - 1) { tutClose(); return; }
+            tutIdx++; tutDraw();
+        });
+        tutPrevBtn.addEventListener('click', function () { if (tutIdx > 0) { tutIdx--; tutDraw(); } });
+        tutSkipBtn.addEventListener('click', tutClose);
+        tutRoot.addEventListener('click', function (e) { if (e.target === tutRoot) tutClose(); });
+        /* 点舞台空白处 = 下一步（触屏顺手） */
+        tutStageEl.addEventListener('click', function () {
+            if (tutIdx >= TUT_STEPS.length - 1) tutClose();
+            else { tutIdx++; tutDraw(); }
+        });
+        document.addEventListener('keydown', function (e) {
+            if (!tutRoot.classList.contains('show')) return;
+            if (e.key === 'Escape') tutClose();
+            if (e.key === 'ArrowRight' || e.key === 'Enter') tutNextBtn.click();
+            if (e.key === 'ArrowLeft') tutPrevBtn.click();
+        });
+        var tutBtn = document.getElementById('tutorialBtn');
+        if (tutBtn) tutBtn.addEventListener('click', tutOpen);
+        if (!lsGet(LS_TUTORIAL)) setTimeout(tutOpen, 600);
     }
 
     // ================================================================
