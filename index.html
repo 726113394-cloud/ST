@@ -3077,10 +3077,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return null;
     }
+    // 幽灵卡（拖动时跟着手指走、挂在 body 上那张）万一有残留，下一张拖之前先扫干净。
+    // 正常情况下不会有（抢占式起拖保证同时只有一张在拖）；这是"绝不留下点不掉的卡"的保险。
+    function clearStrayGhosts() {
+        try {
+            document.body.querySelectorAll(':scope > .token').forEach(el => el.remove());
+        } catch (e) {}
+    }
+
     function startRealDrag(itemId, offsetX, offsetY, pointerX, pointerY) {
         const origEl = answerZone.querySelector(`.token[data-id="${itemId}"]`);
         if (!origEl) return;
         const rect = origEl.getBoundingClientRect();
+        clearStrayGhosts();          // ★ 保险：绝不留下去不掉的残卡
         const ghost = origEl.cloneNode(true);
         ghost.style.cssText = `
             position: fixed; left: ${rect.left}px; top: ${rect.top}px;
@@ -3096,6 +3105,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ghost.style.webkitBackdropFilter = 'blur(26px) saturate(210%)';
             ghost.style.border = '1px solid rgba(255,255,255,0.75)';
         }
+        ghost.dataset.dragGhost = '1';
         document.body.appendChild(ghost);
         origEl.style.visibility = 'hidden';
         const curIdx = state.answerItems.findIndex(it => it.id === itemId);
@@ -3183,12 +3193,26 @@ document.addEventListener('DOMContentLoaded', function() {
             const rect = el.getBoundingClientRect();
             const offsetX = e.clientX - rect.left;
             const offsetY = e.clientY - rect.top;
-            let didDrag = false;
+            let didDrag = false, gaveUp = false;
             const onMove = (ev) => {
                 if (ev.pointerId !== pid) return;
+                // ★★ 单次只允许拖一张卡：这根手指已经放弃过就彻底退出
+                if (gaveUp) return;
                 const dx = ev.clientX - startX, dy = ev.clientY - startY;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (!didDrag && dist > 8) {
+                    // ★★ 单次只允许拖一张卡。
+                    //    ⚠️⚠️ 这道判断必须在**这里**（真的越过 8px、要起拖的那一刻），
+                    //       不能放在 pointerdown —— 两指几乎同时按下时，那一刻谁都还没
+                    //       越过阈值，两次都会过守卫，于是连着起两次拖动：第二次把
+                    //       dragState 覆盖掉，**第一张的幽灵卡就永远留在 body 上**
+                    //       （老师报的残卡就是这么来的）。
+                    //       放在这里天生不会并发：JS 单线程，先越过阈值的那根手指抢到，
+                    //       另一根看到 dragState/isDragging 已经立起来，直接放弃。
+                    //    ⚠️ 也**不要**改成"数当前按着几根手指"：那要维护一个跨事件的
+                    //       计数集合，万一某次 pointerup 收不到就再也回不到 1，
+                    //       之后**所有**拖动全被锁死（卡卡片只能刷新）。
+                    if (dragState || isDragging) { gaveUp = true; return; }
                     didDrag = true; isDragging = true;
                     startRealDrag(itemId, offsetX, offsetY, ev.clientX, ev.clientY);
                 }
@@ -3199,6 +3223,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.removeEventListener('pointermove', onMove);
                 document.removeEventListener('pointerup', onEnd);
                 document.removeEventListener('pointercancel', onEnd);
+                // ★★ 放弃拖动的那根手指**在这里就返回，绝不能进下面的 finally**：
+                //    那个 finally 会把 isDragging 清掉、还会把 dragState 的幽灵卡删掉 ——
+                //    而此刻正在拖的是**另一根手指**，进去就等于把别人的拖动一起掐死。
+                //    而且它已经越过 8px 却没在拖（didDrag=false），要是照旧走
+                //    removeFromAnswer()，还会平白把第二张卡也删掉。
+                if (gaveUp) return;
                 // ⚠️⚠️ 收尾必须在 finally 里。以前 `isDragging = false` 写在
                 //    endRealDrag() **之后**：中间任何异常（Sound / 渲染 / 数据越界）
                 //    都会让它永远停在 true，而本函数开头的守卫
