@@ -4023,10 +4023,12 @@ document.addEventListener('DOMContentLoaded', function() {
     //    Windows 关掉「动画效果」、开省电模式都会命中，跟机器强弱无关。
     //    它已经在管动画了（CSS 的 @media (prefers-reduced-motion)），
     //    不该再拦着"高级渲染"不恢复 —— 那是静态毛玻璃，跟动不动没关系。
-    const LOW_SPEC = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2)
-        || (navigator.deviceMemory && navigator.deviceMemory <= 2);
+        // ★★ 老师定调：「开启玻璃效果直接把画质全部拉满不给降低」——
+    //    所以这里**不再有任何低配门槛**：上次开着高级渲染，这次进来就直接恢复，
+    //    不看核心数 / 内存 / 动效偏好。（减少动效仍然只管动画，不影响画质。）
 
-    if (!LOW_SPEC && lsGet(LS_GLASS) === '1') {
+
+    if (lsGet(LS_GLASS) === '1') {
         state.highEnd = true;
         appEl.classList.add('high-end');
         glassToggle.classList.add('on');
