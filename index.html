@@ -4019,9 +4019,12 @@ document.addEventListener('DOMContentLoaded', function() {
     //    Chrome 的 deviceMemory 封顶 8、不少中端机报 4 —— 按 ≤4 判会把老师的旗舰机一起
     //    判成低配，动画被砍、高级渲染也不恢复（站台那边吃过同一次亏，见 SKILL 记录）。
     //    静态线索只留真小的档（≤2 核 / ≤2G）；系统开了「减少动效」照旧尊重。
+    // ⚠️⚠️ 「减少动效」**不算低配**（同一次教训）：它是用户的动效偏好，
+    //    Windows 关掉「动画效果」、开省电模式都会命中，跟机器强弱无关。
+    //    它已经在管动画了（CSS 的 @media (prefers-reduced-motion)），
+    //    不该再拦着"高级渲染"不恢复 —— 那是静态毛玻璃，跟动不动没关系。
     const LOW_SPEC = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2)
-        || (navigator.deviceMemory && navigator.deviceMemory <= 2)
-        || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        || (navigator.deviceMemory && navigator.deviceMemory <= 2);
 
     if (!LOW_SPEC && lsGet(LS_GLASS) === '1') {
         state.highEnd = true;
